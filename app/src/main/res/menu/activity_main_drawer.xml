@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/profile_update"
+            android:title="Profile Update" />
+        <item
+            android:id="@+id/nav_pass"
+            android:icon="@drawable/change_pass"
+            android:title="Change Password" />
+        <item
+            android:id="@+id/nav_refer"
+            android:icon="@drawable/refer"
+            android:title="Refer a friend" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/help_supp"
+            android:title=""
+            app:actionLayout="@layout/nav_spinner" />
+
+        <item
+            android:id="@+id/nav_privacy"
+            android:icon="@drawable/privacy"
+            android:title="Privacy Policy" />
+        <item
+            android:id="@+id/nav_terms"
+            android:icon="@drawable/t_c"
+            android:title="Terms and Condition" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+        <item
+            android:id="@+id/nav_stop"
+            android:icon="@drawable/stop"
+            android:title="Stop Service" />
+    </group>
+
+
+</menu>

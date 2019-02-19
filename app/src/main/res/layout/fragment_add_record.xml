@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:focusableInTouchMode="true"
+    tools:context=".Activities.MoneyFragments.AddRecord">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+            android:id="@+id/toggleSwitch"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="24sp"
+            app:activeBgColor="@android:color/holo_green_light"
+            app:activeTextColor="@color/white"
+            app:cornerRadius="20dp"
+            app:inactiveBgColor="@color/colorPrimaryLight"
+            app:inactiveTextColor="@color/cardview_dark_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textToggleLeft="EXPENSE"
+            app:textToggleRight="EARNED"
+            app:toggleWidth="150dp" />
+
+        <TextView
+            android:id="@+id/textView54"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Amount"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="@+id/toggleSwitch"
+            app:layout_constraintTop_toBottomOf="@+id/toggleSwitch" />
+
+        <EditText
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:hint="Amount"
+            android:inputType="number"
+            android:paddingStart="5dp"
+            app:layout_constraintStart_toStartOf="@+id/textView54"
+            app:layout_constraintTop_toBottomOf="@+id/textView54" />
+
+        <TextView
+            android:id="@+id/textView56"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Purpose"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="@+id/amount"
+            app:layout_constraintTop_toBottomOf="@+id/amount" />
+
+        <EditText
+            android:id="@+id/purpose"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:hint="Purpose"
+            android:inputType="textPersonName"
+            android:paddingStart="5dp"
+            app:layout_constraintStart_toStartOf="@+id/textView56"
+            app:layout_constraintTop_toBottomOf="@+id/textView56" />
+
+        <TextView
+            android:id="@+id/textView58"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Date"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="@+id/purpose"
+            app:layout_constraintTop_toBottomOf="@+id/purpose" />
+
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_button_dark"
+            android:text="Save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/dateEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:hint="Date"
+            android:inputType="date"
+            android:paddingStart="5dp"
+            app:layout_constraintStart_toStartOf="@id/textView58"
+            app:layout_constraintTop_toBottomOf="@id/textView58" />
+
+        <Button
+            android:id="@+id/btnDate"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/rounded_button_dark"
+            android:padding="5dp"
+            android:text="Choose Date"
+            app:layout_constraintBottom_toBottomOf="@+id/dateEdit"
+            app:layout_constraintStart_toEndOf="@+id/dateEdit"
+            app:layout_constraintTop_toTopOf="@+id/dateEdit" />
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
