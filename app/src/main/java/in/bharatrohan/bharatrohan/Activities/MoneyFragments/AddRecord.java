@@ -94,6 +94,7 @@ public class AddRecord extends Fragment {
 
     private void init(View v) {
         dateEditText = v.findViewById(R.id.dateEdit);
+        dateEditText.setEnabled(false);
         amtEditText = v.findViewById(R.id.amount);
         purEditText = v.findViewById(R.id.purpose);
         btnDate = v.findViewById(R.id.btnDate);
@@ -142,6 +143,10 @@ public class AddRecord extends Fragment {
 
         Records records = new Records(recordId, DayofWeek(Month + 1), Day, DayofWeek(Month + 1), mYear, recordType, Integer.valueOf(amount), purpose);
         recordViewModel.insert(records);
+
+        amtEditText.getText().clear();
+        purEditText.getText().clear();
+        dateEditText.getText().clear();
         Toast.makeText(getActivity(), "Record Added!", Toast.LENGTH_SHORT).show();
 
 

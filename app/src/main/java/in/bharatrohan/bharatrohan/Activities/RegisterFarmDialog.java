@@ -28,6 +28,8 @@ public class RegisterFarmDialog extends AppCompatActivity {
         skip = findViewById(R.id.skip);
 
         register_farm.setOnClickListener(v -> {
+            new PrefManager(RegisterFarmDialog.this).saveKmlStatus(true);
+            new PrefManager(RegisterFarmDialog.this).saveValueStatus(true);
             Intent intent = new Intent(RegisterFarmDialog.this, RegisterFarm.class);
             intent.putExtra("phone", getIntent().getStringExtra("phone"));
             startActivity(intent);

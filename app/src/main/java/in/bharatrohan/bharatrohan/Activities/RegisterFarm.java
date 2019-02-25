@@ -57,17 +57,6 @@ public class RegisterFarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_farm);
 
-
-        landName = findViewById(R.id.land_name);
-        landArea = findViewById(R.id.land_area);
-        landLocation = findViewById(R.id.land_location);
-
-        if (getIntent().getStringExtra("activity").equals("edit")) {
-            landArea.setText(new PrefManager(RegisterFarm.this).getFarmArea());
-            landName.setText(new PrefManager(RegisterFarm.this).getFarmName());
-            landLocation.setText(new PrefManager(RegisterFarm.this).getFarmLocation());
-        }
-
         mProgressBar = findViewById(R.id.progressBar);
 
         register = findViewById(R.id.register);
@@ -82,6 +71,35 @@ public class RegisterFarm extends AppCompatActivity {
         c_nameList.add(0, "-SELECT CROP-");
         c_idList.add(0, "-SELECT CROP-");
 
+
+        landName = findViewById(R.id.land_name);
+        landArea = findViewById(R.id.land_area);
+        landLocation = findViewById(R.id.land_location);
+
+        if (getIntent().getStringExtra("activity") != null) {
+            if (getIntent().getStringExtra("activity").equals("edit")) {
+                landArea.setText(new PrefManager(RegisterFarm.this).getFarmArea());
+                landName.setText(new PrefManager(RegisterFarm.this).getFarmName());
+                landLocation.setText(new PrefManager(RegisterFarm.this).getFarmLocation());
+
+                if (!new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
+                    open_map.setEnabled(false);
+                    open_map.setClickable(false);
+                    Toast.makeText(this, "You will be able to update values only", Toast.LENGTH_SHORT).show();
+                }
+
+                if (new PrefManager(RegisterFarm.this).getKmlStatus() && !new PrefManager(RegisterFarm.this).getValueStatus()) {
+                    landArea.setEnabled(false);
+                    landName.setEnabled(false);
+                    landLocation.setEnabled(false);
+                    landArea.setClickable(false);
+                    landName.setClickable(false);
+                    landLocation.setClickable(false);
+                    Toast.makeText(this, "You will be able to update Map only", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
         initCropSpinner();
 
         cropsSpinner.setOnItemSelectedListener((view, position, id, item) -> {
@@ -92,88 +110,130 @@ public class RegisterFarm extends AppCompatActivity {
         });
 
         open_map.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterFarm.this, MapsActivity.class);
-            intent.putExtra("landName", landName.getText().toString().trim());
-            intent.putExtra("phone", getIntent().getStringExtra("phone"));
-            startActivity(intent);
-        });
 
-        register.setOnClickListener(v -> {
-
-            if (getIntent().getStringExtra("activity").equals("edit")) {
-                if (!validateValues()) {
-
-                    showProgress();
-
-                    Call<ResponseBody> call = RetrofitClient
-                            .getInstance()
-                            .getApi()
-                            .updateFarm(new PrefManager(this).getToken(), new PrefManager(this).getTFarmId(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim(), cropId);
-
-                    call.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            hideProgress();
-
-                            if (response.code() == 200) {
-                                //new PrefManager(RegisterFarm.this).saveFarm(1, farmResponse.getCreatedFarm().getFarm_id(), farmResponse.getCreatedFarm().getFarm_name(), farmResponse.getCreatedFarm().getLocation(), farmResponse.getCreatedFarm().getFarm_area(), farmResponse.getCreatedFarm().getCrop_id(), farmResponse.getCreatedFarm().getFarmer_id());
-                                //Toast.makeText(RegisterFarm.this,"Farm Updated Successfully",Toast.LENGTH_SHORT).show();
-                                updateKml();
-
-                            } else if (response.code() == 401) {
-                                hideProgress();
-                                Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            hideProgress();
-                        }
-                    });
-                } else {
-                    validateValues();
+            if (getIntent().getStringExtra("activity") != null) {
+                if (getIntent().getStringExtra("activity").equals("edit")) {
+                    if (!new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
+                        Toast.makeText(this, "Cannot not update map.As u have choose to update values only", Toast.LENGTH_SHORT).show();
+                    }
                 }
             } else {
-                if (!validateValues()) {
+                Intent intent = new Intent(RegisterFarm.this, MapsActivity.class);
+                intent.putExtra("landName", landName.getText().toString().trim());
+                intent.putExtra("phone", getIntent().getStringExtra("phone"));
+                startActivity(intent);
+            }
 
-                    showProgress();
+        });
 
-                    Call<FarmResponse> call = RetrofitClient
-                            .getInstance()
-                            .getApi()
-                            .createFarm(new PrefManager(this).getToken(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim() + "acres", cropId, new PrefManager(this).getFarmerId());
+        register.setOnClickListener(v ->
+        {
 
-                    call.enqueue(new Callback<FarmResponse>() {
-                        @Override
-                        public void onResponse(Call<FarmResponse> call, Response<FarmResponse> response) {
-                            hideProgress();
-                            farmResponse = response.body();
+            if (getIntent().getStringExtra("activity") != null) {
+                if (getIntent().getStringExtra("activity").equals("edit")) {
+                    if (new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
+                        updateFarm();
+                        updateKml();
+                        startActivity(new Intent(RegisterFarm.this, MainActivity.class));
+                        finish();
+                    }
 
-                            if (response.code() == 201) {
+                    if (!new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
+                        updateFarm();
+                        startActivity(new Intent(RegisterFarm.this, MainActivity.class));
+                        finish();
+                    }
 
-                                if (farmResponse != null) {
-                                    new PrefManager(RegisterFarm.this).saveFarm(1, farmResponse.getCreatedFarm().getFarm_id(), farmResponse.getCreatedFarm().getFarm_name(), farmResponse.getCreatedFarm().getLocation(), farmResponse.getCreatedFarm().getFarm_area(), farmResponse.getCreatedFarm().getCrop_id(), farmResponse.getCreatedFarm().getFarmer_id());
-                                    uploadKml();
-                                }
-
-                            } else if (response.code() == 401) {
-                                hideProgress();
-                                Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<FarmResponse> call, Throwable t) {
-                            hideProgress();
-                        }
-                    });
-                } else {
-                    validateValues();
+                    if (new PrefManager(RegisterFarm.this).getKmlStatus() && !new PrefManager(RegisterFarm.this).getValueStatus()) {
+                        updateKml();
+                        startActivity(new Intent(RegisterFarm.this, MainActivity.class));
+                        finish();
+                    }
+                }
+            } else {
+                if (new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
+                    if (new PrefManager(RegisterFarm.this).getKmlCreateStatus()) {
+                        createFarm();
+                    } else {
+                        Toast.makeText(RegisterFarm.this, "First mark your land on map!!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
         });
+    }
+
+
+    private void createFarm() {
+        if (!validateValues()) {
+
+            showProgress();
+
+            Call<FarmResponse> call = RetrofitClient
+                    .getInstance()
+                    .getApi()
+                    .createFarm(new PrefManager(this).getToken(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim() + "acres", cropId, new PrefManager(this).getFarmerId());
+
+            call.enqueue(new Callback<FarmResponse>() {
+                @Override
+                public void onResponse(Call<FarmResponse> call, Response<FarmResponse> response) {
+                    hideProgress();
+                    farmResponse = response.body();
+
+                    if (response.code() == 201) {
+
+                        if (farmResponse != null) {
+                            new PrefManager(RegisterFarm.this).saveFarm(1, farmResponse.getCreatedFarm().getFarm_id(), farmResponse.getCreatedFarm().getFarm_name(), farmResponse.getCreatedFarm().getLocation(), farmResponse.getCreatedFarm().getFarm_area(), farmResponse.getCreatedFarm().getCrop_id(), farmResponse.getCreatedFarm().getFarmer_id());
+                            uploadKml();
+                        }
+
+                    } else if (response.code() == 401) {
+                        hideProgress();
+                        Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FarmResponse> call, Throwable t) {
+                    hideProgress();
+                }
+            });
+        } else {
+            validateValues();
+        }
+    }
+
+    private void updateFarm() {
+        if (!validateValues()) {
+
+            showProgress();
+
+            Call<ResponseBody> call = RetrofitClient
+                    .getInstance()
+                    .getApi()
+                    .updateFarm(new PrefManager(this).getToken(), new PrefManager(this).getTFarmId(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim(), cropId);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    hideProgress();
+
+                    if (response.code() == 200) {
+                        Toast.makeText(RegisterFarm.this, "Farm Updated", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 401) {
+                        hideProgress();
+                        Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    hideProgress();
+                }
+            });
+        } else {
+            validateValues();
+        }
     }
 
     private void uploadKml() {
@@ -229,31 +289,28 @@ public class RegisterFarm extends AppCompatActivity {
         MultipartBody.Part kmlUpload = MultipartBody.Part.createFormData("file", kml.getName(), requestBodykml);
         //RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), kml.getName());
 
-            Call<ResponseBody> call = RetrofitClient
-                    .getInstance()
-                    .getApi()
-                    .uploadKml(new PrefManager(RegisterFarm.this).getToken(), new PrefManager(RegisterFarm.this).getTFarmId(), kmlUpload, uploadImage);
+        Call<ResponseBody> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .uploadKml(new PrefManager(RegisterFarm.this).getToken(), new PrefManager(RegisterFarm.this).getTFarmId(), kmlUpload, uploadImage);
 
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                    hideProgress();
-                    if (response.code() == 201) {
-                        Toast.makeText(RegisterFarm.this, "Farm Updated Successfully!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(RegisterFarm.this, MainActivity.class));
-                        finish();
-                    } else if (response.code() == 409) {
-                        Toast.makeText(RegisterFarm.this, "Error", Toast.LENGTH_SHORT).show();
-                    }
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                hideProgress();
+                if (response.code() == 201) {
+                    Toast.makeText(RegisterFarm.this, "Farm Updated Successfully!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(RegisterFarm.this, "Error", Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    hideProgress();
-                    Toast.makeText(RegisterFarm.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                hideProgress();
+                Toast.makeText(RegisterFarm.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -295,21 +352,21 @@ public class RegisterFarm extends AppCompatActivity {
 
     private void showProgress() {
         mProgressBar.setVisibility(View.VISIBLE);
-        //cropsSpinner.setEnabled(false);
+        cropsSpinner.setEnabled(false);
         open_map.setEnabled(false);
-        //landName.setEnabled(false);
-        //landArea.setEnabled(false);
-        //landLocation.setEnabled(false);
+        landName.setEnabled(false);
+        landArea.setEnabled(false);
+        landLocation.setEnabled(false);
         register.setEnabled(false);
     }
 
     private void hideProgress() {
         mProgressBar.setVisibility(View.GONE);
-        //cropsSpinner.setEnabled(true);
+        cropsSpinner.setEnabled(true);
         open_map.setEnabled(true);
-        //landName.setEnabled(true);
-        //landArea.setEnabled(true);
-        //landLocation.setEnabled(true);
+        landName.setEnabled(true);
+        landArea.setEnabled(true);
+        landLocation.setEnabled(true);
         register.setEnabled(true);
     }
 

@@ -20,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,7 +63,7 @@ public class UserProfile extends AppCompatActivity {
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 124;
 
 
-    private ImageView profileP;
+    private ImageView profileP, headImage;
     private ProgressBar progressBar;
     private TextView id, name, contact, email, address, dob, fulladress, altcontact, updatePicLabel;
     private Button btnUpdateOp, btnUpdate, btnCancel;
@@ -71,6 +73,9 @@ public class UserProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_user_profile);
 
         init();
@@ -87,7 +92,7 @@ public class UserProfile extends AppCompatActivity {
         dob.setText(new PrefManager(this).getDob());
 
         if (!new PrefManager(this).getAvatar().equals("")) {
-            Picasso.get().load(new PrefManager(this).getAvatar()).into(profileP);
+            Picasso.get().load(new PrefManager(this).getAvatar()).fit().centerCrop().into(profileP);
         }
 
         btnUpdateOp.setOnClickListener(v -> {
@@ -132,6 +137,8 @@ public class UserProfile extends AppCompatActivity {
 
     private void init() {
         profileP = findViewById(R.id.profileImage);
+        headImage = findViewById(R.id.head_image);
+        Picasso.get().load(R.drawable.my_farm_header).fit().centerCrop().into(headImage);
         id = findViewById(R.id.framerId);
         name = findViewById(R.id.tvName);
         contact = findViewById(R.id.tvContact);
@@ -212,8 +219,8 @@ public class UserProfile extends AppCompatActivity {
             return true;
         }
 
-        if (altcontact.isEmpty()) {
-            editAltContact.setError("Alt Contact is required");
+        if (!altcontact.isEmpty() && altcontact.length() < 10) {
+            editAltContact.setError("Phone must be of at least length 10");
             editAltContact.requestFocus();
             return true;
         }

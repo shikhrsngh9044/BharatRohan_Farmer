@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
     android:background="@drawable/background"
+    android:focusableInTouchMode="true"
     tools:context=".Activities.RegisterFarm">
-
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -58,7 +57,6 @@
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:text="Mark your land on the map on each corner.\n Do make it precisely.  "
-        android:textColor="@color/colorPrimaryLight"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +69,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_layout"
         android:src="@drawable/map_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +78,7 @@
 
     <EditText
         android:id="@+id/land_name"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -89,6 +88,7 @@
         android:gravity="center"
         android:hint="Land Name"
         android:inputType="textPersonName"
+        android:textColorHint="#666666"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +96,7 @@
 
     <EditText
         android:id="@+id/land_area"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -106,6 +106,7 @@
         android:gravity="center"
         android:hint="Land Area"
         android:inputType="textPersonName"
+        android:textColorHint="#666666"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,8 +114,7 @@
 
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/crops"
-        app:ms_dropdown_max_height="80dp"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -122,14 +122,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/open_map" />
+        app:layout_constraintTop_toBottomOf="@+id/open_map"
+        app:ms_dropdown_max_height="80dp" />
 
     <Button
         android:id="@+id/register"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button_dark"
@@ -137,12 +137,11 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/land_location" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/land_location"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -152,6 +151,7 @@
         android:gravity="center_horizontal|center"
         android:hint="Location"
         android:inputType="textPersonName"
+        android:textColorHint="#666666"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/land_area" />

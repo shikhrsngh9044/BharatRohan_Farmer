@@ -1,17 +1,14 @@
 package in.bharatrohan.bharatrohan.Activities;
 
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-
+import com.squareup.picasso.Picasso;
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.Models.Farmer;
 import in.bharatrohan.bharatrohan.PrefManager;
@@ -25,6 +22,7 @@ public class MyFarm extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout mTabLayout;
     private FragmentAdapter mFragmentAdapter;
+    private ImageView headImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +38,8 @@ public class MyFarm extends AppCompatActivity {
 
     private void initViews() {
         viewPager = findViewById(R.id.viewpager);
+        headImage = findViewById(R.id.head_img);
+        Picasso.get().load(R.drawable.my_farm_header).fit().centerCrop().into(headImage);
 
         mTabLayout = findViewById(R.id.tabs);
         viewPager.setOffscreenPageLimit(0);

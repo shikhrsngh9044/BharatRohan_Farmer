@@ -303,4 +303,43 @@ public class PrefManager {
     }
 
 
+    public void saveKmlStatus(Boolean status) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("KmlStatus", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("Status", status);
+        editor.apply();
+    }
+
+
+    public Boolean getKmlStatus() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("KmlStatus", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("Status", false);
+    }
+
+    public void saveValueStatus(Boolean status) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("ValueStatus", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("Status", status);
+        editor.apply();
+    }
+
+
+    public Boolean getValueStatus() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("ValueStatus", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("Status", false);
+    }
+
+
+    public void saveKmlCreateStatus(Boolean status) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("KmlCreateStatus", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("Status", status);
+        editor.apply();
+    }
+
+
+    public Boolean getKmlCreateStatus() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("KmlCreateStatus", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("Status", false);
+    }
 }

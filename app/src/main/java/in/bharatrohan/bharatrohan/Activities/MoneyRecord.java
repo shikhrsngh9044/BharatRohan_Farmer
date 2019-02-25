@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import in.bharatrohan.bharatrohan.R;
 
@@ -13,6 +16,7 @@ public class MoneyRecord extends AppCompatActivity {
 
     private ViewPager viewPager;
     private TabLayout mTabLayout;
+    private ImageView headImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +26,14 @@ public class MoneyRecord extends AppCompatActivity {
         setContentView(R.layout.activity_money_record);
 
         initViews();
+
+
     }
 
     private void initViews() {
         viewPager = findViewById(R.id.viewpager);
-
+        headImage = findViewById(R.id.head_img);
+        Picasso.get().load(R.drawable.my_farm_header).fit().centerCrop().into(headImage);
         mTabLayout = findViewById(R.id.tabs);
         viewPager.setOffscreenPageLimit(0);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));

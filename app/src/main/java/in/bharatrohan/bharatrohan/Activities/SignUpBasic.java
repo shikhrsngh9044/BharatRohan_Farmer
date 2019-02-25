@@ -75,6 +75,12 @@ public class SignUpBasic extends AppCompatActivity {
             return true;
         }
 
+        if (!alter_phone.isEmpty() && alter_phone.length() < 10) {
+            alter_phone1.setError("Phone must be of at least length 10");
+            alter_phone1.requestFocus();
+            return true;
+        }
+
         if (email.isEmpty()) {
             email1.setError("Email is required");
             email1.requestFocus();

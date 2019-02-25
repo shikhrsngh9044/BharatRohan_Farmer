@@ -46,7 +46,7 @@ public class Login extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         } else {
-            showServerDialog();
+            //showServerDialog();
         }
 
         login.setOnClickListener(v -> {
@@ -79,21 +79,24 @@ public class Login extends AppCompatActivity {
         call.enqueue(new Callback<LoginFarmer>() {
             @Override
             public void onResponse(Call<LoginFarmer> call, Response<LoginFarmer> response) {
+
                 hideProgress();
                 LoginFarmer loginResponse = response.body();
 
-                if (response.code() == 200) {
+                if (response.isSuccessful()) {
 
-                    if (loginResponse != null) {
+                    if (response.code() == 200) {
 
-                        new PrefManager(Login.this).saveLoginDetails(phone, pass);
-                        new PrefManager(Login.this).saveToken("Bearer " + loginResponse.getToken());
-                        new PrefManager(Login.this).saveFarmerId(loginResponse.getFarmerId());
-                        saveFarmerDetails();
-                        Toast.makeText(Login.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Login.this, MainActivity.class));
+                        if (loginResponse != null) {
+
+                            new PrefManager(Login.this).saveLoginDetails(phone, pass);
+                            new PrefManager(Login.this).saveToken("Bearer " + loginResponse.getToken());
+                            new PrefManager(Login.this).saveFarmerId(loginResponse.getFarmerId());
+                            saveFarmerDetails();
+                            Toast.makeText(Login.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(Login.this, MainActivity.class));
+                        }
                     }
-
 
                 } else if (response.code() == 400) {
                     Toast.makeText(Login.this, "Validation Failed. Invalid Credentials", Toast.LENGTH_SHORT).show();

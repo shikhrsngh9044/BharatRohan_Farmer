@@ -15,7 +15,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -64,6 +67,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String landName, phone;
     private ConstraintLayout constr;
 
+    private TextView instruction;
+    private LinearLayout functions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,14 +82,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         reset = findViewById(R.id.reset);
         select = findViewById(R.id.select);
         save = findViewById(R.id.save);
+        instruction = findViewById(R.id.tvIns);
+        functions = findViewById(R.id.functionLayout);
 
         constr = findViewById(R.id.constr);
 
 
-        select.setOnClickListener(v -> drawPolygon());
+        select.setOnClickListener(v -> {
+            select.setVisibility(View.GONE);
+            save.setVisibility(View.VISIBLE);
+            reset.setVisibility(View.VISIBLE);
+            drawPolygon();
+        });
 
         reset.setOnClickListener(v -> {
-
+            reset.setVisibility(View.GONE);
+            save.setVisibility(View.GONE);
+            select.setVisibility(View.VISIBLE);
+            functions.setVisibility(View.GONE);
+            instruction.setVisibility(View.VISIBLE);
             if (markers != null) {
                 for (Marker marker : markers) {
                     marker.remove();
@@ -100,12 +117,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         save.setOnClickListener(v -> {
-
             createKml();
             takeScreenshot(MapsActivity.this);
+            new PrefManager(MapsActivity.this).saveKmlCreateStatus(true);
             finish();
-
-
         });
 
         if (googleServicesAvailable()) {
@@ -362,21 +377,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void drawPolygon() {
-        PolygonOptions options = new PolygonOptions()
-                .fillColor(0x330000FF)
-                .strokeWidth(2)
-                .strokeColor(Color.RED);
+        if (counter >= 3) {
+            PolygonOptions options = new PolygonOptions()
+                    .fillColor(0x330000FF)
+                    .strokeWidth(2)
+                    .strokeColor(Color.RED);
 
-        for (int i = 0; i < counter; i++) {
-            options.add(markers.get(i).getPosition());
+            for (int i = 0; i < counter; i++) {
+                options.add(markers.get(i).getPosition());
+            }
+
+            shape = mMap.addPolygon(options);
+        } else {
+            Toast.makeText(MapsActivity.this, "Mark at least 3 points", Toast.LENGTH_SHORT).show();
         }
-
-        shape = mMap.addPolygon(options);
     }
 
     private void setMarker(double lat, double lng) {
 
         counter = counter + 1;
+
+        if (counter == 1) {
+            instruction.setVisibility(View.GONE);
+        }
+
+        if (counter >= 3) {
+            functions.setVisibility(View.VISIBLE);
+        }
 
         MarkerOptions options = new MarkerOptions()
                 .draggable(true)

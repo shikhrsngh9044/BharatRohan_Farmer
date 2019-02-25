@@ -6,6 +6,6 @@
     <solid android:color="@android:color/transparent" />
     <stroke
         android:width="2dp"
-        android:color="@color/colorPrimaryLight" />
+        android:color="#4d4d4d" />
 
 </shape>

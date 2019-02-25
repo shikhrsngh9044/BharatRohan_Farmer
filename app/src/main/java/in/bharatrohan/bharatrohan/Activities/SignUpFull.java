@@ -44,7 +44,7 @@ public class SignUpFull extends AppCompatActivity {
     private ArrayList<String> s_idList, s_nameList, d_idList, d_nameList, t_idList, t_nameList, b_idList, b_nameList, v_idList, v_nameList;
     ArrayAdapter<String> adapter, adapter1, adapter2, adapter3, adapter4;
     private int mYear, mMonth, mDay;
-    private String state, stateId, district, districtId, tehsil, tehsilId, block, blockId, village, villageId;
+    private String state, stateId = "-SELECT STATE-", district, districtId = "-SELECT DISTRICT-", tehsil, tehsilId = "-SELECT TEHSIL-", block, blockId = "-SELECT BLOCK-", village, villageId = "-SELECT VILLAGE-";
 
     private ProgressBar progressBar;
 
@@ -59,7 +59,6 @@ public class SignUpFull extends AppCompatActivity {
 
 
         stateSpinner.setOnItemSelectedListener((view, position, id, item) -> {
-
             stateId = s_idList.get(position);
             state = s_nameList.get(position);
             initDistrictSpinner(stateId);
@@ -94,10 +93,11 @@ public class SignUpFull extends AppCompatActivity {
 
 
         register.setOnClickListener(v -> {
-            if (!validateForm()) {
+            if (!validateForm() && !validateAddress()) {
                 signUp();
             } else {
                 validateForm();
+                validateAddress();
             }
         });
 
@@ -498,6 +498,40 @@ public class SignUpFull extends AppCompatActivity {
         conf_pass.setEnabled(true);
         dob.setEnabled(true);
         btnDate.setEnabled(true);
+    }
+
+    private Boolean validateAddress() {
+        if (stateId.equals("-SELECT STATE-")) {
+            stateSpinner.setError("State is required!");
+            stateSpinner.requestFocus();
+            return true;
+        }
+
+        if (districtId.equals("-SELECT DISTRICT-")) {
+            districtSpinner.setError("District is required!");
+            districtSpinner.requestFocus();
+            return true;
+        }
+
+        if (tehsilId.equals("-SELECT TEHSIL-")) {
+            tehsilSpinner.setError("Tehsil is required!");
+            tehsilSpinner.requestFocus();
+            return true;
+        }
+
+        if (blockId.equals("-SELECT BLOCK-")) {
+            blockSpinner.setError("Block is required!");
+            blockSpinner.requestFocus();
+            return true;
+        }
+
+        if (villageId.equals("-SELECT VILLAGE-")) {
+            villageSpinner.setError("Village is required!");
+            villageSpinner.requestFocus();
+            return true;
+        }
+
+        return false;
     }
 
 }

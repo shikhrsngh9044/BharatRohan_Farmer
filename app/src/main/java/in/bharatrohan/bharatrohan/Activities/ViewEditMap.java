@@ -1,22 +1,18 @@
 package in.bharatrohan.bharatrohan.Activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ViewEditMap extends AppCompatActivity {
 
@@ -35,16 +31,55 @@ public class ViewEditMap extends AppCompatActivity {
         farm_name = findViewById(R.id.tvLandName);
         crop_name = findViewById(R.id.tvCropName);
 
-        Picasso.get().load("http://bfe82c68.ngrok.io/" + new PrefManager(this).getFarmImage()).into(mapImage);
+        Picasso.get().load("http://0d952bac.ngrok.io/" + new PrefManager(this).getFarmImage()).into(mapImage);
 
         farm_name.setText(new PrefManager(this).getFarmName());
         farm_area.setText(new PrefManager(this).getFarmArea());
         crop_name.setText(new PrefManager(this).getCropName());
 
         verify.setOnClickListener(v -> {
+            showDialog();
+        });
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ViewEditMap.this);
+        View view = getLayoutInflater().inflate(R.layout.farm_edit_dialog, null);
+        dialogBuilder.setView(view);
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+
+        alertDialog.show();
+
+        Button map = view.findViewById(R.id.btnEditMap);
+        Button value = view.findViewById(R.id.btnEditValues);
+        Button btnOk = view.findViewById(R.id.btnBoth);
+
+        btnOk.setOnClickListener(view1 -> {
+            new PrefManager(ViewEditMap.this).saveKmlStatus(true);
+            new PrefManager(ViewEditMap.this).saveValueStatus(true);
             Intent intent = new Intent(this, RegisterFarm.class);
             intent.putExtra("activity", "edit");
             startActivity(intent);
+            alertDialog.dismiss();
+        });
+
+        map.setOnClickListener(v -> {
+            new PrefManager(ViewEditMap.this).saveKmlStatus(true);
+            new PrefManager(ViewEditMap.this).saveValueStatus(false);
+            Intent intent = new Intent(this, RegisterFarm.class);
+            intent.putExtra("activity", "edit");
+            startActivity(intent);
+            alertDialog.dismiss();
+        });
+
+        value.setOnClickListener(v -> {
+            new PrefManager(ViewEditMap.this).saveKmlStatus(false);
+            new PrefManager(ViewEditMap.this).saveValueStatus(true);
+            Intent intent = new Intent(this, RegisterFarm.class);
+            intent.putExtra("activity", "edit");
+            startActivity(intent);
+            alertDialog.dismiss();
         });
     }
 

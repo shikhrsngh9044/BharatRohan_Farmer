@@ -22,7 +22,6 @@
             android:icon="@drawable/help_supp"
             android:title=""
             app:actionLayout="@layout/nav_spinner" />
-
         <item
             android:id="@+id/nav_privacy"
             android:icon="@drawable/privacy"
@@ -31,7 +30,6 @@
             android:id="@+id/nav_terms"
             android:icon="@drawable/t_c"
             android:title="Terms and Condition" />
-
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"

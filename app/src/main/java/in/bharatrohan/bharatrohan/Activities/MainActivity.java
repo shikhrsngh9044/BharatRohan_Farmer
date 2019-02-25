@@ -60,7 +60,11 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this, "This Feature is COMING SOON!!", Toast.LENGTH_SHORT).show();
         });
 
-        registerFarm.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegisterFarm.class)));
+        registerFarm.setOnClickListener(v -> {
+            new PrefManager(this).saveKmlStatus(true);
+            new PrefManager(this).saveValueStatus(true);
+            startActivity(new Intent(MainActivity.this, RegisterFarm.class));
+        });
 
         userProfile.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, UserProfile.class)));
 
@@ -90,7 +94,7 @@ public class MainActivity extends AppCompatActivity
         TextView usersName = findViewById(R.id.usersName);
         userImage = navigationView.getHeaderView(0).findViewById(R.id.userImage);
 
-        showServerDialog();
+        // showServerDialog();
 
         TextView userName = navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
         TextView userPhone = navigationView.getHeaderView(0).findViewById(R.id.tvUserPhone);
@@ -144,9 +148,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            // Handle the camera action
+            startActivity(new Intent(this, UserProfile.class));
         } else if (id == R.id.nav_pass) {
-
+            startActivity(new Intent(this, ChangePassword.class));
         } else if (id == R.id.nav_refer) {
 
         } else if (id == R.id.nav_help) {
