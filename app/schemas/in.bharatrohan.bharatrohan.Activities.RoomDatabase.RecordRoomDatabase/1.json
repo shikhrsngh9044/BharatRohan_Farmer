@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "70cb9b3c951692fbbdf592a0aa90f79e",
+    "identityHash": "03fb42dd5f818e1bad9b7a35466839fc",
     "entities": [
       {
         "tableName": "records",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `month` TEXT NOT NULL, `day` INTEGER NOT NULL, `dayOfWeek` TEXT NOT NULL, `year` INTEGER NOT NULL, `recordType` TEXT NOT NULL, `amount` INTEGER NOT NULL, `pupose` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `month` INTEGER NOT NULL, `monthName` TEXT NOT NULL, `day` INTEGER NOT NULL, `year` INTEGER NOT NULL, `recordType` TEXT NOT NULL, `amount` INTEGER NOT NULL, `purpose` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -17,6 +17,12 @@
           {
             "fieldPath": "month",
             "columnName": "month",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "monthName",
+            "columnName": "monthName",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -24,12 +30,6 @@
             "fieldPath": "day",
             "columnName": "day",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "dayOfWeek",
-            "columnName": "dayOfWeek",
-            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -51,8 +51,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "pupose",
-            "columnName": "pupose",
+            "fieldPath": "purpose",
+            "columnName": "purpose",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -69,7 +69,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"70cb9b3c951692fbbdf592a0aa90f79e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"03fb42dd5f818e1bad9b7a35466839fc\")"
     ]
   }
 }

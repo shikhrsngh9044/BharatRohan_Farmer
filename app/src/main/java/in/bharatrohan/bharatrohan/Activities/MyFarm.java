@@ -1,21 +1,18 @@
 package in.bharatrohan.bharatrohan.Activities;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
-import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
-import in.bharatrohan.bharatrohan.Models.Farmer;
+
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MyFarm extends AppCompatActivity {
 
@@ -31,9 +28,16 @@ public class MyFarm extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_my_farm);
         new PrefManager(this).saveFarmNo(0);
-        getFarmCount();
+
+        int farmCount = new PrefManager(this).getFarmerFarmCount();
 
         initViews();
+
+        setDynamicFragmentToTabLayout(farmCount);
+
+        if (mFragmentAdapter != null) {
+            mFragmentAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initViews() {
@@ -44,11 +48,6 @@ public class MyFarm extends AppCompatActivity {
         mTabLayout = findViewById(R.id.tabs);
         viewPager.setOffscreenPageLimit(0);
 
-        setDynamicFragmentToTabLayout();
-
-        if (mFragmentAdapter != null) {
-            mFragmentAdapter.notifyDataSetChanged();
-        }
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -70,9 +69,9 @@ public class MyFarm extends AppCompatActivity {
         });
     }
 
-    private void setDynamicFragmentToTabLayout() {
-        if ((new PrefManager(this).getFarmerFarmCount()) > 0) {
-            for (int i = 1; i <= new PrefManager(this).getFarmerFarmCount(); i++) {
+    private void setDynamicFragmentToTabLayout(int count) {
+        if (count > 0) {
+            for (int i = 1; i <= count; i++) {
 
                 mTabLayout.addTab(mTabLayout.newTab().setText("Land: " + i));
             }
@@ -86,28 +85,6 @@ public class MyFarm extends AppCompatActivity {
         }
     }
 
-    private void getFarmCount() {
-        Call<Farmer> call = RetrofitClient.getInstance().getApi().getFarmerDetail(new PrefManager(MyFarm.this).getToken(), new PrefManager(this).getFarmerId());
-
-        call.enqueue(new Callback<Farmer>() {
-            @Override
-            public void onResponse(Call<Farmer> call, Response<Farmer> response) {
-                Farmer farmer = response.body();
-
-                if (farmer != null) {
-                    new PrefManager(MyFarm.this).saveFarmCount(farmer.getFarms().size());
-                } else {
-                    Toast.makeText(MyFarm.this, "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Farmer> call, Throwable t) {
-                Toast.makeText(MyFarm.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 
     @Override
     protected void onDestroy() {
@@ -135,9 +112,9 @@ public class MyFarm extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (mFragmentAdapter != null) {
+        /*if (mFragmentAdapter != null) {
             mFragmentAdapter.notifyDataSetChanged();
-        }
+        }*/
     }
 
 }

@@ -26,8 +26,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
+import in.bharatrohan.bharatrohan.Models.Farmer;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity
 
 
     private void init() {
+
+        getFarmCount();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -150,7 +156,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_profile) {
             startActivity(new Intent(this, UserProfile.class));
         } else if (id == R.id.nav_pass) {
-            startActivity(new Intent(this, ChangePassword.class));
+            Intent intent = new Intent(this, ChangePassword.class);
+            intent.putExtra("activity", "main");
+            startActivity(intent);
         } else if (id == R.id.nav_refer) {
 
         } else if (id == R.id.nav_help) {
@@ -175,6 +183,36 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    private void getFarmCount() {
+        Call<Farmer> call = RetrofitClient.getInstance().getApi().getFarmerDetail(new PrefManager(MainActivity.this).getToken(), new PrefManager(this).getFarmerId());
+
+        call.enqueue(new retrofit2.Callback<Farmer>() {
+            @Override
+            public void onResponse(Call<Farmer> call, Response<Farmer> response) {
+                Farmer farmer = response.body();
+
+                if (farmer != null) {
+                    new PrefManager(MainActivity.this).saveFarmCount(farmer.getFarms().size());
+                } else {
+                    Toast.makeText(MainActivity.this, "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Farmer> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getFarmCount();
     }
 
     private void showServerDialog() {

@@ -42,6 +42,7 @@
                 android:layout_marginTop="8dp"
                 android:text="land name"
                 android:textSize="18sp"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -62,6 +63,7 @@
                 android:layout_marginEnd="8dp"
                 android:text="crop name"
                 android:textSize="18sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
@@ -258,6 +260,7 @@
                 android:paddingBottom="5dp"
                 android:text="Not Verified"
                 android:textColor="@color/cardview_light_background"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -6,16 +6,13 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
-import java.util.Observable;
-
-import in.bharatrohan.bharatrohan.Activities.MoneyFragments.MyRecords;
 
 @Dao
 public interface RecordsDao {
     @Insert
     void insert(Records records);
 
-    @Query("SELECT * FROM records")
+    @Query("SELECT * FROM records ORDER BY month")
     LiveData<List<Records>> getAllRecords();
 
     @Query("SELECT SUM(amount) FROM records")

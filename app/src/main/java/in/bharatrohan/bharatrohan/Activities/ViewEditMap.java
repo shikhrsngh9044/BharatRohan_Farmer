@@ -31,7 +31,7 @@ public class ViewEditMap extends AppCompatActivity {
         farm_name = findViewById(R.id.tvLandName);
         crop_name = findViewById(R.id.tvCropName);
 
-        Picasso.get().load("http://0d952bac.ngrok.io/" + new PrefManager(this).getFarmImage()).into(mapImage);
+        Picasso.get().load("http://0d952bac.ngrok.io/" + new PrefManager(this).getFarmImage()).fit().centerCrop().into(mapImage);
 
         farm_name.setText(new PrefManager(this).getFarmName());
         farm_area.setText(new PrefManager(this).getFarmArea());

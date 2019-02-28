@@ -6,9 +6,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import in.bharatrohan.bharatrohan.Activities.MoneyFragments.AddRecord;
 import in.bharatrohan.bharatrohan.Activities.MoneyFragments.MyRecords;
-import in.bharatrohan.bharatrohan.Activities.RepoFragments.HistoryFragment;
-import in.bharatrohan.bharatrohan.Activities.RepoFragments.SolutionFragment;
-import in.bharatrohan.bharatrohan.Activities.RepoFragments.StatusFragment;
 
 public class MoneyFragmentAdapter extends FragmentStatePagerAdapter {
 
@@ -29,13 +26,13 @@ public class MoneyFragmentAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0: {
-                MyRecords mr = new MyRecords();
-                return mr;
+                AddRecord ar = new AddRecord();
+                return ar;
             }
 
             case 1: {
-                AddRecord ar = new AddRecord();
-                return ar;
+                MyRecords mr = new MyRecords();
+                return mr;
             }
 
             default:

@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MoneyRecord">
 
+
+
     <ImageView
         android:id="@+id/head_img"
         android:layout_width="0dp"

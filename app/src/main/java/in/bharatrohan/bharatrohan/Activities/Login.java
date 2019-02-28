@@ -1,12 +1,8 @@
 package in.bharatrohan.bharatrohan.Activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Patterns;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +13,6 @@ import android.widget.Toast;
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.Models.Farmer;
 import in.bharatrohan.bharatrohan.Models.LoginFarmer;
-import in.bharatrohan.bharatrohan.Models.UserFarmer;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
 import retrofit2.Call;
@@ -30,6 +25,7 @@ public class Login extends AppCompatActivity {
     private Button login;
     private TextView signUpScreen;
     private ProgressBar progressBar;
+    private TextView tvForgot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +37,7 @@ public class Login extends AppCompatActivity {
         editPass = findViewById(R.id.password);
         login = findViewById(R.id.login);
         signUpScreen = findViewById(R.id.signUpScreen);
+        tvForgot = findViewById(R.id.tvForget);
 
         if (!(new PrefManager(this).getFarmerId().equals(""))) {
             startActivity(new Intent(this, MainActivity.class));
@@ -55,6 +52,12 @@ public class Login extends AppCompatActivity {
             } else {
                 validateForm();
             }
+        });
+
+        tvForgot.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ChangePassword.class);
+            intent.putExtra("activity", "login");
+            startActivity(intent);
         });
 
 
@@ -132,8 +135,8 @@ public class Login extends AppCompatActivity {
             return true;
         }
 
-        if (phone.length() < 10) {
-            editPhone.setError("Phone No should be at least 10 character Long");
+        if (phone.length() != 10) {
+            editPhone.setError("Phone must be 10 character Long");
             editPhone.requestFocus();
             return true;
         }
@@ -199,32 +202,5 @@ public class Login extends AppCompatActivity {
 
     }
 
-
-    private void showServerDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Login.this);
-        View view = getLayoutInflater().inflate(R.layout.enter_server_name, null);
-        dialogBuilder.setView(view);
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-
-        alertDialog.show();
-
-        EditText message = view.findViewById(R.id.editEmail);
-        Button btnOk = view.findViewById(R.id.btnOk);
-
-        btnOk.setOnClickListener(view1 -> {
-            String strMessage = message.getText().toString().trim();
-
-            if (strMessage.isEmpty()) {
-                message.setError("Server name is required!");
-                message.requestFocus();
-                return;
-            }
-
-            new PrefManager(Login.this).saveServerName(strMessage);
-
-            alertDialog.dismiss();
-        });
-    }
 
 }

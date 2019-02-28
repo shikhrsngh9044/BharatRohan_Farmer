@@ -2,7 +2,6 @@ package in.bharatrohan.bharatrohan.Apis;
 
 import java.util.concurrent.TimeUnit;
 
-import in.bharatrohan.bharatrohan.PrefManager;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -10,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     //private String SerName = new PrefManager(mInstance.get).getServerName();
-    private static final String BASE_URL = "http://78a9301e.ngrok.io/api/br/";
+    private static final String BASE_URL = "http://974a32ba.ngrok.io/api/br/";
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 

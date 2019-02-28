@@ -3,10 +3,10 @@ package in.bharatrohan.bharatrohan.Activities.MoneyFragments;
 
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +30,8 @@ public class AddRecord extends Fragment {
 
     private EditText dateEditText, amtEditText, purEditText;
     private ToggleSwitch toggleSwitch;
-    private Button btnDate, btnSave;
+    private Button btnSave;
+    private ConstraintLayout btnDate;
     private int mYear, mMonth, mDay, mDayOfWeek;
     private int Year, Month, Day, DayOfWeek;
     private String recordType = "expense";
@@ -83,10 +84,15 @@ public class AddRecord extends Fragment {
         });
 
         btnSave.setOnClickListener(v -> {
-            String amount = amtEditText.getText().toString().trim();
-            String purpose = purEditText.getText().toString().trim();
-            String date = dateEditText.getText().toString().trim();
-            saveRecord(amount, purpose, date);
+            if (!validateForm()) {
+                String amount = amtEditText.getText().toString().trim();
+                String purpose = purEditText.getText().toString().trim();
+                String date = dateEditText.getText().toString().trim();
+                saveRecord(amount, purpose, date);
+            } else {
+                validateForm();
+            }
+
         });
 
 
@@ -97,7 +103,7 @@ public class AddRecord extends Fragment {
         dateEditText.setEnabled(false);
         amtEditText = v.findViewById(R.id.amount);
         purEditText = v.findViewById(R.id.purpose);
-        btnDate = v.findViewById(R.id.btnDate);
+        btnDate = v.findViewById(R.id.constraintLayout9);
         btnSave = v.findViewById(R.id.save);
         toggleSwitch = v.findViewById(R.id.toggleSwitch);
 
@@ -138,10 +144,9 @@ public class AddRecord extends Fragment {
 
         final String recordId = UUID.randomUUID().toString();
 
-        validateForm();
+        int monthNo = Month + 1;
 
-
-        Records records = new Records(recordId, DayofWeek(Month + 1), Day, DayofWeek(Month + 1), mYear, recordType, Integer.valueOf(amount), purpose);
+        Records records = new Records(recordId, monthNo, MonthofYear(monthNo), Day, mYear, recordType, Integer.valueOf(amount), purpose);
         recordViewModel.insert(records);
 
         amtEditText.getText().clear();
@@ -152,7 +157,7 @@ public class AddRecord extends Fragment {
 
     }
 
-    private String DayofWeek(int day) {
+    private String MonthofYear(int day) {
 
         if (day == 1) {
             return "Jan";

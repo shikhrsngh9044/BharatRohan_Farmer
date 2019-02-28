@@ -1,9 +1,8 @@
 package in.bharatrohan.bharatrohan.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,14 +68,14 @@ public class SignUpBasic extends AppCompatActivity {
             return true;
         }
 
-        if (phone.length() < 10) {
-            phone1.setError("Phone must be of at least length 10");
+        if (phone.length() != 10) {
+            phone1.setError("Phone must be of 10 characters long!");
             phone1.requestFocus();
             return true;
         }
 
-        if (!alter_phone.isEmpty() && alter_phone.length() < 10) {
-            alter_phone1.setError("Phone must be of at least length 10");
+        if (!alter_phone.isEmpty() && alter_phone.length() != 10) {
+            alter_phone1.setError(" Alter Phone must be of 10 characters long!");
             alter_phone1.requestFocus();
             return true;
         }

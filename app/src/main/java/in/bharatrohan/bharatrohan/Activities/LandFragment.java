@@ -1,6 +1,5 @@
 package in.bharatrohan.bharatrohan.Activities;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +29,7 @@ public class LandFragment extends Fragment {
     private TextView landName, cropName, farmStatus, mapEdit;
     private ProgressBar progressBar;
     private ArrayList<String> farmList = new ArrayList<>();
+    private String token, farmerId;
 
     public static LandFragment newInstance() {
         return new LandFragment();
@@ -38,6 +38,9 @@ public class LandFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        token = new PrefManager(getContext()).getToken();
+        farmerId = new PrefManager(getContext()).getFarmerId();
+        //Toast.makeText(getContext(), "Create Called", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
@@ -48,18 +51,7 @@ public class LandFragment extends Fragment {
 
         initViews(view);
 
-
-        if (new PrefManager(getContext()).getFarmStatus()) {
-            farmStatus.setText("Verified");
-            farmStatus.setBackgroundResource(android.R.color.holo_green_dark);
-        } else {
-            farmStatus.setText("Not Verified");
-            farmStatus.setBackgroundResource(android.R.color.holo_red_dark);
-        }
-
-        mapEdit.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), ViewEditMap.class));
-        });
+        mapEdit.setOnClickListener(v -> startActivity(new Intent(getActivity(), ViewEditMap.class)));
 
         return view;
     }
@@ -94,8 +86,14 @@ public class LandFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        /*showFarmInfo();
-        Toast.makeText(getActivity(), "OnResume Called", Toast.LENGTH_SHORT).show();*/
+
+        /*if (farmStatusBool) {
+            farmStatus.setText("Verified");
+            farmStatus.setBackgroundResource(android.R.color.holo_green_dark);
+        } else {
+            farmStatus.setText("Not Verified");
+            farmStatus.setBackgroundResource(android.R.color.holo_red_dark);
+        }*/
     }
 
     @Override
@@ -103,10 +101,25 @@ public class LandFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
 
         if (isVisibleToUser && isResumed()) {
-            if (new PrefManager(getActivity()).getFarmerFarmCount() == 1) {
-                new PrefManager(getActivity()).saveFarmNo(0);
+            if (new PrefManager(getContext()).getFarmerFarmCount() == 1) {
+                new PrefManager(getContext()).saveFarmNo(0);
             }
-            getFarmId(new PrefManager(getActivity()).getFarmerFarmNo());
+            getFarmId(new PrefManager(getContext()).getFarmerFarmNo());
+
+        }
+
+
+    }
+
+    private void setFarmVerifyStatus(Boolean farmStatusBool) {
+        if (farmStatusBool) {
+            farmStatus.setText("Verified");
+            farmStatus.setBackgroundResource(android.R.color.holo_green_dark);
+            farmStatus.setVisibility(View.VISIBLE);
+        } else {
+            farmStatus.setText("Not Verified");
+            farmStatus.setBackgroundResource(android.R.color.holo_red_dark);
+            farmStatus.setVisibility(View.VISIBLE);
         }
     }
 
@@ -126,8 +139,7 @@ public class LandFragment extends Fragment {
     }
 
     private void showFarmInfo(String farmId) {
-        //showProgress();
-        Call<Farm> call = RetrofitClient.getInstance().getApi().getFarmDetail(new PrefManager(getActivity()).getToken(), farmId);
+        Call<Farm> call = RetrofitClient.getInstance().getApi().getFarmDetail(token, farmId);
 
         call.enqueue(new Callback<Farm>() {
             @Override
@@ -137,19 +149,22 @@ public class LandFragment extends Fragment {
                 if (farm != null) {
                     if (farm.getData().getVerified() != null) {
                         new PrefManager(getContext()).saveFarmStatus(farm.getData().getVerified());
+                        setFarmVerifyStatus(farm.getData().getVerified());
                     }
-                    new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, new PrefManager(getActivity()).getFarmerId());
+                    new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, farmerId);
                     landName.setText(farm.getData().getFarm_name());
+                    landName.setVisibility(View.VISIBLE);
                     cropName.setText(farm.getData().getCrop().getCrop_name());
+                    cropName.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(getActivity(), "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Farm> call, Throwable t) {
                 hideProgress();
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -159,7 +174,7 @@ public class LandFragment extends Fragment {
     private void getFarmId(int farmNo) {
 
         showProgress();
-        Call<Farmer> call = RetrofitClient.getInstance().getApi().getFarmerDetail(new PrefManager(getActivity()).getToken(), new PrefManager(getActivity()).getFarmerId());
+        Call<Farmer> call = RetrofitClient.getInstance().getApi().getFarmerDetail(token, farmerId);
 
         call.enqueue(new Callback<Farmer>() {
             @Override
@@ -171,11 +186,11 @@ public class LandFragment extends Fragment {
                     if (farmList.size() != 0) {
                         showFarmInfo(farmList.get(farmNo));
                     } else {
-                        new PrefManager(getActivity()).saveFarmNo(0);
-                        Toast.makeText(getActivity(), "No Farm is Registered yet!!", Toast.LENGTH_SHORT).show();
+                        new PrefManager(getContext()).saveFarmNo(0);
+                        Toast.makeText(getContext(), "No Farm is Registered yet!!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -183,7 +198,7 @@ public class LandFragment extends Fragment {
             @Override
             public void onFailure(Call<Farmer> call, Throwable t) {
                 hideProgress();
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

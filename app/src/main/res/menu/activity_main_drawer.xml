@@ -7,11 +7,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/profile_update"
+            android:icon="@drawable/profileupdate"
             android:title="Profile Update" />
         <item
             android:id="@+id/nav_pass"
-            android:icon="@drawable/change_pass"
+            android:icon="@drawable/changepassword"
             android:title="Change Password" />
         <item
             android:id="@+id/nav_refer"
@@ -19,7 +19,7 @@
             android:title="Refer a friend" />
         <item
             android:id="@+id/nav_help"
-            android:icon="@drawable/help_supp"
+            android:icon="@drawable/helpandsupport"
             android:title=""
             app:actionLayout="@layout/nav_spinner" />
         <item
@@ -28,7 +28,7 @@
             android:title="Privacy Policy" />
         <item
             android:id="@+id/nav_terms"
-            android:icon="@drawable/t_c"
+            android:icon="@drawable/terms"
             android:title="Terms and Condition" />
         <item
             android:id="@+id/nav_logout"

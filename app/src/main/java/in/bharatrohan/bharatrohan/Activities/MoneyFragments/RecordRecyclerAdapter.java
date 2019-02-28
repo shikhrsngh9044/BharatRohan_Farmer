@@ -1,6 +1,5 @@
 package in.bharatrohan.bharatrohan.Activities.MoneyFragments;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +36,7 @@ public class RecordRecyclerAdapter extends RecyclerView.Adapter<RecordRecyclerAd
     public void onBindViewHolder(@NonNull RecordViewHolder holder, int position) {
         if (mList != null) {
             Records records = mList.get(position);
-            holder.setData(records.getDay(), records.getDayOfWeek(), records.getPupose(), records.getRecordType(), records.getAmount(), position);
+            holder.setData(records.getDay(), records.getMonthName(), records.getYear(), records.getPurpose(), records.getRecordType(), records.getAmount(), position);
         }
     }
 
@@ -58,25 +57,25 @@ public class RecordRecyclerAdapter extends RecyclerView.Adapter<RecordRecyclerAd
 
     public class RecordViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvDay, tvDayofWeek, tvPurpose, tvRecordType, tvAmount;
+        private TextView tvDate, tvPurpose, tvRecordType, tvAmount;
         private int mPosition;
 
         public RecordViewHolder(View itemView) {
             super(itemView);
 
-            tvDay = itemView.findViewById(R.id.tvDay);
-            tvDayofWeek = itemView.findViewById(R.id.tvDayOfWeek);
+            tvDate = itemView.findViewById(R.id.tvDate);
             tvPurpose = itemView.findViewById(R.id.tvPupose);
             tvRecordType = itemView.findViewById(R.id.tvRecType);
             tvAmount = itemView.findViewById(R.id.tvAmt);
         }
 
-        public void setData(int day, String dayOfWeek, String pupose, String recType, int amt, int pos) {
-            tvDay.setText(String.valueOf(day));
-            tvDayofWeek.setText(dayOfWeek);
+        public void setData(int day, String monthName, int year, String pupose, String recType, int amt, int pos) {
+            String date = String.valueOf(day) + " " + monthName + " " + String.valueOf(year);
+            String amount = "₹ " + String.valueOf(amt);
+            tvDate.setText(date);
             tvPurpose.setText(pupose);
             tvRecordType.setText(recType);
-            tvAmount.setText(String.valueOf(amt));
+            tvAmount.setText(amount);
             mPosition = pos;
         }
     }

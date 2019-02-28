@@ -1,34 +1,26 @@
 package in.bharatrohan.bharatrohan.Activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.gson.annotations.SerializedName;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.Models.Crops;
-import in.bharatrohan.bharatrohan.Models.District;
 import in.bharatrohan.bharatrohan.Models.FarmID;
 import in.bharatrohan.bharatrohan.Models.FarmResponse;
-import in.bharatrohan.bharatrohan.Models.States;
-import in.bharatrohan.bharatrohan.Models.UserFarmer;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
 import okhttp3.MediaType;
@@ -63,6 +55,8 @@ public class RegisterFarm extends AppCompatActivity {
 
         open_map = findViewById(R.id.open_map);
 
+        //open_map.setClickable(true);
+
         cropsSpinner = findViewById(R.id.crops);
 
         c_idList = new ArrayList<>();
@@ -83,12 +77,9 @@ public class RegisterFarm extends AppCompatActivity {
                 landLocation.setText(new PrefManager(RegisterFarm.this).getFarmLocation());
 
                 if (!new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
-                    open_map.setEnabled(false);
                     open_map.setClickable(false);
                     Toast.makeText(this, "You will be able to update values only", Toast.LENGTH_SHORT).show();
-                }
-
-                if (new PrefManager(RegisterFarm.this).getKmlStatus() && !new PrefManager(RegisterFarm.this).getValueStatus()) {
+                } else if (new PrefManager(RegisterFarm.this).getKmlStatus() && !new PrefManager(RegisterFarm.this).getValueStatus()) {
                     landArea.setEnabled(false);
                     landName.setEnabled(false);
                     landLocation.setEnabled(false);
@@ -115,6 +106,12 @@ public class RegisterFarm extends AppCompatActivity {
                 if (getIntent().getStringExtra("activity").equals("edit")) {
                     if (!new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
                         Toast.makeText(this, "Cannot not update map.As u have choose to update values only", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //Toast.makeText(this, "abc", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterFarm.this, MapsActivity.class);
+                        intent.putExtra("landName", landName.getText().toString().trim());
+                        intent.putExtra("phone", getIntent().getStringExtra("phone"));
+                        startActivity(intent);
                     }
                 }
             } else {
@@ -126,26 +123,49 @@ public class RegisterFarm extends AppCompatActivity {
 
         });
 
-        register.setOnClickListener(v ->
-        {
+        register.setOnClickListener(v -> {
 
             if (getIntent().getStringExtra("activity") != null) {
                 if (getIntent().getStringExtra("activity").equals("edit")) {
                     if (new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
                         updateFarm();
                         updateKml();
+                        open_map.setEnabled(true);
+                        open_map.setClickable(true);
+                        landArea.setEnabled(true);
+                        landName.setEnabled(true);
+                        landLocation.setEnabled(true);
+                        landArea.setClickable(true);
+                        landName.setClickable(true);
+                        landLocation.setClickable(true);
                         startActivity(new Intent(RegisterFarm.this, MainActivity.class));
                         finish();
                     }
 
                     if (!new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
                         updateFarm();
+                        open_map.setEnabled(true);
+                        open_map.setClickable(true);
+                        landArea.setEnabled(true);
+                        landName.setEnabled(true);
+                        landLocation.setEnabled(true);
+                        landArea.setClickable(true);
+                        landName.setClickable(true);
+                        landLocation.setClickable(true);
                         startActivity(new Intent(RegisterFarm.this, MainActivity.class));
                         finish();
                     }
 
                     if (new PrefManager(RegisterFarm.this).getKmlStatus() && !new PrefManager(RegisterFarm.this).getValueStatus()) {
                         updateKml();
+                        open_map.setEnabled(true);
+                        open_map.setClickable(true);
+                        landArea.setEnabled(true);
+                        landName.setEnabled(true);
+                        landLocation.setEnabled(true);
+                        landArea.setClickable(true);
+                        landName.setClickable(true);
+                        landLocation.setClickable(true);
                         startActivity(new Intent(RegisterFarm.this, MainActivity.class));
                         finish();
                     }

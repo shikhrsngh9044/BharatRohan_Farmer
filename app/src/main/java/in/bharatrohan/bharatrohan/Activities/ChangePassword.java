@@ -1,14 +1,15 @@
 package in.bharatrohan.bharatrohan.Activities;
 
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -21,6 +22,7 @@ public class ChangePassword extends AppCompatActivity {
     private ImageView headImage;
     private EditText editOtp, editPhone, editPass, editConfPass;
     private Button btnOtp, btnChange;
+    private TextView tvResend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +54,22 @@ public class ChangePassword extends AppCompatActivity {
         editConfPass = findViewById(R.id.editConfPass);
         btnOtp = findViewById(R.id.btnOtp);
         btnChange = findViewById(R.id.btnChangePass);
+        tvResend = findViewById(R.id.tvResend);
+
     }
 
+
+    //use this thing in when we get 200 in response
+
+/*if (getIntent().getStringExtra("activity") != null) {
+            if (getIntent().getStringExtra("activity").equals("login")) {
+                startActivity(new Intent(this, Login.class));
+                finish();
+            } else if (getIntent().getStringExtra("activity").equals("main")) {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
+        }*/
 
     private void changePass() {
 
@@ -74,6 +90,9 @@ public class ChangePassword extends AppCompatActivity {
         message.setText(new PrefManager(ChangePassword.this).getPhone());
 
         btnOk.setOnClickListener(view1 -> {
+            btnOtp.setVisibility(View.GONE);
+            tvResend.setVisibility(View.VISIBLE);
+
             String strMessage = message.getText().toString().trim();
 
 

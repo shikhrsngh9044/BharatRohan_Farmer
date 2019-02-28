@@ -15,15 +15,16 @@
 
         <belka.us.androidtoggleswitch.widgets.ToggleSwitch
             android:id="@+id/toggleSwitch"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="8dp"
-            android:textSize="24sp"
-            app:activeBgColor="@android:color/holo_green_light"
+            android:layout_marginEnd="50dp"
+            android:gravity="center_vertical|center"
+            android:textSize="18sp"
+            app:activeBgColor="@color/colorPrimary"
             app:activeTextColor="@color/white"
-            app:cornerRadius="20dp"
+            app:cornerRadius="5dp"
             app:inactiveBgColor="@color/colorPrimaryLight"
             app:inactiveTextColor="@color/cardview_dark_background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,30 +38,37 @@
             android:id="@+id/textView54"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
             android:text="Amount"
             android:textColor="@color/colorPrimary"
-            app:layout_constraintStart_toStartOf="@+id/toggleSwitch"
+            app:layout_constraintStart_toStartOf="@+id/amount"
             app:layout_constraintTop_toBottomOf="@+id/toggleSwitch" />
 
         <EditText
             android:id="@+id/amount"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
             android:background="@drawable/rounded_edittext"
             android:ems="10"
             android:hint="Amount"
             android:inputType="number"
-            android:paddingStart="5dp"
-            app:layout_constraintStart_toStartOf="@+id/textView54"
+            android:paddingStart="20dp"
+            android:paddingEnd="5dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView54" />
 
         <TextView
             android:id="@+id/textView56"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:text="Purpose"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/amount"
@@ -68,22 +76,27 @@
 
         <EditText
             android:id="@+id/purpose"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/rounded_edittext"
             android:ems="10"
             android:hint="Purpose"
             android:inputType="textPersonName"
-            android:paddingStart="5dp"
-            app:layout_constraintStart_toStartOf="@+id/textView56"
+            android:paddingStart="20dp"
+            android:paddingEnd="5dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/amount"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView56" />
 
         <TextView
             android:id="@+id/textView58"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:text="Date"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/purpose"
@@ -92,41 +105,65 @@
 
         <Button
             android:id="@+id/save"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/rounded_button_dark"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_button_light"
             android:text="Save"
+            android:textColor="@color/cardview_light_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateEdit" />
 
         <EditText
             android:id="@+id/dateEdit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/rounded_edittext"
             android:ems="10"
+            android:gravity="center_vertical"
             android:hint="Date"
             android:inputType="date"
-            android:paddingStart="5dp"
-            app:layout_constraintStart_toStartOf="@id/textView58"
+            android:paddingStart="20dp"
+            android:paddingEnd="5dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout9"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView58" />
 
         <Button
             android:id="@+id/btnDate"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/rounded_button_dark"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_button_light"
             android:padding="5dp"
             android:text="Choose Date"
+            android:textColor="@color/cardview_light_background"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/dateEdit"
-            app:layout_constraintStart_toEndOf="@+id/dateEdit"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/dateEdit" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout9"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_layout_colored"
+            android:foreground="@drawable/ic_calender"
+            app:layout_constraintBottom_toBottomOf="@+id/dateEdit"
+            app:layout_constraintEnd_toEndOf="@+id/purpose"
+            app:layout_constraintTop_toTopOf="@+id/dateEdit">
+
+        </android.support.constraint.ConstraintLayout>
+
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

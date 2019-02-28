@@ -12,13 +12,14 @@ public class Records {
     private String id;
 
     @NonNull
-    private String month;
+    private int month;
+
+
+    @NonNull
+    private String monthName;
 
     @NonNull
     private int day;
-
-    @NonNull
-    private String dayOfWeek;
 
     @NonNull
     private int year;
@@ -30,17 +31,17 @@ public class Records {
     private int amount;
 
     @NonNull
-    private String pupose;
+    private String purpose;
 
-    public Records(@NonNull String id, @NonNull String month, @NonNull int day, @NonNull String dayOfWeek, @NonNull int year, @NonNull String recordType, @NonNull int amount, @NonNull String pupose) {
+    public Records(@NonNull String id, @NonNull int month, @NonNull String monthName, @NonNull int day, @NonNull int year, @NonNull String recordType, @NonNull int amount, @NonNull String purpose) {
         this.id = id;
         this.month = month;
+        this.monthName = monthName;
         this.day = day;
-        this.dayOfWeek = dayOfWeek;
         this.year = year;
         this.recordType = recordType;
         this.amount = amount;
-        this.pupose = pupose;
+        this.purpose = purpose;
     }
 
     @NonNull
@@ -49,7 +50,7 @@ public class Records {
     }
 
     @NonNull
-    public String getMonth() {
+    public int getMonth() {
         return month;
     }
 
@@ -58,10 +59,6 @@ public class Records {
         return day;
     }
 
-    @NonNull
-    public String getDayOfWeek() {
-        return dayOfWeek;
-    }
 
     @NonNull
     public int getYear() {
@@ -78,8 +75,14 @@ public class Records {
         return amount;
     }
 
+
     @NonNull
-    public String getPupose() {
-        return pupose;
+    public String getMonthName() {
+        return monthName;
+    }
+
+    @NonNull
+    public String getPurpose() {
+        return purpose;
     }
 }
