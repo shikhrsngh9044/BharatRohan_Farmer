@@ -123,6 +123,16 @@
     <string name="updateBtn">अपडेट</string>
     <string name="cancelBtn">रद्द</string>
 
+    <!--Change Password-->
+
+    <string name="otp">आपका Otp</string>
+    <string name="opt_btn">Otp प्राप्त करें</string>
+    <string name="enter_pass">पास वर्ड दर्ज करें</string>
+    <string name="enter_conf_pass">
+पासवर्ड की पुष्टि कीजिये</string>
+    <string name="change_pass">पासवर्ड बदलें</string>
+    <string name="resend_otp">OTP को फिर से भेजें</string>
+
     <!--Money Record-->
 
     <string name="add_record">रिकॉर्ड जोड़ें</string>

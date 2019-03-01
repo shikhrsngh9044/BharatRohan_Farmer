@@ -118,6 +118,16 @@ want to and update all these details later on registered farm from your Farm Men
     <string name="updateBtn">Update</string>
     <string name="cancelBtn">Cancel</string>
 
+
+    <!--Change Password-->
+
+    <string name="otp">Your Otp</string>
+    <string name="opt_btn">Get Otp</string>
+    <string name="enter_pass">Enter Password</string>
+    <string name="enter_conf_pass">Confirm Password</string>
+    <string name="change_pass">Change Password</string>
+    <string name="resend_otp">Resend OTP</string>
+
     <!--Money Record-->
 
     <string name="add_record">Add Record</string>
