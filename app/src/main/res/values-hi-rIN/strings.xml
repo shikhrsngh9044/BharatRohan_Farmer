@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BharatRohan</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="internal_storage">आंतरिक स्टोरेज</string>
+
+    <!--Login-->
+
+    <string name="bharatrohan">भरत रोहन</string>
+    <string name="enter_phone">फोन नंबर</string>
+    <string name="enter_password">पासवर्ड</string>
+    <string name="forget_pass">पासवर्ड भूल गए?</string>
+    <string name="login">लॉग इन</string>
+    <string name="signup_option">खाता नहीं है? एक बनाए।.</string>
+
+
+    <!--Sign Up Basic Screen-->
+
+    <string name="signup_basic_title">कृपया अपना मूल विवरण दर्ज करें</string>
+    <string name="your_name">आपका नाम</string>
+    <string name="primary_phone">प्राथमिक फ़ोन नंबर</string>
+    <string name="alter_phone">वैकल्पिक फोन नंबर</string>
+    <string name="email">ईमेल</string>
+
+
+    <!--Sign Up Full-->
+
+    <string name="signup_full_title">कृपया कुछ और विवरण दर्ज करें ..</string>
+    <string name="address">पता</string>
+    <string name="select_state">-राज्य चुनें-</string>
+    <string name="select_district">-जिला चुनें-</string>
+    <string name="select_tehsil">-तहसील चुनें-</string>
+    <string name="select_block">-खंड चुनें-</string>
+    <string name="select_village">-गाँव चुनें-</string>
+    <string name="full_address">पूरा पता (वैकल्पिक)</string>
+    <string name="password">पासवर्ड</string>
+    <string name="confirm_password">पासवर्ड की पुष्टि कीजिये</string>
+    <string name="dob">जन्म तिथि</string>
+    <string name="choose_date">तिथि चुनें</string>
+
+
+    <!--Register Farm Dialog-->
+
+    <string name="congo_text">
+बधाई !! \ n आपको सत्यापित किया गया है और आपके \ n प्रोफ़ाइल को \ n \ n बना दिया गया है, कृपया अपना खेत पंजीकृत करें। </string>
+    <string name="register_farm_dialog_btn">पंजीकरण करें</string>
+    <string name="skip">आगे बढ़ें</string>
+
+
+    <!--Register Farm-->
+
+    <string name="reg_farm_title">
+प्रत्येक कोने पर मानचित्र पर अपनी भूमि चिह्नित करें। \ n इसे ठीक से करें।</string>
+    <string name="select_crop">-फसल चुनें-</string>
+    <string name="land_name">भूमि का नाम</string>
+    <string name="land_area">भूमि क्षेत्रफल</string>
+    <string name="land_location">स्थान</string>
+    <string name="register_farm_btn">रजिस्टर</string>
+
+
+    <!--Map Activity-->
+
+    <string name="instruction">अपनी उंगली को दबाकर और दबाकर अपनी भूमि का समन्वय करें।</string>
+    <string name="select">चुनें</string>
+    <string name="reset">रीसेट</string>
+    <string name="save">अपलोड करें</string>
+
+    <!--Welcome Activity-->
+
+    <string name="congo_text_welcome">बधाई हो! \ n \ n आपने अपने खेत को सफलतापूर्वक पंजीकृत कर लिया है।</string>
+    <string name="note_text">
+नोट: आप किसी भी समय खेत को जोड़ या हटा सकते हैं
+अपने फार्म मेनू से बाद में पंजीकृत फार्म पर इन सभी विवरणों को अपडेट करना चाहते हैं तो कर सकते हैं। कई खेतों को सकते हैंं</string>
+    <string name="thanks">हमसे जुड़ने के लिए धन्यवाद.</string>
+
+
+    <!--Main Activity-->
+
+    <string name="myfarm">मेरे खेत</string>
+    <string name="gen_info">सामान्य जानकारी</string>
+    <string name="repo">कोष</string>
+    <string name="reg_another_farm">नया फार्म पंजीकृत करें</string>
+    <string name="money_record">मनी रिकॉर्ड</string>
+    <string name="fe_details">फील्ड कार्यकारी विवरण</string>
+    <string name="help_supp">सहायता और समर्थन</string>
+
+    <string name="feedback">प्रतिक्रिया और शिकायतें</string>
+    <string name="imp_contacts">महत्वपूर्ण संपर्क</string>
+
+
+    <!--User Profile-->
+
+    <string name="update_profile_btn">
+प्रोफ़ाइल अपडेट करें</string>
+    <string name="update_profile_pic">चित्र अपडेट करें</string>
+    <string name="user_name">नाम</string>
+    <string name="user_contact">फोन नंबर</string>
+    <string name="user_alt_contact">
+वैकल्पिक फ़ोन नं</string>
+    <string name="user_email">ईमेल</string>
+    <string name="user_address">पता</string>
+    <string name="user_full_address">पूरा पता</string>
+    <string name="user_dob">जन्म तिथि</string>
+
+    <string name="edit_name">
+नया नाम</string>
+    <string name="edit_contact">नया फोन नं</string>
+    <string name="edit_alt_contact">नया वैकल्पिक फोन नं</string>
+    <string name="edit_email">नया ईमेल</string>
+    <string name="edit_full_address">नया पूरा पता</string>
+    <string name="edit_dob">नया जन्म तिथि</string>
+
+    <string name="updateBtn">अपडेट</string>
+    <string name="cancelBtn">रद्द</string>
+
+    <!--Money Record-->
+
+    <string name="add_record">रिकॉर्ड जोड़ें</string>
+    <string name="my_record">मेरा रिकॉर्ड</string>
+
+    <!--Fragment Add Record-->
+
+    <string name="toggle_expense">व्यय</string>
+    <string name="toggle_earned">अर्जित</string>
+    <string name="amount">रकम</string>
+    <string name="pupose">उद्देश्य</string>
+    <string name="date">दिनांक</string>
+    <string name="save_rec">अपलोड करे</string>
+
+
+    <!--Navigation Menu-->
+
+    <string name="nav_profle">प्रोफाइल अपडेट</string>
+    <string name="nav_pass">
+पासवर्ड बदलें</string>
+    <string name="nav_lang">
+भाषा बदलें</string>
+    <string name="nav_refer">मित्र को आमंत्रित करें</string>
+    <string name="nav_privacy">
+गोपनीयता नीति</string>
+    <string name="nav_terms">
+नियम व शर्तें</string>
+    <string name="nav_logout">लोग आउट</string>
+    <string name="nav_stop">
+सेवा रोकें</string>
+
+</resources>

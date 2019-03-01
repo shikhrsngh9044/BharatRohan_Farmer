@@ -11,4 +11,138 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="internal_storage">Internal storage</string>
+
+
+    <!--Login Screen-->
+
+    <string name="bharatrohan">BharatRohan</string>
+    <string name="enter_phone">Phone No</string>
+    <string name="enter_password">Password</string>
+    <string name="forget_pass">Forgot Password?</string>
+    <string name="login">Log In</string>
+    <string name="signup_option">Don\'t have account? Create one. </string>
+
+
+    <!--Sign Up Basic Screen-->
+
+    <string name="signup_basic_title">Please Enter Your Basic Details</string>
+    <string name="your_name">Your Name</string>
+    <string name="primary_phone">Primary Phone No.</string>
+    <string name="alter_phone">Alternate Phone No.</string>
+    <string name="email">Email</string>
+
+
+    <!--Sign Up Full-->
+
+    <string name="signup_full_title">Please enter more details.. </string>
+    <string name="address">Address</string>
+    <string name="select_state">-SELECT STATE-</string>
+    <string name="select_district">-SELECT DISTRICT-</string>
+    <string name="select_tehsil">-SELECT TEHSIL-</string>
+    <string name="select_block">-SELECT BLOCK-</string>
+    <string name="select_village">-SELECT VILLAGE-</string>
+    <string name="full_address">Full Address(Optional)</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="dob">Date of Birth</string>
+    <string name="choose_date">Choose Date</string>
+
+
+    <!--Register Farm Dialog-->
+
+    <string name="congo_text">Congratulations!!\n you are verified and your\nprofile have been created\n\nNow,please register your farm. </string>
+    <string name="register_farm_dialog_btn">REGISTER YOUR FARM</string>
+    <string name="skip">SKIP</string>
+
+
+    <!--Register Farm-->
+
+    <string name="reg_farm_title">Mark your land on the map at each corner.\n Do make it precisely.</string>
+    <string name="select_crop">-SELECT CROP-</string>
+    <string name="land_name">LAND NAME</string>
+    <string name="land_area">LAND AREA</string>
+    <string name="land_location">LOCATION</string>
+    <string name="register_farm_btn">Register</string>
+
+
+    <!--Map Activity-->
+
+    <string name="instruction">Mark You Land\'s coordinates by pressing and holding your finger.</string>
+    <string name="select">Select</string>
+    <string name="reset">Reset</string>
+    <string name="save">Save</string>
+
+    <!--Welcome Activity-->
+
+    <string name="congo_text_welcome">Congratulations! \n\nYou have Successfully registered your farm.</string>
+    <string name="note_text">Note: You can add or delete farm at any time you
+want to and update all these details later on registered farm from your Farm Menu.Even add multiple farms.</string>
+    <string name="thanks">Thanks for Connecting\nto us.</string>
+
+
+    <!--Main Activity-->
+
+    <string name="myfarm">My Farms</string>
+    <string name="gen_info">General Information</string>
+    <string name="repo">Repository</string>
+    <string name="reg_another_farm">Register Another Farm</string>
+    <string name="money_record">Money Record</string>
+    <string name="fe_details">Field Executive Details</string>
+    <string name="help_supp">Help and Support</string>
+
+
+    <string name="feedback">Feedback and Complaints</string>
+    <string name="imp_contacts">Imp Contacts</string>
+
+
+    <!--User Profile-->
+
+    <string name="update_profile_btn">Update Profile?</string>
+    <string name="update_profile_pic">Update Picture</string>
+    <string name="user_name">Name :</string>
+    <string name="user_contact">Contact :</string>
+    <string name="user_alt_contact">Alt Contact :</string>
+    <string name="user_email">Email :</string>
+    <string name="user_address">Address :</string>
+    <string name="user_full_address">Full Address :</string>
+    <string name="user_dob">Dob :</string>
+
+    <string name="edit_name">New Name</string>
+    <string name="edit_contact">New Contact</string>
+    <string name="edit_alt_contact">New Alt Contact</string>
+    <string name="edit_email">New Email</string>
+    <string name="edit_full_address">New Full Address</string>
+    <string name="edit_dob">New Dob</string>
+
+
+    <string name="updateBtn">Update</string>
+    <string name="cancelBtn">Cancel</string>
+
+    <!--Money Record-->
+
+    <string name="add_record">Add Record</string>
+    <string name="my_record">My Records</string>
+
+    <!--Fragment Add Record-->
+
+    <string name="toggle_expense">EXPENSE</string>
+    <string name="toggle_earned">EARNED</string>
+    <string name="amount">Amount</string>
+    <string name="pupose">Purpose</string>
+    <string name="date">Date</string>
+    <string name="save_rec">Save</string>
+
+
+    <!--Navigation Menu-->
+
+    <string name="nav_profle">Profile Update</string>
+    <string name="nav_pass">Change Password</string>
+    <string name="nav_lang">Change Language</string>
+    <string name="nav_refer">Refer a friend</string>
+    <string name="nav_privacy">Privacy Policy</string>
+    <string name="nav_terms">Terms and Condition</string>
+    <string name="nav_logout">Logout</string>
+    <string name="nav_stop">Stop Service</string>
+
+
 </resources>

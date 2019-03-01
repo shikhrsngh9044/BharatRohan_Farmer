@@ -3,14 +3,36 @@ package in.bharatrohan.bharatrohan;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import in.bharatrohan.bharatrohan.Activities.RegisterFarm;
-
 public class PrefManager {
 
     Context context;
 
     public PrefManager(Context context) {
         this.context = context;
+    }
+
+    public void savelaunchCount(int count) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AppLaunch", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("Launch", count);
+        editor.apply();
+    }
+
+    public int getlaunchCount() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AppLaunch", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("Launch", 0);
+    }
+
+    public void saveUserLanguage(String lang) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Language", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("MyLang", lang);
+        editor.apply();
+    }
+
+    public String getUserLanguage() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Language", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("MyLang", "en");
     }
 
     public void saveLoginDetails(String phone, String password) {
@@ -21,7 +43,7 @@ public class PrefManager {
         editor.apply();
     }
 
-    public void saveUserDetails(String state, String district, String tehsil, String block, String village, String email, String dob, String name, String contact, String fullAddress, String alt_contact) {
+    public void saveUserDetails(String state, String district, String tehsil, String block, String village, String email, String dob, String name, String contact, String fullAddress, String alt_contact,String fe_id) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("State", state);
@@ -35,7 +57,13 @@ public class PrefManager {
         editor.putString("Contact", contact);
         editor.putString("FullAddress", fullAddress);
         editor.putString("AltContact", alt_contact);
+        editor.putString("FeId", fe_id);
         editor.apply();
+    }
+
+    public String getFeId() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("FeId", "");
     }
 
     public String getState() {

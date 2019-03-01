@@ -1,20 +1,17 @@
 package in.bharatrohan.bharatrohan.Activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +22,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.Models.Farmer;
@@ -36,12 +34,13 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ImageView myFarm, myRepo, registerFarm, userProfile, moneyRecord, userImage;
+    private ImageView myFarm, myRepo, registerFarm, userProfile, moneyRecord, userImage, feDetails;
     private MaterialSpinner navHelpSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setLocale(new PrefManager(this).getUserLanguage());
         setContentView(R.layout.activity_main);
 
         init();
@@ -52,22 +51,22 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Selected : Feedback", Toast.LENGTH_SHORT).show();
             } else if (position == 2) {
                 Toast.makeText(this, "Selected : Contact", Toast.LENGTH_SHORT).show();
-            } else if (position == 3) {
-                Toast.makeText(this, "Selected : FE", Toast.LENGTH_SHORT).show();
             }
 
         });
 
         myFarm.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MyFarm.class)));
 
-        myRepo.setOnClickListener(v -> {
-            Toast.makeText(MainActivity.this, "This Feature is COMING SOON!!", Toast.LENGTH_SHORT).show();
-        });
+        myRepo.setOnClickListener(v -> Toast.makeText(MainActivity.this, "This Feature is COMING SOON!!", Toast.LENGTH_SHORT).show());
 
         registerFarm.setOnClickListener(v -> {
             new PrefManager(this).saveKmlStatus(true);
             new PrefManager(this).saveValueStatus(true);
             startActivity(new Intent(MainActivity.this, RegisterFarm.class));
+        });
+
+        feDetails.setOnClickListener(v -> {
+            startActivity(new Intent(this, FeProfile.class));
         });
 
         userProfile.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, UserProfile.class)));
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         registerFarm = findViewById(R.id.registerFarm);
         userProfile = findViewById(R.id.profileUpdate);
         moneyRecord = findViewById(R.id.moneyRecord);
+        feDetails = findViewById(R.id.imageView10);
         TextView usersName = findViewById(R.id.usersName);
         userImage = navigationView.getHeaderView(0).findViewById(R.id.userImage);
 
@@ -104,7 +104,9 @@ public class MainActivity extends AppCompatActivity
 
         TextView userName = navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
         TextView userPhone = navigationView.getHeaderView(0).findViewById(R.id.tvUserPhone);
-
+        userName.setText(new PrefManager(MainActivity.this).getName());
+        usersName.setText(new PrefManager(MainActivity.this).getName());
+        userPhone.setText(new PrefManager(MainActivity.this).getPhone());
 
         if (!(new PrefManager(MainActivity.this).getAvatar().equals(""))) {
             Picasso.get().load(new PrefManager(MainActivity.this).getAvatar()).networkPolicy(NetworkPolicy.OFFLINE).into(userImage, new Callback() {
@@ -120,18 +122,15 @@ public class MainActivity extends AppCompatActivity
             });
         }
 
-        userName.setText(new PrefManager(MainActivity.this).getName());
-        usersName.setText(new PrefManager(MainActivity.this).getName());
-        userPhone.setText(new PrefManager(MainActivity.this).getPhone());
-
 
         navHelpSpinner = (MaterialSpinner) navigationView.getMenu().findItem(R.id.nav_help).getActionView();
 
+        String title = "-" + getResources().getString(R.string.help_supp) + "-";
+
         ArrayList<String> helpList = new ArrayList<>();
-        helpList.add("-Help and Support-");
-        helpList.add("Feedback and Complaints");
-        helpList.add("Imp Contacts");
-        helpList.add("Change FE");
+        helpList.add(title);
+        helpList.add(getResources().getString(R.string.feedback));
+        helpList.add(getResources().getString(R.string.imp_contacts));
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, helpList);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         navHelpSpinner.setAdapter(adapter1);
@@ -159,6 +158,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, ChangePassword.class);
             intent.putExtra("activity", "main");
             startActivity(intent);
+        } else if (id == R.id.nav_lang) {
+            Intent intent = new Intent(this, LanguageScreen.class);
+            intent.putExtra("activity", "main");
+            startActivity(intent);
         } else if (id == R.id.nav_refer) {
 
         } else if (id == R.id.nav_help) {
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
             new PrefManager(this).saveLoginDetails("", "");
-            new PrefManager(this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "");
+            new PrefManager(this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "");
             new PrefManager(this).saveAvatar("");
             new PrefManager(this).saveToken("");
             new PrefManager(this).saveFarmerId("");
@@ -215,30 +218,11 @@ public class MainActivity extends AppCompatActivity
         getFarmCount();
     }
 
-    private void showServerDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.enter_server_name, null);
-        dialogBuilder.setView(view);
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-
-        alertDialog.show();
-
-        EditText message = view.findViewById(R.id.editEmail);
-        Button btnOk = view.findViewById(R.id.btnOk);
-
-        btnOk.setOnClickListener(view1 -> {
-            String strMessage = message.getText().toString().trim();
-
-
-            if (strMessage.isEmpty()) {
-                message.setError("Server name is required!");
-                message.requestFocus();
-                return;
-            }
-
-            new PrefManager(MainActivity.this).saveServerName(strMessage);
-            alertDialog.dismiss();
-        });
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 }

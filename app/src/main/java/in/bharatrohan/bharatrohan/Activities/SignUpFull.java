@@ -2,27 +2,22 @@ package in.bharatrohan.bharatrohan.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Patterns;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.Models.Block;
 import in.bharatrohan.bharatrohan.Models.District;
 import in.bharatrohan.bharatrohan.Models.States;
@@ -31,7 +26,6 @@ import in.bharatrohan.bharatrohan.Models.UserFarmer;
 import in.bharatrohan.bharatrohan.Models.Village;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
-import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -137,7 +131,7 @@ public class SignUpFull extends AppCompatActivity {
                 if (response.code() == 201) {
                     Toast.makeText(SignUpFull.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
 
-                    new PrefManager(SignUpFull.this).saveUserDetails(state, district, tehsil, block, village, email, dob1, name, phone, fulladdress1, alter_phone);
+                    new PrefManager(SignUpFull.this).saveUserDetails(state, district, tehsil, block, village, email, dob1, name, phone, fulladdress1, alter_phone,dr.getFeId());
                     new PrefManager(SignUpFull.this).saveFarmerVerifyStatus(false);
                     new PrefManager(SignUpFull.this).saveFarmerId(dr.getData().getId());
                     new PrefManager(SignUpFull.this).saveToken("Bearer " + dr.getToken());

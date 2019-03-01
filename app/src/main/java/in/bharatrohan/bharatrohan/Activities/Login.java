@@ -1,6 +1,7 @@
 package in.bharatrohan.bharatrohan.Activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.Models.Farmer;
@@ -30,6 +33,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setLocale(new PrefManager(Login.this).getUserLanguage());
         setContentView(R.layout.activity_login);
 
         progressBar = findViewById(R.id.progressBar);
@@ -42,8 +46,6 @@ public class Login extends AppCompatActivity {
         if (!(new PrefManager(this).getFarmerId().equals(""))) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        } else {
-            //showServerDialog();
         }
 
         login.setOnClickListener(v -> {
@@ -183,7 +185,7 @@ public class Login extends AppCompatActivity {
                 Farmer farmer = response.body();
 
                 if (farmer != null) {
-                    new PrefManager(Login.this).saveUserDetails(farmer.getAddress().getState().getState_name(), farmer.getAddress().getDistrict().getDistrict_name(), farmer.getAddress().getTehsil().getTehsil_name(), farmer.getAddress().getBlock().getBlock_name(), farmer.getAddress().getVillage().getVillage_name(), farmer.getEmail(), farmer.getDob(), farmer.getName(), farmer.getContact(), farmer.getFull_address(), farmer.getAlt_contact());
+                    new PrefManager(Login.this).saveUserDetails(farmer.getAddress().getState().getState_name(), farmer.getAddress().getDistrict().getDistrict_name(), farmer.getAddress().getTehsil().getTehsil_name(), farmer.getAddress().getBlock().getBlock_name(), farmer.getAddress().getVillage().getVillage_name(), farmer.getEmail(), farmer.getDob(), farmer.getName(), farmer.getContact(), farmer.getFull_address(), farmer.getAlt_contact(), farmer.getFeId());
                     new PrefManager(Login.this).saveAvatar(farmer.getAvatar());
                     if (farmer.getResponse() != null) {
                         new PrefManager(Login.this).saveToken(farmer.getResponse().getToken());
@@ -202,5 +204,11 @@ public class Login extends AppCompatActivity {
 
     }
 
-
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
 }

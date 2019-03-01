@@ -8,6 +8,7 @@ import in.bharatrohan.bharatrohan.Models.District;
 import in.bharatrohan.bharatrohan.Models.Farm;
 import in.bharatrohan.bharatrohan.Models.FarmResponse;
 import in.bharatrohan.bharatrohan.Models.Farmer;
+import in.bharatrohan.bharatrohan.Models.FeDetails;
 import in.bharatrohan.bharatrohan.Models.LoginFarmer;
 import in.bharatrohan.bharatrohan.Models.Responses;
 import in.bharatrohan.bharatrohan.Models.States;
@@ -99,4 +100,9 @@ public interface Api {
                                   @Field("location") String location,
                                   @Field("farm_area") String landArea,
                                   @Field("crop_id") String cropId);
+
+
+    @GET("fe/{id}")
+    Call<FeDetails> getFeDetail(@Header("Authorization") String token,
+                                @Path("id") String feId);
 }

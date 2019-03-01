@@ -30,8 +30,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:textToggleLeft="EXPENSE"
-            app:textToggleRight="EARNED"
+            app:textToggleLeft="@string/toggle_expense"
+            app:textToggleRight="@string/toggle_earned"
             app:toggleWidth="150dp" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:text="Amount"
+            android:text="@string/amount"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/amount"
             app:layout_constraintTop_toBottomOf="@+id/toggleSwitch" />
@@ -54,7 +54,7 @@
             android:layout_marginEnd="40dp"
             android:background="@drawable/rounded_edittext"
             android:ems="10"
-            android:hint="Amount"
+            android:hint="@string/amount"
             android:inputType="number"
             android:paddingStart="20dp"
             android:paddingEnd="5dp"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="Purpose"
+            android:text="@string/pupose"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/amount"
             app:layout_constraintTop_toBottomOf="@+id/amount" />
@@ -82,7 +82,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_edittext"
             android:ems="10"
-            android:hint="Purpose"
+            android:hint="@string/pupose"
             android:inputType="textPersonName"
             android:paddingStart="20dp"
             android:paddingEnd="5dp"
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="Date"
+            android:text="@string/date"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/purpose"
             app:layout_constraintTop_toBottomOf="@+id/purpose" />
@@ -112,7 +112,7 @@
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/rounded_button_light"
-            android:text="Save"
+            android:text="@string/save_rec"
             android:textColor="@color/cardview_light_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +129,7 @@
             android:background="@drawable/rounded_edittext"
             android:ems="10"
             android:gravity="center_vertical"
-            android:hint="Date"
+            android:hint="@string/date"
             android:inputType="date"
             android:paddingStart="20dp"
             android:paddingEnd="5dp"

@@ -8,15 +8,21 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/profileupdate"
-            android:title="Profile Update" />
+            android:title="@string/nav_profle" />
         <item
             android:id="@+id/nav_pass"
             android:icon="@drawable/changepassword"
-            android:title="Change Password" />
+            android:title="@string/nav_pass" />
+
+        <item
+            android:id="@+id/nav_lang"
+            android:icon="@drawable/ic_language"
+            android:title="@string/nav_lang" />
+
         <item
             android:id="@+id/nav_refer"
             android:icon="@drawable/refer"
-            android:title="Refer a friend" />
+            android:title="@string/nav_refer" />
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/helpandsupport"
@@ -25,19 +31,19 @@
         <item
             android:id="@+id/nav_privacy"
             android:icon="@drawable/privacy"
-            android:title="Privacy Policy" />
+            android:title="@string/nav_privacy" />
         <item
             android:id="@+id/nav_terms"
             android:icon="@drawable/terms"
-            android:title="Terms and Condition" />
+            android:title="@string/nav_terms" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
-            android:title="Logout" />
+            android:title="@string/nav_logout" />
         <item
             android:id="@+id/nav_stop"
             android:icon="@drawable/stop"
-            android:title="Stop Service" />
+            android:title="@string/nav_stop" />
     </group>
 
 

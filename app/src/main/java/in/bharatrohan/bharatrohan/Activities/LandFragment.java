@@ -148,7 +148,7 @@ public class LandFragment extends Fragment {
                 Farm farm = response.body();
                 if (farm != null) {
                     if (farm.getData().getVerified() != null) {
-                        new PrefManager(getContext()).saveFarmStatus(farm.getData().getVerified());
+                       // new PrefManager(getContext()).saveFarmStatus(farm.getData().getVerified());
                         setFarmVerifyStatus(farm.getData().getVerified());
                     }
                     new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, farmerId);

@@ -41,6 +41,9 @@ public class UserFarmer {
     @SerializedName("token")
     private String token;
 
+    @SerializedName("fe_id")
+    private String feId;
+
     public UserFarmer(String email, String pass, String f_name, String contact, String alt_contact, String dob, Addres address, String full_address) {
         this.email = email;
         this.pass = pass;
@@ -50,6 +53,10 @@ public class UserFarmer {
         this.dob = dob;
         this.address = address;
         this.full_address = full_address;
+    }
+
+    public String getFeId() {
+        return feId;
     }
 
     public Data getData() {

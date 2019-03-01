@@ -60,8 +60,8 @@ public class MoneyRecord extends AppCompatActivity {
     private void setDynamicFragmentToTabLayout() {
 
 
-        mTabLayout.addTab(mTabLayout.newTab().setText("Add Record"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("My Records"));
+        mTabLayout.addTab(mTabLayout.newTab().setText(getResources().getString(R.string.add_record)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(getResources().getString(R.string.my_record)));
 
         MoneyFragmentAdapter mFragmentAdapter = new MoneyFragmentAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
         viewPager.setAdapter(mFragmentAdapter);

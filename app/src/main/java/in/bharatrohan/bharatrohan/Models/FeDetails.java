@@ -2,106 +2,64 @@ package in.bharatrohan.bharatrohan.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class Farmer {
-    @SerializedName("farmer_name")
-    private String name;
+public class FeDetails {
+
     @SerializedName("email")
     private String email;
+    @SerializedName("fe_name")
+    private String name;
     @SerializedName("contact")
     private String contact;
-    @SerializedName("full_address")
-    private String full_address;
-    @SerializedName("account_status")
-    private Boolean acc_status;
-    @SerializedName("dob")
-    private String dob;
-    @SerializedName("farms")
-    private ArrayList<String> farms;
-    @SerializedName("address")
-    private Address address;
-    @SerializedName("avatar")
-    private String avatar;
     @SerializedName("alt_contact")
     private String alt_contact;
-    @SerializedName("isVerified")
-    private Boolean isVerified;
-    @SerializedName("fe_id")
-    private String feId;
+    @SerializedName("avatar")
+    private String avatar;
+    @SerializedName("address")
+    private String address;
+    @SerializedName("job_location")
+    private JobLocation jobLocation;
 
-    private Response response;
-
-    public Farmer(String name, String email, String contact, String full_address, Boolean acc_status, String dob, ArrayList<String> farms, Address address, String avatar, String alt_contact) {
-        this.name = name;
+    public FeDetails(String email, String name, String contact, String alt_contact, String avatar, String address, JobLocation jobLocation) {
         this.email = email;
+        this.name = name;
         this.contact = contact;
-        this.full_address = full_address;
-        this.acc_status = acc_status;
-        this.dob = dob;
-        this.farms = farms;
-        this.address = address;
-        this.avatar = avatar;
         this.alt_contact = alt_contact;
-    }
-
-    public Farmer(Response response) {
-        this.response = response;
-    }
-
-    public Response getResponse() {
-        return response;
-    }
-
-    public Boolean getVerified() {
-        return isVerified;
-    }
-
-    public String getFeId() {
-        return feId;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public String getAlt_contact() {
-        return alt_contact;
-    }
-
-    public String getName() {
-        return name;
+        this.avatar = avatar;
+        this.address = address;
+        this.jobLocation = jobLocation;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getContact() {
         return contact;
     }
 
-    public String getFull_address() {
-        return full_address;
+    public String getAlt_contact() {
+        return alt_contact;
     }
 
-    public Boolean getAcc_status() {
-        return acc_status;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public String getDob() {
-        return dob;
-    }
-
-    public ArrayList<String> getFarms() {
-        return farms;
-    }
-
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public class Address {
+    public JobLocation getJobLocation() {
+        return jobLocation;
+    }
+
+    public class JobLocation {
         @SerializedName("state")
         private State state;
         @SerializedName("district")
@@ -111,9 +69,9 @@ public class Farmer {
         @SerializedName("block")
         private Block block;
         @SerializedName("village")
-        private Village village;
+        private List<Village> village;
 
-        public Address(State state, District district, Tehsil tehsil, Block block, Village village) {
+        public JobLocation(State state, District district, Tehsil tehsil, Block block, List<Village> village) {
             this.state = state;
             this.district = district;
             this.tehsil = tehsil;
@@ -137,7 +95,7 @@ public class Farmer {
             return block;
         }
 
-        public Village getVillage() {
+        public List<Village> getVillage() {
             return village;
         }
 
@@ -204,35 +162,6 @@ public class Farmer {
             public String getVillage_name() {
                 return village_name;
             }
-        }
-    }
-
-    public class Response {
-        @SerializedName("token")
-        private String token;
-
-        @SerializedName("message")
-        private String message;
-
-        @SerializedName("farmerId")
-        private String farmerID;
-
-        public Response(String token, String message, String farmerID) {
-            this.token = token;
-            this.message = message;
-            this.farmerID = farmerID;
-        }
-
-        public String getToken() {
-            return token;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public String getFarmerID() {
-            return farmerID;
         }
     }
 }

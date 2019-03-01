@@ -36,9 +36,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/rounded_button_dark"
-            android:text="reset"
+            android:text="@string/reset"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:visibility="gone"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintStart_toStartOf="parent" />
 
@@ -48,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:background="@drawable/rounded_button_dark"
-            android:text="Select"
+            android:text="@string/select"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintEnd_toEndOf="parent" />
@@ -59,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:background="@drawable/rounded_button_dark"
-            android:text="Save"
+            android:text="@string/save"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:visibility="gone"
             map:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +75,7 @@
         android:layout_marginBottom="8dp"
         android:background="#83010101"
         android:gravity="center"
-        android:text="Mark You Land's coordinates by pressing and holding your finger."
+        android:text="@string/instruction"
         android:textColor="@color/cardview_light_background"
         android:textSize="15sp"
         android:visibility="visible"
