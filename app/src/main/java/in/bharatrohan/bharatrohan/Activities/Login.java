@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.Locale;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.Models.Farmer;
 import in.bharatrohan.bharatrohan.Models.LoginFarmer;
 import in.bharatrohan.bharatrohan.PrefManager;
@@ -35,6 +36,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setLocale(new PrefManager(Login.this).getUserLanguage());
         setContentView(R.layout.activity_login);
+        new CheckInternet(this).checkConnection();
 
         progressBar = findViewById(R.id.progressBar);
         editPhone = findViewById(R.id.phone);
@@ -99,7 +101,6 @@ public class Login extends AppCompatActivity {
                             new PrefManager(Login.this).saveFarmerId(loginResponse.getFarmerId());
                             saveFarmerDetails();
                             Toast.makeText(Login.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(Login.this, MainActivity.class));
                         }
                     }
 
@@ -184,14 +185,30 @@ public class Login extends AppCompatActivity {
                 hideProgress();
                 Farmer farmer = response.body();
 
-                if (farmer != null) {
-                    new PrefManager(Login.this).saveUserDetails(farmer.getAddress().getState().getState_name(), farmer.getAddress().getDistrict().getDistrict_name(), farmer.getAddress().getTehsil().getTehsil_name(), farmer.getAddress().getBlock().getBlock_name(), farmer.getAddress().getVillage().getVillage_name(), farmer.getEmail(), farmer.getDob(), farmer.getName(), farmer.getContact(), farmer.getFull_address(), farmer.getAlt_contact(), farmer.getFeId());
-                    new PrefManager(Login.this).saveAvatar(farmer.getAvatar());
-                    if (farmer.getResponse() != null) {
+                if (response.code() == 200) {
+
+                    if (farmer != null) {
+                        new PrefManager(Login.this).saveUserDetails(farmer.getAddress().getState().getState_name(), farmer.getAddress().getDistrict().getDistrict_name(), farmer.getAddress().getTehsil().getTehsil_name(), farmer.getAddress().getBlock().getBlock_name(), farmer.getAddress().getVillage().getVillage_name(), farmer.getEmail(), farmer.getDob(), farmer.getName(), farmer.getContact(), farmer.getFull_address(), farmer.getAlt_contact(), farmer.getFe().getId(), farmer.getFe().getContact());
+                        new PrefManager(Login.this).saveAvatar(farmer.getAvatar());
                         new PrefManager(Login.this).saveToken(farmer.getResponse().getToken());
+
+
+                        if (farmer.getAcc_status()) {
+                            startActivity(new Intent(Login.this, MainActivity.class));
+                            finish();
+                        } else {
+                            startActivity(new Intent(Login.this, UnSplash.class));
+                            finish();
+                        }
+                    } else {
+                        Toast.makeText(Login.this, "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(Login.this, "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 400) {
+                    Toast.makeText(Login.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(Login.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(Login.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 

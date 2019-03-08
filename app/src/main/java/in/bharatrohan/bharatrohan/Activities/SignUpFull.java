@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.Models.Block;
 import in.bharatrohan.bharatrohan.Models.District;
 import in.bharatrohan.bharatrohan.Models.States;
@@ -46,6 +47,7 @@ public class SignUpFull extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_full);
+        new CheckInternet(this).checkConnection();
 
 
         init();
@@ -131,7 +133,7 @@ public class SignUpFull extends AppCompatActivity {
                 if (response.code() == 201) {
                     Toast.makeText(SignUpFull.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
 
-                    new PrefManager(SignUpFull.this).saveUserDetails(state, district, tehsil, block, village, email, dob1, name, phone, fulladdress1, alter_phone,dr.getFeId());
+                    new PrefManager(SignUpFull.this).saveUserDetails(state, district, tehsil, block, village, email, dob1, name, phone, fulladdress1, alter_phone, dr.getFeId(),"");
                     new PrefManager(SignUpFull.this).saveFarmerVerifyStatus(false);
                     new PrefManager(SignUpFull.this).saveFarmerId(dr.getData().getId());
                     new PrefManager(SignUpFull.this).saveToken("Bearer " + dr.getToken());
@@ -241,24 +243,43 @@ public class SignUpFull extends AppCompatActivity {
 
                 s_nameList.clear();
                 s_idList.clear();
-                if (statesList != null) {
 
-                    s_nameList.add(0, "-SELECT STATE-");
-                    s_idList.add(0, "-SELECT STATE-");
+                if (response.code() == 200) {
 
-                    for (States s : statesList) {
-                        s_idList.add(s.getId());
-                        s_nameList.add(s.getName());
+                    if (statesList != null) {
+
+                        s_nameList.add(0, "-SELECT STATE-");
+                        s_idList.add(0, "-SELECT STATE-");
+
+                        for (States s : statesList) {
+                            s_idList.add(s.getId());
+                            s_nameList.add(s.getName());
+                        }
+
+
+                        adapter = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, s_nameList);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        stateSpinner.setAdapter(adapter);
+                        //progressBar.setVisibility(View.GONE);
+
+                    } else {
+                        //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
-
-
-                    adapter = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, s_nameList);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    stateSpinner.setAdapter(adapter);
-                    //progressBar.setVisibility(View.GONE);
-
-                } else {
-                    //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(SignUpFull.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(SignUpFull.this).saveLoginDetails("", "");
+                    new PrefManager(SignUpFull.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(SignUpFull.this).saveAvatar("");
+                    new PrefManager(SignUpFull.this).saveToken("");
+                    new PrefManager(SignUpFull.this).saveFarmerId("");
+                    startActivity(new Intent(SignUpFull.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(SignUpFull.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -285,25 +306,41 @@ public class SignUpFull extends AppCompatActivity {
 
                 d_nameList.clear();
                 d_idList.clear();
+                if (response.code() == 200) {
+                    if (districtList != null) {
 
-                if (districtList != null) {
+                        d_nameList.add(0, "-SELECT DISTRICT-");
+                        d_idList.add(0, "-SELECT DISTRICT-");
 
-                    d_nameList.add(0, "-SELECT DISTRICT-");
-                    d_idList.add(0, "-SELECT DISTRICT-");
+                        for (District.Districts s : districtList.getDistricts()) {
+                            d_idList.add(s.getId());
+                            d_nameList.add(s.getName());
+                        }
 
-                    for (District.Districts s : districtList.getDistricts()) {
-                        d_idList.add(s.getId());
-                        d_nameList.add(s.getName());
+
+                        adapter1 = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, d_nameList);
+                        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        districtSpinner.setAdapter(adapter1);
+                        //progressBar.setVisibility(View.GONE);
+
+                    } else {
+                        //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
-
-
-                    adapter1 = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, d_nameList);
-                    adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    districtSpinner.setAdapter(adapter1);
-                    //progressBar.setVisibility(View.GONE);
-
-                } else {
-                    //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(SignUpFull.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(SignUpFull.this).saveLoginDetails("", "");
+                    new PrefManager(SignUpFull.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(SignUpFull.this).saveAvatar("");
+                    new PrefManager(SignUpFull.this).saveToken("");
+                    new PrefManager(SignUpFull.this).saveFarmerId("");
+                    startActivity(new Intent(SignUpFull.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(SignUpFull.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -332,24 +369,42 @@ public class SignUpFull extends AppCompatActivity {
                 t_nameList.clear();
                 t_idList.clear();
 
-                if (tehsilList != null) {
+                if (response.code() == 200) {
 
-                    t_nameList.add(0, "-SELECT TEHSIL-");
-                    t_idList.add(0, "-SELECT TEHSIL-");
+                    if (tehsilList != null) {
 
-                    for (Tehsil.Tehsils s : tehsilList.getTehsils()) {
-                        t_idList.add(s.getId());
-                        t_nameList.add(s.getName());
+                        t_nameList.add(0, "-SELECT TEHSIL-");
+                        t_idList.add(0, "-SELECT TEHSIL-");
+
+                        for (Tehsil.Tehsils s : tehsilList.getTehsils()) {
+                            t_idList.add(s.getId());
+                            t_nameList.add(s.getName());
+                        }
+
+
+                        adapter2 = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, t_nameList);
+                        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        tehsilSpinner.setAdapter(adapter2);
+                        //progressBar.setVisibility(View.GONE);
+
+                    } else {
+                        //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
-
-
-                    adapter2 = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, t_nameList);
-                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    tehsilSpinner.setAdapter(adapter2);
-                    //progressBar.setVisibility(View.GONE);
-
-                } else {
-                    //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(SignUpFull.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(SignUpFull.this).saveLoginDetails("", "");
+                    new PrefManager(SignUpFull.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(SignUpFull.this).saveAvatar("");
+                    new PrefManager(SignUpFull.this).saveToken("");
+                    new PrefManager(SignUpFull.this).saveFarmerId("");
+                    startActivity(new Intent(SignUpFull.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(SignUpFull.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -376,25 +431,41 @@ public class SignUpFull extends AppCompatActivity {
 
                 b_nameList.clear();
                 b_idList.clear();
+                if (response.code() == 200) {
+                    if (blockList != null) {
 
-                if (blockList != null) {
+                        b_nameList.add(0, "-SELECT BLOCK-");
+                        b_idList.add(0, "-SELECT BLOCK-");
 
-                    b_nameList.add(0, "-SELECT BLOCK-");
-                    b_idList.add(0, "-SELECT BLOCK-");
+                        for (Block.Blocks s : blockList.getBlocks()) {
+                            b_idList.add(s.getId());
+                            b_nameList.add(s.getName());
+                        }
 
-                    for (Block.Blocks s : blockList.getBlocks()) {
-                        b_idList.add(s.getId());
-                        b_nameList.add(s.getName());
+
+                        adapter3 = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, b_nameList);
+                        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        blockSpinner.setAdapter(adapter3);
+                        //progressBar.setVisibility(View.GONE);
+
+                    } else {
+                        //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
-
-
-                    adapter3 = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, b_nameList);
-                    adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    blockSpinner.setAdapter(adapter3);
-                    //progressBar.setVisibility(View.GONE);
-
-                } else {
-                    //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(SignUpFull.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(SignUpFull.this).saveLoginDetails("", "");
+                    new PrefManager(SignUpFull.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(SignUpFull.this).saveAvatar("");
+                    new PrefManager(SignUpFull.this).saveToken("");
+                    new PrefManager(SignUpFull.this).saveFarmerId("");
+                    startActivity(new Intent(SignUpFull.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(SignUpFull.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -421,25 +492,41 @@ public class SignUpFull extends AppCompatActivity {
 
                 v_nameList.clear();
                 v_idList.clear();
+                if (response.code() == 200) {
+                    if (villageList != null) {
 
-                if (villageList != null) {
+                        v_nameList.add(0, "-SELECT VILLAGE-");
+                        v_idList.add(0, "-SELECT VILLAGE-");
 
-                    v_nameList.add(0, "-SELECT VILLAGE-");
-                    v_idList.add(0, "-SELECT VILLAGE-");
+                        for (Village.Villages s : villageList.getVillages()) {
+                            v_idList.add(s.getId());
+                            v_nameList.add(s.getName());
+                        }
 
-                    for (Village.Villages s : villageList.getVillages()) {
-                        v_idList.add(s.getId());
-                        v_nameList.add(s.getName());
+
+                        adapter4 = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, v_nameList);
+                        adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        villageSpinner.setAdapter(adapter4);
+                        //progressBar.setVisibility(View.GONE);
+
+                    } else {
+                        //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
-
-
-                    adapter4 = new ArrayAdapter<>(SignUpFull.this, android.R.layout.simple_spinner_item, v_nameList);
-                    adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    villageSpinner.setAdapter(adapter4);
-                    //progressBar.setVisibility(View.GONE);
-
-                } else {
-                    //Toast.makeText(SignUpFull.this, "Some Error Occured Please Try Again!!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(SignUpFull.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(SignUpFull.this).saveLoginDetails("", "");
+                    new PrefManager(SignUpFull.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(SignUpFull.this).saveAvatar("");
+                    new PrefManager(SignUpFull.this).saveToken("");
+                    new PrefManager(SignUpFull.this).saveFarmerId("");
+                    startActivity(new Intent(SignUpFull.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(SignUpFull.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 

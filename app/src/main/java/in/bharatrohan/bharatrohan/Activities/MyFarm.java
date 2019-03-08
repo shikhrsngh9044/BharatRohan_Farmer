@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
 
@@ -27,6 +28,7 @@ public class MyFarm extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_my_farm);
+        new CheckInternet(this).checkConnection();
         new PrefManager(this).saveFarmNo(0);
 
         int farmCount = new PrefManager(this).getFarmerFarmCount();

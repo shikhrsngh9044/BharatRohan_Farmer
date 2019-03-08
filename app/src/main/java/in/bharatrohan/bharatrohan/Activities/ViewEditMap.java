@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
 
@@ -24,6 +25,7 @@ public class ViewEditMap extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_edit_map);
+        new CheckInternet(this).checkConnection();
 
         verify = findViewById(R.id.verifyFarm);
         mapImage = findViewById(R.id.mapImage);
@@ -31,7 +33,7 @@ public class ViewEditMap extends AppCompatActivity {
         farm_name = findViewById(R.id.tvLandName);
         crop_name = findViewById(R.id.tvCropName);
 
-        Picasso.get().load("http://0d952bac.ngrok.io/" + new PrefManager(this).getFarmImage()).fit().centerCrop().into(mapImage);
+        Picasso.get().load(new PrefManager(this).getFarmImage()).fit().centerCrop().into(mapImage);
 
         farm_name.setText(new PrefManager(this).getFarmName());
         farm_area.setText(new PrefManager(this).getFarmArea());

@@ -28,11 +28,13 @@ public class Farmer {
     @SerializedName("isVerified")
     private Boolean isVerified;
     @SerializedName("fe_id")
-    private String feId;
+    private Fe fe;
+
+    //contact _id
 
     private Response response;
 
-    public Farmer(String name, String email, String contact, String full_address, Boolean acc_status, String dob, ArrayList<String> farms, Address address, String avatar, String alt_contact) {
+    public Farmer(String name, String email, String contact, String full_address, Boolean acc_status, String dob, ArrayList<String> farms, Address address, String avatar, String alt_contact, Boolean isVerified, Fe fe) {
         this.name = name;
         this.email = email;
         this.contact = contact;
@@ -43,6 +45,8 @@ public class Farmer {
         this.address = address;
         this.avatar = avatar;
         this.alt_contact = alt_contact;
+        this.isVerified = isVerified;
+        this.fe = fe;
     }
 
     public Farmer(Response response) {
@@ -55,10 +59,6 @@ public class Farmer {
 
     public Boolean getVerified() {
         return isVerified;
-    }
-
-    public String getFeId() {
-        return feId;
     }
 
     public String getAvatar() {
@@ -99,6 +99,33 @@ public class Farmer {
 
     public Address getAddress() {
         return address;
+    }
+
+
+    public Fe getFe() {
+        return fe;
+    }
+
+    public class Fe {
+        @SerializedName("_id")
+        private String id;
+        @SerializedName("contact")
+        private String contact;
+
+
+        public Fe(String id, String contact) {
+            this.id = id;
+            this.contact = contact;
+        }
+
+
+        public String getId() {
+            return id;
+        }
+
+        public String getContact() {
+            return contact;
+        }
     }
 
     public class Address {

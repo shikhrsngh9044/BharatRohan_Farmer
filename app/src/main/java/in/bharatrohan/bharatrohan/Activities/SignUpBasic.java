@@ -7,6 +7,7 @@ import android.util.Patterns;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.R;
 
 public class SignUpBasic extends AppCompatActivity {
@@ -18,6 +19,7 @@ public class SignUpBasic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        new CheckInternet(this).checkConnection();
 
         next = findViewById(R.id.next);
         name1 = findViewById(R.id.name);

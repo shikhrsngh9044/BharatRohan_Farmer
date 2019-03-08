@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.Models.Crops;
 import in.bharatrohan.bharatrohan.Models.FarmID;
 import in.bharatrohan.bharatrohan.Models.FarmResponse;
@@ -48,6 +49,7 @@ public class RegisterFarm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_farm);
+        new CheckInternet(this).checkConnection();
 
         mProgressBar = findViewById(R.id.progressBar);
 
@@ -208,8 +210,18 @@ public class RegisterFarm extends AppCompatActivity {
                         }
 
                     } else if (response.code() == 401) {
-                        hideProgress();
                         Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                        new PrefManager(RegisterFarm.this).saveLoginDetails("", "");
+                        new PrefManager(RegisterFarm.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                        new PrefManager(RegisterFarm.this).saveAvatar("");
+                        new PrefManager(RegisterFarm.this).saveToken("");
+                        new PrefManager(RegisterFarm.this).saveFarmerId("");
+                        startActivity(new Intent(RegisterFarm.this, Login.class));
+                        finish();
+                    } else if (response.code() == 400) {
+                        Toast.makeText(RegisterFarm.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 500) {
+                        Toast.makeText(RegisterFarm.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -241,8 +253,20 @@ public class RegisterFarm extends AppCompatActivity {
                     if (response.code() == 200) {
                         Toast.makeText(RegisterFarm.this, "Farm Updated", Toast.LENGTH_SHORT).show();
                     } else if (response.code() == 401) {
-                        hideProgress();
                         Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                        new PrefManager(RegisterFarm.this).saveLoginDetails("", "");
+                        new PrefManager(RegisterFarm.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                        new PrefManager(RegisterFarm.this).saveAvatar("");
+                        new PrefManager(RegisterFarm.this).saveToken("");
+                        new PrefManager(RegisterFarm.this).saveFarmerId("");
+                        startActivity(new Intent(RegisterFarm.this, Login.class));
+                        finish();
+                    } else if (response.code() == 400) {
+                        Toast.makeText(RegisterFarm.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 409) {
+                        Toast.makeText(RegisterFarm.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 500) {
+                        Toast.makeText(RegisterFarm.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -282,8 +306,21 @@ public class RegisterFarm extends AppCompatActivity {
                     startActivity(new Intent(RegisterFarm.this, WelcomeActivity.class));
                     finish();
 
+                } else if (response.code() == 401) {
+                    Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(RegisterFarm.this).saveLoginDetails("", "");
+                    new PrefManager(RegisterFarm.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(RegisterFarm.this).saveAvatar("");
+                    new PrefManager(RegisterFarm.this).saveToken("");
+                    new PrefManager(RegisterFarm.this).saveFarmerId("");
+                    startActivity(new Intent(RegisterFarm.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(RegisterFarm.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
-                    Toast.makeText(RegisterFarm.this, "Farm Created but Files not Uploaded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterFarm.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(RegisterFarm.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -320,8 +357,21 @@ public class RegisterFarm extends AppCompatActivity {
                 hideProgress();
                 if (response.code() == 201) {
                     Toast.makeText(RegisterFarm.this, "Farm Updated Successfully!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(RegisterFarm.this).saveLoginDetails("", "");
+                    new PrefManager(RegisterFarm.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(RegisterFarm.this).saveAvatar("");
+                    new PrefManager(RegisterFarm.this).saveToken("");
+                    new PrefManager(RegisterFarm.this).saveFarmerId("");
+                    startActivity(new Intent(RegisterFarm.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(RegisterFarm.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
-                    Toast.makeText(RegisterFarm.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterFarm.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(RegisterFarm.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -347,18 +397,36 @@ public class RegisterFarm extends AppCompatActivity {
 
                 Crops cropsList = response.body();
 
+                if (response.code() == 200) {
 
-                if (cropsList != null) {
 
-                    for (Crops.Crop s : cropsList.getCrops()) {
-                        c_idList.add(s.getId());
-                        c_nameList.add(s.getName());
+                    if (cropsList != null) {
+
+                        for (Crops.Crop s : cropsList.getCrops()) {
+                            c_idList.add(s.getId());
+                            c_nameList.add(s.getName());
+                        }
+
+
+                        adapter1 = new ArrayAdapter<>(RegisterFarm.this, android.R.layout.simple_spinner_item, c_nameList);
+                        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        cropsSpinner.setAdapter(adapter1);
                     }
-
-
-                    adapter1 = new ArrayAdapter<>(RegisterFarm.this, android.R.layout.simple_spinner_item, c_nameList);
-                    adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    cropsSpinner.setAdapter(adapter1);
+                } else if (response.code() == 401) {
+                    Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(RegisterFarm.this).saveLoginDetails("", "");
+                    new PrefManager(RegisterFarm.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(RegisterFarm.this).saveAvatar("");
+                    new PrefManager(RegisterFarm.this).saveToken("");
+                    new PrefManager(RegisterFarm.this).saveFarmerId("");
+                    startActivity(new Intent(RegisterFarm.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(RegisterFarm.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(RegisterFarm.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(RegisterFarm.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
 
             }

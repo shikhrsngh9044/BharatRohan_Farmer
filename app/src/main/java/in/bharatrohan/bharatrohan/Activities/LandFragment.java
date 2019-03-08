@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.Models.Farm;
 import in.bharatrohan.bharatrohan.Models.Farmer;
 import in.bharatrohan.bharatrohan.PrefManager;
@@ -40,7 +41,7 @@ public class LandFragment extends Fragment {
         super.onCreate(savedInstanceState);
         token = new PrefManager(getContext()).getToken();
         farmerId = new PrefManager(getContext()).getFarmerId();
-        //Toast.makeText(getContext(), "Create Called", Toast.LENGTH_SHORT).show();
+        new CheckInternet(getContext()).checkConnection();
     }
 
     @Nullable
@@ -146,18 +147,37 @@ public class LandFragment extends Fragment {
             public void onResponse(Call<Farm> call, Response<Farm> response) {
                 hideProgress();
                 Farm farm = response.body();
-                if (farm != null) {
-                    if (farm.getData().getVerified() != null) {
-                       // new PrefManager(getContext()).saveFarmStatus(farm.getData().getVerified());
-                        setFarmVerifyStatus(farm.getData().getVerified());
+
+                if (response.code() == 200) {
+
+                    if (farm != null) {
+                        if (farm.getData().getVerified() != null) {
+                            // new PrefManager(getContext()).saveFarmStatus(farm.getData().getVerified());
+                            setFarmVerifyStatus(farm.getData().getVerified());
+                        }
+                       // new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, farmerId);
+                        landName.setText(farm.getData().getFarm_name());
+                        landName.setVisibility(View.VISIBLE);
+                        cropName.setText(farm.getData().getCrop().getCrop_name());
+                        cropName.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getContext(), "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
                     }
-                    new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, farmerId);
-                    landName.setText(farm.getData().getFarm_name());
-                    landName.setVisibility(View.VISIBLE);
-                    cropName.setText(farm.getData().getCrop().getCrop_name());
-                    cropName.setVisibility(View.VISIBLE);
-                } else {
-                    Toast.makeText(getContext(), "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(getContext(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(getContext()).saveLoginDetails("", "");
+                    new PrefManager(getContext()).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(getContext()).saveAvatar("");
+                    new PrefManager(getContext()).saveToken("");
+                    new PrefManager(getContext()).saveFarmerId("");
+                    startActivity(new Intent(getActivity(), Login.class));
+                    getActivity().finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(getContext(), "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(getContext(), "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(getContext(), "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -180,18 +200,33 @@ public class LandFragment extends Fragment {
             @Override
             public void onResponse(Call<Farmer> call, Response<Farmer> response) {
                 Farmer farmer = response.body();
-
-                if (farmer != null) {
-                    farmList = farmer.getFarms();
-                    if (farmList.size() != 0) {
-                        showFarmInfo(farmList.get(farmNo));
+                if (response.code() == 200) {
+                    if (farmer != null) {
+                        farmList = farmer.getFarms();
+                        if (farmList.size() != 0) {
+                            showFarmInfo(farmList.get(farmNo));
+                        } else {
+                            new PrefManager(getContext()).saveFarmNo(0);
+                            Toast.makeText(getContext(), "No Farm is Registered yet!!", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        new PrefManager(getContext()).saveFarmNo(0);
-                        Toast.makeText(getContext(), "No Farm is Registered yet!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(getContext(), "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
-
+                } else if (response.code() == 401) {
+                    Toast.makeText(getContext(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(getContext()).saveLoginDetails("", "");
+                    new PrefManager(getContext()).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(getContext()).saveAvatar("");
+                    new PrefManager(getContext()).saveToken("");
+                    new PrefManager(getContext()).saveFarmerId("");
+                    startActivity(new Intent(getActivity(), Login.class));
+                    getActivity().finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(getContext(), "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(getContext(), "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(getContext(), "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 

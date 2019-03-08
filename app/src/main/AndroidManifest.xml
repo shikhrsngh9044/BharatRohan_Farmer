@@ -92,7 +92,10 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".Activities.ViewEditMap" />
         <activity android:name=".Activities.ChangePassword" />
-        <activity android:name=".Activities.FeProfile"></activity>
+        <activity android:name=".Activities.FeProfile" />
+        <activity android:name=".Activities.UnSplash" />
+        <activity android:name=".Activities.Feedback" />
+        <activity android:name=".Activities.ImpContacts"></activity>
     </application>
 
 </manifest>

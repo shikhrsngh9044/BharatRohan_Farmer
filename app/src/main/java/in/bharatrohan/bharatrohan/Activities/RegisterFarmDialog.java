@@ -1,13 +1,13 @@
 package in.bharatrohan.bharatrohan.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.Toast;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.Models.LoginFarmer;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
@@ -23,6 +23,7 @@ public class RegisterFarmDialog extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_farm_dialog);
+        new CheckInternet(this).checkConnection();
 
         register_farm = findViewById(R.id.register_farm);
         skip = findViewById(R.id.skip);

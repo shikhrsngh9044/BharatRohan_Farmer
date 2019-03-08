@@ -1,23 +1,18 @@
 package in.bharatrohan.bharatrohan.Activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.MediaStore;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -31,17 +26,12 @@ import android.widget.Toast;
 
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Objects;
 
-import id.zelory.compressor.Compressor;
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.FileUtils;
 import in.bharatrohan.bharatrohan.Models.Responses;
 import in.bharatrohan.bharatrohan.Models.UpdateFarmer;
@@ -50,7 +40,6 @@ import in.bharatrohan.bharatrohan.R;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,7 +52,7 @@ public class UserProfile extends AppCompatActivity {
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 124;
 
 
-    private ImageView profileP, headImage;
+    private ImageView profileP;
     private ProgressBar progressBar;
     private TextView id, name, contact, email, address, dob, fulladress, altcontact, updatePicLabel;
     private Button btnUpdateOp, btnUpdate, btnCancel;
@@ -77,6 +66,7 @@ public class UserProfile extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_user_profile);
+        new CheckInternet(this).checkConnection();
 
         init();
 
@@ -137,8 +127,6 @@ public class UserProfile extends AppCompatActivity {
 
     private void init() {
         profileP = findViewById(R.id.profileImage);
-        headImage = findViewById(R.id.head_image);
-        Picasso.get().load(R.drawable.my_farm_header).fit().centerCrop().into(headImage);
         id = findViewById(R.id.framerId);
         name = findViewById(R.id.tvName);
         contact = findViewById(R.id.tvContact);
@@ -273,6 +261,21 @@ public class UserProfile extends AppCompatActivity {
                         startActivity(new Intent(UserProfile.this, Login.class));
                         finish();
                     }
+                }else if (response.code() == 401) {
+                    Toast.makeText(UserProfile.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(UserProfile.this).saveLoginDetails("", "");
+                    new PrefManager(UserProfile.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(UserProfile.this).saveAvatar("");
+                    new PrefManager(UserProfile.this).saveToken("");
+                    new PrefManager(UserProfile.this).saveFarmerId("");
+                    startActivity(new Intent(UserProfile.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(UserProfile.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(UserProfile.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(UserProfile.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -337,8 +340,21 @@ public class UserProfile extends AppCompatActivity {
                         Toast.makeText(UserProfile.this, avatarResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
-                } else {
-                    Toast.makeText(UserProfile.this, "Some error occurred.Please try again after some time", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(UserProfile.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(UserProfile.this).saveLoginDetails("", "");
+                    new PrefManager(UserProfile.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(UserProfile.this).saveAvatar("");
+                    new PrefManager(UserProfile.this).saveToken("");
+                    new PrefManager(UserProfile.this).saveFarmerId("");
+                    startActivity(new Intent(UserProfile.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(UserProfile.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(UserProfile.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(UserProfile.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 

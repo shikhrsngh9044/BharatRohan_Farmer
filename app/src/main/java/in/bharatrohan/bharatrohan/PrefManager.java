@@ -43,7 +43,7 @@ public class PrefManager {
         editor.apply();
     }
 
-    public void saveUserDetails(String state, String district, String tehsil, String block, String village, String email, String dob, String name, String contact, String fullAddress, String alt_contact,String fe_id) {
+    public void saveUserDetails(String state, String district, String tehsil, String block, String village, String email, String dob, String name, String contact, String fullAddress, String alt_contact, String fe_id, String fe_contact) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("State", state);
@@ -58,12 +58,18 @@ public class PrefManager {
         editor.putString("FullAddress", fullAddress);
         editor.putString("AltContact", alt_contact);
         editor.putString("FeId", fe_id);
+        editor.putString("FeContact", fe_contact);
         editor.apply();
     }
 
     public String getFeId() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("FeId", "");
+    }
+
+    public String getFeContact() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("FeContact", "");
     }
 
     public String getState() {

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.Models.Farmer;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
@@ -42,15 +43,16 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         //setLocale(new PrefManager(this).getUserLanguage());
         setContentView(R.layout.activity_main);
+        new CheckInternet(this).checkConnection();
 
         init();
 
 
         navHelpSpinner.setOnItemSelectedListener((view1, position, id, item) -> {
             if (position == 1) {
-                Toast.makeText(this, "Selected : Feedback", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, Feedback.class));
             } else if (position == 2) {
-                Toast.makeText(this, "Selected : Contact", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, ImpContacts.class));
             }
 
         });
@@ -172,7 +174,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
             new PrefManager(this).saveLoginDetails("", "");
-            new PrefManager(this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "");
+            new PrefManager(this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
             new PrefManager(this).saveAvatar("");
             new PrefManager(this).saveToken("");
             new PrefManager(this).saveFarmerId("");
@@ -196,11 +198,27 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<Farmer> call, Response<Farmer> response) {
                 Farmer farmer = response.body();
-
-                if (farmer != null) {
-                    new PrefManager(MainActivity.this).saveFarmCount(farmer.getFarms().size());
-                } else {
-                    Toast.makeText(MainActivity.this, "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
+                if (response.code() == 200) {
+                    if (farmer != null) {
+                        new PrefManager(MainActivity.this).saveFarmCount(farmer.getFarms().size());
+                    } else {
+                        Toast.makeText(MainActivity.this, "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (response.code() == 401) {
+                    Toast.makeText(MainActivity.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(MainActivity.this).saveLoginDetails("", "");
+                    new PrefManager(MainActivity.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(MainActivity.this).saveAvatar("");
+                    new PrefManager(MainActivity.this).saveToken("");
+                    new PrefManager(MainActivity.this).saveFarmerId("");
+                    startActivity(new Intent(MainActivity.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(MainActivity.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(MainActivity.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(MainActivity.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 

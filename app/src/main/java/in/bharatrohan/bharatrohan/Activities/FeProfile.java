@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
+import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.Models.FeDetails;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
@@ -29,6 +30,7 @@ public class FeProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fe_profile);
+        new CheckInternet(this).checkConnection();
         init();
         getFeDetails();
 
@@ -75,10 +77,20 @@ public class FeProfile extends AppCompatActivity {
                         tvBlock.setText(details.getJobLocation().getBlock().getBlock_name());
                     }
                 } else if (response.code() == 401) {
+                    Toast.makeText(FeProfile.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(FeProfile.this).saveLoginDetails("", "");
+                    new PrefManager(FeProfile.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(FeProfile.this).saveAvatar("");
+                    new PrefManager(FeProfile.this).saveToken("");
+                    new PrefManager(FeProfile.this).saveFarmerId("");
                     startActivity(new Intent(FeProfile.this, Login.class));
                     finish();
-                } else {
-                    Toast.makeText(FeProfile.this, "Some error occurred. Please try again", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 400) {
+                    Toast.makeText(FeProfile.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(FeProfile.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(FeProfile.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
 
             }
