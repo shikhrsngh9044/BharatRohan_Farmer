@@ -30,8 +30,12 @@ public class Farm {
         @SerializedName("crop_id")
         private Crop crop;
 
-        public Data(String farm_name, Crop crop) {
+        public Data(String farm_name, Boolean isVerified, String map_image, String location, String farm_area, Crop crop) {
             this.farm_name = farm_name;
+            this.isVerified = isVerified;
+            this.map_image = map_image;
+            this.location = location;
+            this.farm_area = farm_area;
             this.crop = crop;
         }
 

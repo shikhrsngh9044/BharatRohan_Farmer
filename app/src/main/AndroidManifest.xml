@@ -95,7 +95,8 @@
         <activity android:name=".Activities.FeProfile" />
         <activity android:name=".Activities.UnSplash" />
         <activity android:name=".Activities.Feedback" />
-        <activity android:name=".Activities.ImpContacts"></activity>
+        <activity android:name=".Activities.ImpContacts" />
+        <activity android:name=".Activities.HelpSupport"></activity>
     </application>
 
 </manifest>

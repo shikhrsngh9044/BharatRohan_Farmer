@@ -1,7 +1,5 @@
 package in.bharatrohan.bharatrohan.Apis;
 
-import java.util.List;
-
 import in.bharatrohan.bharatrohan.Models.Block;
 import in.bharatrohan.bharatrohan.Models.Crops;
 import in.bharatrohan.bharatrohan.Models.District;
@@ -10,6 +8,7 @@ import in.bharatrohan.bharatrohan.Models.FarmResponse;
 import in.bharatrohan.bharatrohan.Models.Farmer;
 import in.bharatrohan.bharatrohan.Models.FeDetails;
 import in.bharatrohan.bharatrohan.Models.LoginFarmer;
+import in.bharatrohan.bharatrohan.Models.OtpResponse;
 import in.bharatrohan.bharatrohan.Models.Responses;
 import in.bharatrohan.bharatrohan.Models.States;
 import in.bharatrohan.bharatrohan.Models.Tehsil;
@@ -64,7 +63,7 @@ public interface Api {
                              @Path("id") String feId);
 
     @GET("states")
-    Call<List<States>> stateList();
+    Call<States> stateList();
 
     @GET("state/{id}")
     Call<District> districtList(@Path("id") String id1);
@@ -105,4 +104,18 @@ public interface Api {
     @GET("fe/{id}")
     Call<FeDetails> getFeDetail(@Header("Authorization") String token,
                                 @Path("id") String feId);
+
+    @POST("farmer/send-otp")
+    @FormUrlEncoded
+    Call<OtpResponse> getOtp(@Field("contact") String contact);
+
+    @PATCH("farmer/send-otp")
+    @FormUrlEncoded
+    Call<OtpResponse> getOtpChangePass(@Field("contact") String contact);
+
+    @PATCH("farmer/password-reset")
+    @FormUrlEncoded
+    Call<ResponseBody> changePassReq(@Field("contact") String contact,
+                                     @Field("otp") String otp,
+                                     @Field("password") String pass);
 }

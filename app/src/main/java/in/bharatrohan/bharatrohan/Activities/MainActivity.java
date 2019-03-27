@@ -35,7 +35,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ImageView myFarm, myRepo, registerFarm, userProfile, moneyRecord, userImage, feDetails;
+    private ImageView myFarm, myRepo, registerFarm, userProfile, myHelp, moneyRecord, userImage, feDetails;
     private MaterialSpinner navHelpSpinner;
 
     @Override
@@ -67,8 +67,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, RegisterFarm.class));
         });
 
-        feDetails.setOnClickListener(v -> {
-            startActivity(new Intent(this, FeProfile.class));
+        feDetails.setOnClickListener(v -> startActivity(new Intent(this, FeProfile.class)));
+
+        myHelp.setOnClickListener(v -> {
+            startActivity(new Intent(this, HelpSupport.class));
         });
 
         userProfile.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, UserProfile.class)));
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity
 
         myFarm = findViewById(R.id.imageView5);
         myRepo = findViewById(R.id.repository);
+        myHelp = findViewById(R.id.imageView11);
         registerFarm = findViewById(R.id.registerFarm);
         userProfile = findViewById(R.id.profileUpdate);
         moneyRecord = findViewById(R.id.moneyRecord);
@@ -111,7 +114,8 @@ public class MainActivity extends AppCompatActivity
         userPhone.setText(new PrefManager(MainActivity.this).getPhone());
 
         if (!(new PrefManager(MainActivity.this).getAvatar().equals(""))) {
-            Picasso.get().load(new PrefManager(MainActivity.this).getAvatar()).networkPolicy(NetworkPolicy.OFFLINE).into(userImage, new Callback() {
+
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(userProfile, new Callback() {
                 @Override
                 public void onSuccess() {
 
@@ -119,9 +123,25 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onError(Exception e) {
-                    Picasso.get().load(R.drawable.profile_pic).into(userImage);
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().into(userProfile);
                 }
             });
+
+
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(userImage, new Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().into(userImage);
+                }
+            });
+        } else {
+            Picasso.get().load(R.drawable.profile_pic).into(userProfile);
+            Picasso.get().load(R.drawable.profile_pic).into(userImage);
         }
 
 
@@ -165,7 +185,17 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("activity", "main");
             startActivity(intent);
         } else if (id == R.id.nav_refer) {
-
+            try {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "BharatRohan");
+                String sAux = "App Short Description\n";
+                sAux = sAux + "App Link";
+                i.putExtra(Intent.EXTRA_TEXT, sAux);
+                startActivity(Intent.createChooser(i, "Choose one"));
+            } catch (Exception ex) {
+                //e.toString();
+            }
         } else if (id == R.id.nav_help) {
 
         } else if (id == R.id.nav_privacy) {
@@ -234,6 +264,38 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         getFarmCount();
+
+
+        if (!(new PrefManager(MainActivity.this).getAvatar().equals(""))) {
+
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(userProfile, new Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().into(userProfile);
+                }
+            });
+
+
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(userImage, new Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().into(userImage);
+                }
+            });
+        } else {
+            Picasso.get().load(R.drawable.profile_pic).into(userProfile);
+            Picasso.get().load(R.drawable.profile_pic).into(userImage);
+        }
     }
 
     private void setLocale(String lang) {

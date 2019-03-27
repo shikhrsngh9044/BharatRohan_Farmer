@@ -34,7 +34,7 @@ public class Farmer {
 
     private Response response;
 
-    public Farmer(String name, String email, String contact, String full_address, Boolean acc_status, String dob, ArrayList<String> farms, Address address, String avatar, String alt_contact, Boolean isVerified, Fe fe) {
+    public Farmer(String name, String email, String contact, String full_address, Boolean acc_status, String dob, ArrayList<String> farms, Address address, String avatar, String alt_contact, Boolean isVerified, Fe fe, Response response) {
         this.name = name;
         this.email = email;
         this.contact = contact;
@@ -47,9 +47,6 @@ public class Farmer {
         this.alt_contact = alt_contact;
         this.isVerified = isVerified;
         this.fe = fe;
-    }
-
-    public Farmer(Response response) {
         this.response = response;
     }
 

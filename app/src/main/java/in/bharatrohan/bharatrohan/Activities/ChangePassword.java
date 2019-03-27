@@ -1,5 +1,6 @@
 package in.bharatrohan.bharatrohan.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -8,19 +9,21 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
+import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.CheckInternet;
+import in.bharatrohan.bharatrohan.Models.OtpResponse;
 import in.bharatrohan.bharatrohan.PrefManager;
 import in.bharatrohan.bharatrohan.R;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChangePassword extends AppCompatActivity {
 
-    private ImageView headImage;
     private EditText editOtp, editPhone, editPass, editConfPass;
     private Button btnOtp, btnChange;
     private TextView tvResend;
@@ -46,12 +49,10 @@ public class ChangePassword extends AppCompatActivity {
     }
 
     private void init() {
-        headImage = findViewById(R.id.head_image);
-        Picasso.get().load(R.drawable.my_farm_header).fit().centerCrop().into(headImage);
 
         editOtp = findViewById(R.id.editOtp);
         editPhone = findViewById(R.id.editContact);
-        editPhone.setText(new PrefManager(ChangePassword.this).getPhone());
+        editPhone.setText(new PrefManager(ChangePassword.this).getContact());
         editPass = findViewById(R.id.editPass);
         editConfPass = findViewById(R.id.editConfPass);
         btnOtp = findViewById(R.id.btnOtp);
@@ -75,6 +76,28 @@ public class ChangePassword extends AppCompatActivity {
 
     private void changePass() {
 
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().changePassReq(new PrefManager(ChangePassword.this).getContact(), editOtp.getText().toString().trim(), editPass.getText().toString().trim());
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(ChangePassword.this, "Password changed successfully!", Toast.LENGTH_SHORT).show();
+                    new PrefManager(ChangePassword.this).saveLoginDetails("", "");
+                    new PrefManager(ChangePassword.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(ChangePassword.this).saveAvatar("");
+                    new PrefManager(ChangePassword.this).saveToken("");
+                    new PrefManager(ChangePassword.this).saveFarmerId("");
+                    startActivity(new Intent(ChangePassword.this, Login.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     private void showChnagePassDialog() {
@@ -86,10 +109,10 @@ public class ChangePassword extends AppCompatActivity {
 
         alertDialog.show();
 
-        EditText message = view.findViewById(R.id.editEmail);
+        EditText message = view.findViewById(R.id.editOtp);
         Button btnOk = view.findViewById(R.id.btnOk);
 
-        message.setText(new PrefManager(ChangePassword.this).getPhone());
+        message.setText(new PrefManager(ChangePassword.this).getContact());
 
         btnOk.setOnClickListener(view1 -> {
             btnOtp.setVisibility(View.GONE);
@@ -98,15 +121,13 @@ public class ChangePassword extends AppCompatActivity {
             String strMessage = message.getText().toString().trim();
 
 
-            if (strMessage.isEmpty()) {
-                message.setError("Otp is required!");
-                message.requestFocus();
-                return;
+            if (!strMessage.isEmpty()) {
+                sendOtp(strMessage);
+                alertDialog.dismiss();
+            } else {
+                Toast.makeText(ChangePassword.this, "Enter you registered contact", Toast.LENGTH_SHORT).show();
             }
 
-            Toast.makeText(ChangePassword.this, "Otp Sent Successfully!", Toast.LENGTH_SHORT).show();
-            // new PrefManager(ChangePassword.this).saveServerName(strMessage);
-            alertDialog.dismiss();
         });
     }
 
@@ -162,5 +183,37 @@ public class ChangePassword extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private void sendOtp(String contact) {
+        Call<OtpResponse> call = RetrofitClient.getInstance().getApi().getOtpChangePass(contact);
+
+        call.enqueue(new Callback<OtpResponse>() {
+            @Override
+            public void onResponse(Call<OtpResponse> call, Response<OtpResponse> response) {
+                OtpResponse otpResponse = response.body();
+                if (response.code() == 200) {
+                    if (otpResponse != null)
+                        Toast.makeText(ChangePassword.this, "OTP sent successfully", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 404) {
+                    Toast.makeText(ChangePassword.this, "Some error occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(ChangePassword.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(ChangePassword.this).saveLoginDetails("", "");
+                    new PrefManager(ChangePassword.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(ChangePassword.this).saveAvatar("");
+                    new PrefManager(ChangePassword.this).saveToken("");
+                    new PrefManager(ChangePassword.this).saveFarmerId("");
+                    startActivity(new Intent(ChangePassword.this, Login.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OtpResponse> call, Throwable t) {
+                Toast.makeText(ChangePassword.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

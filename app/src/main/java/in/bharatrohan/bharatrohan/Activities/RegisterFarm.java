@@ -194,7 +194,7 @@ public class RegisterFarm extends AppCompatActivity {
             Call<FarmResponse> call = RetrofitClient
                     .getInstance()
                     .getApi()
-                    .createFarm(new PrefManager(this).getToken(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim() + "acres", cropId, new PrefManager(this).getFarmerId());
+                    .createFarm(new PrefManager(this).getToken(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim() + " acres", cropId, new PrefManager(this).getFarmerId());
 
             call.enqueue(new Callback<FarmResponse>() {
                 @Override

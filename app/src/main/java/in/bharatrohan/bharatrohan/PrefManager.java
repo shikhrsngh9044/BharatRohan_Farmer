@@ -288,8 +288,16 @@ public class PrefManager {
         editor.apply();
     }
 
+
+    public void saveFarmImage(String image) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("FarmImage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("farm_image", image);
+        editor.apply();
+    }
+
     public String getFarmImage() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("TempFarm", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("FarmImage", Context.MODE_PRIVATE);
         return sharedPreferences.getString("farm_image", "");
     }
 
@@ -323,17 +331,17 @@ public class PrefManager {
         return sharedPreferences.getString("farm_id", "");
     }
 
-    public void saveServerName(String serverName) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Server", Context.MODE_PRIVATE);
+    public void saveOtp(String otp) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("OTP", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("name", serverName);
+        editor.putString("otp", otp);
         editor.apply();
     }
 
 
-    public String getServerName() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Server", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("name", "");
+    public String getOtp() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("OTP", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("otp", "");
     }
 
 

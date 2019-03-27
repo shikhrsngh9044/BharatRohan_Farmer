@@ -10,6 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.CheckInternet;
 import in.bharatrohan.bharatrohan.Models.FeDetails;
@@ -43,6 +46,7 @@ public class FeProfile extends AppCompatActivity {
 
     private void init() {
         progressBar = findViewById(R.id.progressBar);
+        profilePic = findViewById(R.id.uavAvatar);
         tvName = findViewById(R.id.tvUavName);
         tvPhone = findViewById(R.id.tvUavPhone);
         tvEmail = findViewById(R.id.tvUavEmail);
@@ -67,6 +71,24 @@ public class FeProfile extends AppCompatActivity {
 
                 if (response.code() == 200) {
                     if (details != null) {
+
+
+                        if (details.getAvatar() != null) {
+                            Picasso.get().load("http://br.bharatrohan.in/" + details.getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(profilePic, new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    Picasso.get().load("http://br.bharatrohan.in/" + details.getAvatar()).fit().centerCrop().into(profilePic);
+                                }
+                            });
+                        } else {
+                            Picasso.get().load(R.drawable.profile_pic).into(profilePic);
+                        }
+
                         tvName.setText(details.getName());
                         tvPhone.setText(details.getContact());
                         tvEmail.setText(details.getEmail());

@@ -155,7 +155,8 @@ public class LandFragment extends Fragment {
                             // new PrefManager(getContext()).saveFarmStatus(farm.getData().getVerified());
                             setFarmVerifyStatus(farm.getData().getVerified());
                         }
-                       // new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, farmerId);
+                        // new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, farmerId);
+                        new PrefManager(getContext()).saveFarmImage(farm.getData().getMap_image());
                         landName.setText(farm.getData().getFarm_name());
                         landName.setVisibility(View.VISIBLE);
                         cropName.setText(farm.getData().getCrop().getCrop_name());

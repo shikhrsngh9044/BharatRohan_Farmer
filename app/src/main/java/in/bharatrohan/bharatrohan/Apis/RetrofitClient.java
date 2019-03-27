@@ -8,8 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    //private String SerName = new PrefManager(mInstance.get).getServerName();
-    private static final String BASE_URL = "http://8565b215.ngrok.io/api/br/";
+    //private String SerName = new PrefManager(mInstance.get).getServerName(); br.bharatrohan.in  ce3e20f4.ngrok.io
+    private static final String BASE_URL = "http://br.bharatrohan.in/api/br/";
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 

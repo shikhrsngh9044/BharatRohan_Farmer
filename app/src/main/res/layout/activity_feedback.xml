@@ -23,13 +23,12 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="250dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/rounded_edittext_white"
         android:padding="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
         app:layout_constraintEnd_toEndOf="@+id/typeSpinner"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/typeSpinner"
         app:layout_constraintTop_toBottomOf="@+id/typeSpinner">
 
@@ -46,8 +45,8 @@
             android:ems="10"
             android:hint="Your Feedback and Complaints.."
             android:inputType="textMultiLine"
-            android:lines="16"
-            android:maxLines="10"
+            android:lines="10"
+            android:maxLines="15"
             android:minLines="1"
             android:scrollbars="vertical"
             android:textColor="@color/cardview_light_background"
@@ -63,13 +62,15 @@
         android:id="@+id/btnSubmit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="20dp"
         android:background="@color/cardview_light_background"
         android:text="Send Feedback"
         android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/scrollView2"
-        app:layout_constraintStart_toStartOf="@+id/scrollView2" />
+        app:layout_constraintStart_toStartOf="@+id/scrollView2"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
 </android.support.constraint.ConstraintLayout>

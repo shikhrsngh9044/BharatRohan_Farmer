@@ -42,7 +42,9 @@ public class Feedback extends AppCompatActivity {
             if (!validate()) {
                 String message = editMessage.getText().toString().trim();
                 Intent send = new Intent(Intent.ACTION_SENDTO);
-                String uriText = "mailto:" + Uri.encode(message);
+                send.putExtra(Intent.EXTRA_TEXT, message);
+                send.putExtra(Intent.EXTRA_SUBJECT, msgType);
+                String uriText = "mailto:" + Uri.encode("support@bharatrohan.in");
                 Uri uri = Uri.parse(uriText);
                 send.setData(uri);
                 startActivity(Intent.createChooser(send, "Send mail..."));

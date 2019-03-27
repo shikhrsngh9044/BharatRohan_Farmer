@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import in.bharatrohan.bharatrohan.CheckInternet;
@@ -33,7 +35,21 @@ public class ViewEditMap extends AppCompatActivity {
         farm_name = findViewById(R.id.tvLandName);
         crop_name = findViewById(R.id.tvCropName);
 
-        Picasso.get().load(new PrefManager(this).getFarmImage()).fit().centerCrop().into(mapImage);
+        if (!new PrefManager(this).getFarmImage().equals("")) {
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(this).getFarmImage()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(mapImage, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(ViewEditMap.this).getFarmImage()).fit().centerCrop().into(mapImage);
+                }
+            });
+        } else {
+            Toast.makeText(ViewEditMap.this, "No Farm Image", Toast.LENGTH_SHORT).show();
+        }
 
         farm_name.setText(new PrefManager(this).getFarmName());
         farm_area.setText(new PrefManager(this).getFarmArea());

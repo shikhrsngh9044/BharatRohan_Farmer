@@ -81,9 +81,6 @@ public class UserProfile extends AppCompatActivity {
         address.setText(address1);
         dob.setText(new PrefManager(this).getDob());
 
-        if (!new PrefManager(this).getAvatar().equals("")) {
-            Picasso.get().load(new PrefManager(this).getAvatar()).fit().centerCrop().into(profileP);
-        }
 
         btnUpdateOp.setOnClickListener(v -> {
 
@@ -104,12 +101,6 @@ public class UserProfile extends AppCompatActivity {
             editDob.setText(dob1);
         });
 
-        updatePicLabel.setOnClickListener(v -> {
-            if (askForPermission()) {
-                showChooser();
-            }
-        });
-
         btnUpdate.setOnClickListener(v -> {
             if (!validateValues()) {
                 updateFarmer();
@@ -123,10 +114,35 @@ public class UserProfile extends AppCompatActivity {
             visibilityVisible();
         });
 
+        updatePicLabel.setOnClickListener(v -> {
+            if (askForPermission()) {
+                showChooser();
+            }
+        });
+
+
     }
 
     private void init() {
         profileP = findViewById(R.id.profileImage);
+
+
+        if (!new PrefManager(this).getAvatar().equals("")) {
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(profileP, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(UserProfile.this).getAvatar()).fit().centerCrop().into(profileP);
+                }
+            });
+        } else {
+            Picasso.get().load(R.drawable.profile_pic).into(profileP);
+        }
+
         id = findViewById(R.id.framerId);
         name = findViewById(R.id.tvName);
         contact = findViewById(R.id.tvContact);
@@ -145,7 +161,7 @@ public class UserProfile extends AppCompatActivity {
         editName = findViewById(R.id.editName);
         editContact = findViewById(R.id.editContact);
         editAltContact = findViewById(R.id.editAltContact);
-        editEmail = findViewById(R.id.editEmail);
+        editEmail = findViewById(R.id.editOtp);
         editFullAddress = findViewById(R.id.editFullAddress);
         editDob = findViewById(R.id.editDob);
     }
@@ -153,13 +169,11 @@ public class UserProfile extends AppCompatActivity {
     private void visibilityGone() {
         btnUpdateOp.setVisibility(View.GONE);
         name.setVisibility(View.GONE);
-        contact.setVisibility(View.GONE);
         altcontact.setVisibility(View.GONE);
         email.setVisibility(View.GONE);
         fulladress.setVisibility(View.GONE);
         dob.setVisibility(View.GONE);
         editName.setVisibility(View.VISIBLE);
-        editContact.setVisibility(View.VISIBLE);
         editAltContact.setVisibility(View.VISIBLE);
         editEmail.setVisibility(View.VISIBLE);
         editFullAddress.setVisibility(View.VISIBLE);
@@ -170,14 +184,12 @@ public class UserProfile extends AppCompatActivity {
     private void visibilityVisible() {
         btnUpdateOp.setVisibility(View.VISIBLE);
         name.setVisibility(View.VISIBLE);
-        contact.setVisibility(View.VISIBLE);
         altcontact.setVisibility(View.VISIBLE);
         email.setVisibility(View.VISIBLE);
         fulladress.setVisibility(View.VISIBLE);
         dob.setVisibility(View.VISIBLE);
 
         editName.setVisibility(View.GONE);
-        editContact.setVisibility(View.GONE);
         editAltContact.setVisibility(View.GONE);
         editEmail.setVisibility(View.GONE);
         editFullAddress.setVisibility(View.GONE);
@@ -245,6 +257,7 @@ public class UserProfile extends AppCompatActivity {
 
         UpdateFarmer updateFarmer = new UpdateFarmer(email, name, altcontact, contact, dob, fulladdress);
 
+
         Call<Responses.ProfileResponse> call = RetrofitClient.getInstance().getApi().updateFarmerDetail(new PrefManager(UserProfile.this).getToken(), new PrefManager(UserProfile.this).getFarmerId(), updateFarmer);
 
         call.enqueue(new Callback<Responses.ProfileResponse>() {
@@ -261,7 +274,7 @@ public class UserProfile extends AppCompatActivity {
                         startActivity(new Intent(UserProfile.this, Login.class));
                         finish();
                     }
-                }else if (response.code() == 401) {
+                } else if (response.code() == 401) {
                     Toast.makeText(UserProfile.this, "Token Expired", Toast.LENGTH_SHORT).show();
                     new PrefManager(UserProfile.this).saveLoginDetails("", "");
                     new PrefManager(UserProfile.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
@@ -285,7 +298,10 @@ public class UserProfile extends AppCompatActivity {
                 hideProgress();
             }
         });
+
+
     }
+
 
     private void showChooser() {
         Intent intent = new Intent();
@@ -324,7 +340,7 @@ public class UserProfile extends AppCompatActivity {
                         new PrefManager(UserProfile.this).saveAvatar(avatarResponse.getAvatar());
 
                         //Toast.makeText(UserProfile.this, new PrefManager(UserProfile.this).getAvatar(), Toast.LENGTH_SHORT).show();
-                        Picasso.get().load(new PrefManager(UserProfile.this).getAvatar()).networkPolicy(NetworkPolicy.OFFLINE).into(profileP, new com.squareup.picasso.Callback() {
+                        Picasso.get().load("http://br.bharatrohan.in" + new PrefManager(UserProfile.this).getAvatar()).networkPolicy(NetworkPolicy.OFFLINE).into(profileP, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
 
@@ -333,7 +349,7 @@ public class UserProfile extends AppCompatActivity {
                             @Override
                             public void onError(Exception e) {
                                 //Toast.makeText(UserProfile.this, "Didn't got Pic", Toast.LENGTH_SHORT).show();
-                                Picasso.get().load(R.drawable.profile_pic).into(profileP);
+                                Picasso.get().load("http://br.bharatrohan.in" + new PrefManager(UserProfile.this).getAvatar()).into(profileP);
                             }
                         });
 

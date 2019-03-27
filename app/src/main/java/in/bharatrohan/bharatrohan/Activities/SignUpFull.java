@@ -15,7 +15,6 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import in.bharatrohan.bharatrohan.Apis.RetrofitClient;
 import in.bharatrohan.bharatrohan.CheckInternet;
@@ -133,7 +132,7 @@ public class SignUpFull extends AppCompatActivity {
                 if (response.code() == 201) {
                     Toast.makeText(SignUpFull.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
 
-                    new PrefManager(SignUpFull.this).saveUserDetails(state, district, tehsil, block, village, email, dob1, name, phone, fulladdress1, alter_phone, dr.getFeId(),"");
+                    new PrefManager(SignUpFull.this).saveUserDetails(state, district, tehsil, block, village, email, dob1, name, phone, fulladdress1, alter_phone, dr.getFeId(), "");
                     new PrefManager(SignUpFull.this).saveFarmerVerifyStatus(false);
                     new PrefManager(SignUpFull.this).saveFarmerId(dr.getData().getId());
                     new PrefManager(SignUpFull.this).saveToken("Bearer " + dr.getToken());
@@ -209,6 +208,9 @@ public class SignUpFull extends AppCompatActivity {
         dob = findViewById(R.id.dob);
         progressBar = findViewById(R.id.progressBar);
 
+
+        dob.setEnabled(false);
+
         stateSpinner = findViewById(R.id.stateSpinner);
         districtSpinner = findViewById(R.id.districtSpinner);
         tehsilSpinner = findViewById(R.id.tehsilSpinner);
@@ -230,16 +232,16 @@ public class SignUpFull extends AppCompatActivity {
 
     private void initStateSpinner() {
         showProgress();
-        Call<List<States>> call = RetrofitClient
+        Call<States> call = RetrofitClient
                 .getInstance()
                 .getApi()
                 .stateList();
 
-        call.enqueue(new Callback<List<States>>() {
+        call.enqueue(new Callback<States>() {
             @Override
-            public void onResponse(Call<List<States>> call, Response<List<States>> response) {
+            public void onResponse(Call<States> call, Response<States> response) {
                 hideProgress();
-                List<States> statesList = response.body();
+                States statesList = response.body();
 
                 s_nameList.clear();
                 s_idList.clear();
@@ -251,7 +253,7 @@ public class SignUpFull extends AppCompatActivity {
                         s_nameList.add(0, "-SELECT STATE-");
                         s_idList.add(0, "-SELECT STATE-");
 
-                        for (States s : statesList) {
+                        for (States.State s : statesList.getState()) {
                             s_idList.add(s.getId());
                             s_nameList.add(s.getName());
                         }
@@ -284,7 +286,7 @@ public class SignUpFull extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<States>> call, Throwable t) {
+            public void onFailure(Call<States> call, Throwable t) {
                 hideProgress();
             }
         });
@@ -563,7 +565,6 @@ public class SignUpFull extends AppCompatActivity {
         fulladdress.setEnabled(false);
         pass.setEnabled(false);
         conf_pass.setEnabled(false);
-        dob.setEnabled(false);
         btnDate.setEnabled(false);
     }
 
@@ -577,7 +578,6 @@ public class SignUpFull extends AppCompatActivity {
         fulladdress.setEnabled(true);
         pass.setEnabled(true);
         conf_pass.setEnabled(true);
-        dob.setEnabled(true);
         btnDate.setEnabled(true);
     }
 
