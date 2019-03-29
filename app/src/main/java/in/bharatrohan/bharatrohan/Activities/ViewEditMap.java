@@ -35,6 +35,12 @@ public class ViewEditMap extends AppCompatActivity {
         farm_name = findViewById(R.id.tvLandName);
         crop_name = findViewById(R.id.tvCropName);
 
+
+        if (getIntent().getStringExtra("verification").equals("true")) {
+            verify.setVisibility(View.GONE);
+            findViewById(R.id.textView55).setVisibility(View.VISIBLE);
+        }
+
         if (!new PrefManager(this).getFarmImage().equals("")) {
             Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(this).getFarmImage()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(mapImage, new com.squareup.picasso.Callback() {
                 @Override

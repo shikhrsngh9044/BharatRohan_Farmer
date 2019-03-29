@@ -188,11 +188,10 @@ public class Login extends AppCompatActivity {
                 if (response.code() == 200) {
 
                     if (farmer != null) {
-                        new PrefManager(Login.this).saveUserDetails(farmer.getAddress().getState().getState_name(), farmer.getAddress().getDistrict().getDistrict_name(), farmer.getAddress().getTehsil().getTehsil_name(), farmer.getAddress().getBlock().getBlock_name(), farmer.getAddress().getVillage().getVillage_name(), farmer.getEmail(), farmer.getDob(), farmer.getName(), farmer.getContact(), farmer.getFull_address(), farmer.getAlt_contact(), farmer.getFe().getId(), farmer.getFe().getContact());
-                        new PrefManager(Login.this).saveAvatar(farmer.getAvatar());
-
 
                         if (farmer.getAcc_status()) {
+                            new PrefManager(Login.this).saveUserDetails(farmer.getAddress().getState().getState_name(), farmer.getAddress().getDistrict().getDistrict_name(), farmer.getAddress().getTehsil().getTehsil_name(), farmer.getAddress().getBlock().getBlock_name(), farmer.getAddress().getVillage().getVillage_name(), farmer.getEmail(), farmer.getDob(), farmer.getName(), farmer.getContact(), farmer.getFull_address(), farmer.getAlt_contact(), farmer.getFe().getId(), farmer.getFe().getContact());
+                            new PrefManager(Login.this).saveAvatar(farmer.getAvatar());
                             startActivity(new Intent(Login.this, MainActivity.class));
                             finish();
                         } else {

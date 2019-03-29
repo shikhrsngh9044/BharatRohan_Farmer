@@ -37,11 +37,15 @@ public class ChangePassword extends AppCompatActivity {
         new CheckInternet(this).checkConnection();
         init();
 
-        btnOtp.setOnClickListener(v -> showChnagePassDialog());
+        btnOtp.setOnClickListener(v -> {
+            String phone = editPhone.getText().toString().trim();
+            sendOtp(phone);
+        });
 
         btnChange.setOnClickListener(v -> {
             if (!validateForm()) {
-                changePass();
+                String phone = editPhone.getText().toString().trim();
+                changePass(phone);
             } else {
                 validateForm();
             }
@@ -74,9 +78,9 @@ public class ChangePassword extends AppCompatActivity {
             }
         }*/
 
-    private void changePass() {
+    private void changePass(String contact) {
 
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().changePassReq(new PrefManager(ChangePassword.this).getContact(), editOtp.getText().toString().trim(), editPass.getText().toString().trim());
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().changePassReq(contact, editOtp.getText().toString().trim(), editPass.getText().toString().trim());
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -193,8 +197,11 @@ public class ChangePassword extends AppCompatActivity {
             public void onResponse(Call<OtpResponse> call, Response<OtpResponse> response) {
                 OtpResponse otpResponse = response.body();
                 if (response.code() == 200) {
-                    if (otpResponse != null)
+                    if (otpResponse != null) {
+                        btnOtp.setVisibility(View.GONE);
+                        tvResend.setVisibility(View.VISIBLE);
                         Toast.makeText(ChangePassword.this, "OTP sent successfully", Toast.LENGTH_SHORT).show();
+                    }
                 } else if (response.code() == 404) {
                     Toast.makeText(ChangePassword.this, "Some error occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 401) {

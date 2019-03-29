@@ -31,6 +31,7 @@ public class LandFragment extends Fragment {
     private ProgressBar progressBar;
     private ArrayList<String> farmList = new ArrayList<>();
     private String token, farmerId;
+    private boolean isVerified;
 
     public static LandFragment newInstance() {
         return new LandFragment();
@@ -52,7 +53,13 @@ public class LandFragment extends Fragment {
 
         initViews(view);
 
-        mapEdit.setOnClickListener(v -> startActivity(new Intent(getActivity(), ViewEditMap.class)));
+        mapEdit.setOnClickListener(v -> {
+            if (isVerified) {
+                Intent intent = new Intent(getActivity(), ViewEditMap.class);
+                intent.putExtra("verification", "true");
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -106,7 +113,6 @@ public class LandFragment extends Fragment {
                 new PrefManager(getContext()).saveFarmNo(0);
             }
             getFarmId(new PrefManager(getContext()).getFarmerFarmNo());
-
         }
 
 
@@ -154,6 +160,13 @@ public class LandFragment extends Fragment {
                         if (farm.getData().getVerified() != null) {
                             // new PrefManager(getContext()).saveFarmStatus(farm.getData().getVerified());
                             setFarmVerifyStatus(farm.getData().getVerified());
+                            isVerified = farm.getData().getVerified();
+
+                            if (isVerified) {
+                                mapEdit.setText("View Map");
+                            } else {
+                                mapEdit.setText("View Map & Edit Farm");
+                            }
                         }
                         // new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, farmerId);
                         new PrefManager(getContext()).saveFarmImage(farm.getData().getMap_image());

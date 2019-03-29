@@ -30,15 +30,16 @@ public class UnSplash extends AppCompatActivity {
         findViewById(R.id.btnExit).setOnClickListener(v -> {
 
             new PrefManager(this).saveLoginDetails("", "");
-            new PrefManager(this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
-            new PrefManager(this).saveAvatar("");
             new PrefManager(this).saveToken("");
             new PrefManager(this).saveFarmerId("");
 
+            startActivity(new Intent(this, Login.class));
+            finish();
+/*
             Intent a = new Intent(Intent.ACTION_MAIN);
             a.addCategory(Intent.CATEGORY_HOME);
             a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(a);
+            startActivity(a);*/
         });
 
     }

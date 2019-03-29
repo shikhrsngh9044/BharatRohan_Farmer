@@ -402,7 +402,7 @@ public class RegisterFarm extends AppCompatActivity {
 
                     if (cropsList != null) {
 
-                        for (Crops.Crop s : cropsList.getCrops()) {
+                        for (Crops.Data.Crop s : cropsList.getData().getCropList()) {
                             c_idList.add(s.getId());
                             c_nameList.add(s.getName());
                         }

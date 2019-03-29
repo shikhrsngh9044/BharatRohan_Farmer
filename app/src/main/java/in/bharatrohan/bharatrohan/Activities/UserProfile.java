@@ -54,7 +54,7 @@ public class UserProfile extends AppCompatActivity {
 
     private ImageView profileP;
     private ProgressBar progressBar;
-    private TextView id, name, contact, email, address, dob, fulladress, altcontact, updatePicLabel;
+    private TextView  name, contact, email, address, dob, fulladress, altcontact, updatePicLabel;
     private Button btnUpdateOp, btnUpdate, btnCancel;
     private ConstraintLayout constraintLayout;
     private EditText editName, editContact, editAltContact, editEmail, editFullAddress, editDob;
@@ -72,7 +72,6 @@ public class UserProfile extends AppCompatActivity {
 
         String address1 = new PrefManager(this).getVillage() + "," + new PrefManager(this).getBlock() + "," + new PrefManager(this).getTehsil() + "," + new PrefManager(this).getDistrict() + "," + new PrefManager(this).getState();
 
-        id.setText(new PrefManager(this).getFarmerId());
         name.setText(new PrefManager(this).getName());
         contact.setText(new PrefManager(this).getContact());
         email.setText(new PrefManager(this).getEmail());
@@ -143,7 +142,7 @@ public class UserProfile extends AppCompatActivity {
             Picasso.get().load(R.drawable.profile_pic).into(profileP);
         }
 
-        id = findViewById(R.id.framerId);
+        //id = findViewById(R.id.framerId);
         name = findViewById(R.id.tvName);
         contact = findViewById(R.id.tvContact);
         email = findViewById(R.id.tvEmail);

@@ -25,7 +25,7 @@ public class ImpContacts extends AppCompatActivity {
         fseMail = findViewById(R.id.fseMail);
 
         findViewById(R.id.imFacebook).setOnClickListener(v -> {
-            newFacebookIntent(this.getPackageManager(), "https://www.facebook.com/BharatRohan.in/");
+            newFacebookIntent(this.getPackageManager(), "https://www.facebook.com/BharatRohan.in");
         });
 
         findViewById(R.id.imgTwitter).setOnClickListener(v -> {
@@ -68,19 +68,30 @@ public class ImpContacts extends AppCompatActivity {
     }
 
 
-    private Intent newFacebookIntent(PackageManager pm, String url) {
+    private void newFacebookIntent(PackageManager pm, String url) {
         Uri uri = Uri.parse(url);
 
         try {
             ApplicationInfo applicationInfo = pm.getApplicationInfo("com.facebook.katana", 0);
+            int versionCode = pm.getPackageInfo("com.facebook.katana", 0).versionCode;
             if (applicationInfo.enabled) {
-                uri = Uri.parse("fb://facewebmodal/f?href=" + url);
+                if (versionCode >= 3002850) {
+                    uri = Uri.parse("fb://facewebmodal/f?href=" + url);
+                    Intent fbIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    fbIntent.setPackage("com.facebook.katana");
+                    startActivity(fbIntent);
+                } else {
+                    uri = Uri.parse("fb://page/BharatRohan.in/");
+                    Intent fbIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    fbIntent.setPackage("com.facebook.katana");
+                    startActivity(fbIntent);
+                }
+
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             openBrowser(url);
         }
-        return new Intent(Intent.ACTION_VIEW, uri);
     }
 
     private void openInsta(String url) {

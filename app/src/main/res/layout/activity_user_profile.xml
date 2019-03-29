@@ -32,34 +32,11 @@
             android:background="#5b000000"
             android:gravity="center"
             android:text="@string/update_profile_pic"
+            android:textColor="@color/cardview_light_background"
             app:layout_constraintBottom_toBottomOf="@+id/profileImage"
             app:layout_constraintEnd_toEndOf="@+id/profileImage"
             app:layout_constraintStart_toStartOf="@+id/profileImage" />
 
-        <TextView
-            android:id="@+id/textView57"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="ID:"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/framerId"
-            app:layout_constraintTop_toBottomOf="@+id/textView39" />
-
-
-        <TextView
-            android:id="@+id/framerId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ID"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView57"
-            app:layout_constraintEnd_toEndOf="@+id/profileImage"
-            app:layout_constraintStart_toStartOf="@+id/profileImage"
-            app:layout_constraintTop_toTopOf="@+id/textView57" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintL"
@@ -73,16 +50,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView57"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@+id/btnUpdateOp">
 
             <TextView
                 android:id="@+id/tvName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="8dp"
-                android:gravity="center"
                 android:text="UserName"
                 android:textColor="@color/cardview_light_background"
                 android:textSize="18sp"
@@ -117,7 +92,7 @@
 
             <TextView
                 android:id="@+id/tvContact"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="Contact"
@@ -193,12 +168,14 @@
 
             <TextView
                 android:id="@+id/tvDob"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="DOB"
                 android:textColor="@color/cardview_light_background"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView53"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvAddress"
                 app:layout_constraintTop_toTopOf="@+id/textView53" />
 
@@ -217,7 +194,7 @@
 
             <TextView
                 android:id="@+id/tvAltContact"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="-"
@@ -424,14 +401,14 @@
             android:id="@+id/btnUpdateOp"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/rounded_button_white"
             android:padding="5dp"
             android:text="@string/update_profile_btn"
             android:textColor="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/profileImage" />
+            app:layout_constraintEnd_toEndOf="@+id/profileImage"
+            app:layout_constraintStart_toStartOf="@+id/profileImage"
+            app:layout_constraintTop_toBottomOf="@+id/textView39" />
 
 
         <ProgressBar

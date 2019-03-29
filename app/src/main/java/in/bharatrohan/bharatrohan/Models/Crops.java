@@ -7,33 +7,50 @@ import java.util.List;
 public class Crops {
 
     @SerializedName("data")
-    private List<Crop> crops;
+    private Data data;
 
-    public Crops(List<Crop> crops) {
-        this.crops = crops;
+    public Crops(Data data) {
+        this.data = data;
     }
 
-    public List<Crop> getCrops() {
-        return crops;
+    public Data getData() {
+        return data;
     }
 
-    public class Crop {
-        @SerializedName("_id")
-        private String id;
-        @SerializedName("crop_name")
-        private String name;
+    public class Data {
 
-        public Crop(String id, String name) {
-            this.id = id;
-            this.name = name;
+        @SerializedName("docs")
+        private List<Crop> cropList;
+
+
+        public Data(List<Crop> cropList) {
+            this.cropList = cropList;
         }
 
-        public String getId() {
-            return id;
+        public List<Crop> getCropList() {
+            return cropList;
         }
 
-        public String getName() {
-            return name;
+        public class Crop {
+            @SerializedName("_id")
+            private String id;
+            @SerializedName("crop_name")
+            private String name;
+
+            public Crop(String id, String name) {
+                this.id = id;
+                this.name = name;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public String getName() {
+                return name;
+            }
         }
     }
+
+
 }

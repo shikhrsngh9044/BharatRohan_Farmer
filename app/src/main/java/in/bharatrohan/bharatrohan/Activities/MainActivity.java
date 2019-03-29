@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity
 
         moneyRecord.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MoneyRecord.class)));
 
+        findViewById(R.id.imageView6).setOnClickListener(v -> Toast.makeText(this, "This feature is COMING SOON!!", Toast.LENGTH_SHORT).show());
+
     }
 
 
