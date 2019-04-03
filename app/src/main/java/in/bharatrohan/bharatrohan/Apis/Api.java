@@ -1,6 +1,7 @@
 package in.bharatrohan.bharatrohan.Apis;
 
 import in.bharatrohan.bharatrohan.Models.Block;
+import in.bharatrohan.bharatrohan.Models.CropProblem;
 import in.bharatrohan.bharatrohan.Models.Crops;
 import in.bharatrohan.bharatrohan.Models.District;
 import in.bharatrohan.bharatrohan.Models.Farm;
@@ -118,4 +119,8 @@ public interface Api {
     Call<ResponseBody> changePassReq(@Field("contact") String contact,
                                      @Field("otp") String otp,
                                      @Field("password") String pass);
+
+    @GET("crop-problem/{id}")
+    Call<CropProblem> getProblemDetail(@Header("Authorization") String token,
+                                       @Path("id") String feId);
 }

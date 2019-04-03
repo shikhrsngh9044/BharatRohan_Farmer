@@ -74,7 +74,7 @@ public class FeProfile extends AppCompatActivity {
 
 
                         if (details.getAvatar() != null) {
-                            Picasso.get().load("http://br.bharatrohan.in/" + details.getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(profilePic, new com.squareup.picasso.Callback() {
+                            Picasso.get().load("http://br.bharatrohan.in/" + details.getAvatar()).fit().centerCrop().noFade().networkPolicy(NetworkPolicy.OFFLINE).into(profilePic, new com.squareup.picasso.Callback() {
                                 @Override
                                 public void onSuccess() {
 
@@ -82,11 +82,11 @@ public class FeProfile extends AppCompatActivity {
 
                                 @Override
                                 public void onError(Exception e) {
-                                    Picasso.get().load("http://br.bharatrohan.in/" + details.getAvatar()).fit().centerCrop().into(profilePic);
+                                    Picasso.get().load("http://br.bharatrohan.in/" + details.getAvatar()).fit().centerCrop().noFade().into(profilePic);
                                 }
                             });
                         } else {
-                            Picasso.get().load(R.drawable.profile_pic).into(profilePic);
+                            Picasso.get().load(R.drawable.profile_pic).noFade().into(profilePic);
                         }
 
                         tvName.setText(details.getName());

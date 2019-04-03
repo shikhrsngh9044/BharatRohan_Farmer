@@ -2,6 +2,8 @@ package in.bharatrohan.bharatrohan.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Farm {
 
     @SerializedName("data")
@@ -23,6 +25,8 @@ public class Farm {
         private Boolean isVerified;
         @SerializedName("map_image")
         private String map_image;
+        @SerializedName("problems_id")
+        private List<String> problemId;
         @SerializedName("location")
         private String location;
         @SerializedName("farm_area")
@@ -30,13 +34,18 @@ public class Farm {
         @SerializedName("crop_id")
         private Crop crop;
 
-        public Data(String farm_name, Boolean isVerified, String map_image, String location, String farm_area, Crop crop) {
+        public Data(String farm_name, Boolean isVerified, String map_image, List<String> problemId, String location, String farm_area, Crop crop) {
             this.farm_name = farm_name;
             this.isVerified = isVerified;
             this.map_image = map_image;
+            this.problemId = problemId;
             this.location = location;
             this.farm_area = farm_area;
             this.crop = crop;
+        }
+
+        public List<String> getProblemId() {
+            return problemId;
         }
 
         public String getLocation() {

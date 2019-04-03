@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -20,10 +20,10 @@
             android:layout_marginTop="50dp"
             android:layout_marginEnd="8dp"
             android:scaleType="fitXY"
+            android:src="@drawable/profile_pic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profile_pic" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView39"
@@ -125,7 +125,6 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView49"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.007"
                 app:layout_constraintStart_toStartOf="@+id/tvContact"
                 app:layout_constraintTop_toTopOf="@+id/textView49" />
 

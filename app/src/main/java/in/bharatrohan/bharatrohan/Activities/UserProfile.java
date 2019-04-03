@@ -54,7 +54,7 @@ public class UserProfile extends AppCompatActivity {
 
     private ImageView profileP;
     private ProgressBar progressBar;
-    private TextView  name, contact, email, address, dob, fulladress, altcontact, updatePicLabel;
+    private TextView name, contact, email, address, dob, fulladress, altcontact, updatePicLabel;
     private Button btnUpdateOp, btnUpdate, btnCancel;
     private ConstraintLayout constraintLayout;
     private EditText editName, editContact, editAltContact, editEmail, editFullAddress, editDob;
@@ -127,7 +127,7 @@ public class UserProfile extends AppCompatActivity {
 
 
         if (!new PrefManager(this).getAvatar().equals("")) {
-            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(profileP, new com.squareup.picasso.Callback() {
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(this).getAvatar()).fit().centerCrop().noFade().networkPolicy(NetworkPolicy.OFFLINE).into(profileP, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() {
 
@@ -135,7 +135,7 @@ public class UserProfile extends AppCompatActivity {
 
                 @Override
                 public void onError(Exception e) {
-                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(UserProfile.this).getAvatar()).fit().centerCrop().into(profileP);
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(UserProfile.this).getAvatar()).fit().centerCrop().noFade().into(profileP);
                 }
             });
         } else {

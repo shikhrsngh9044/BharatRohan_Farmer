@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/uavAvatar"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -20,7 +20,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profile_pic" />
+            android:src="@drawable/profile_pic"/>
 
         <TextView
             android:id="@+id/tvUavName"

@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity
 
         if (!(new PrefManager(MainActivity.this).getAvatar().equals(""))) {
 
-            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(userProfile, new Callback() {
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().noFade().networkPolicy(NetworkPolicy.OFFLINE).into(userProfile, new Callback() {
                 @Override
                 public void onSuccess() {
 
@@ -125,12 +125,12 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onError(Exception e) {
-                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().into(userProfile);
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().noFade().into(userProfile);
                 }
             });
 
 
-            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(userImage, new Callback() {
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().noFade().networkPolicy(NetworkPolicy.OFFLINE).into(userImage, new Callback() {
                 @Override
                 public void onSuccess() {
 
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onError(Exception e) {
-                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().into(userImage);
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().noFade().into(userImage);
                 }
             });
         } else {
@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity
 
         if (!(new PrefManager(MainActivity.this).getAvatar().equals(""))) {
 
-            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(userProfile, new Callback() {
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().noFade().networkPolicy(NetworkPolicy.OFFLINE).into(userProfile, new Callback() {
                 @Override
                 public void onSuccess() {
 
@@ -278,12 +278,12 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onError(Exception e) {
-                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().into(userProfile);
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().noFade().into(userProfile);
                 }
             });
 
 
-            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().networkPolicy(NetworkPolicy.OFFLINE).into(userImage, new Callback() {
+            Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().noFade().networkPolicy(NetworkPolicy.OFFLINE).into(userImage, new Callback() {
                 @Override
                 public void onSuccess() {
 
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onError(Exception e) {
-                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().into(userImage);
+                    Picasso.get().load("http://br.bharatrohan.in/" + new PrefManager(MainActivity.this).getAvatar()).fit().centerCrop().noFade().into(userImage);
                 }
             });
         } else {
