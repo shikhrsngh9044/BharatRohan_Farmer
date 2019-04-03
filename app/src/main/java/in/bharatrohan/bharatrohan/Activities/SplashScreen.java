@@ -26,6 +26,7 @@ public class SplashScreen extends AppCompatActivity {
         if (new PrefManager(this).getlaunchCount() == 0) {
             Intent intent = new Intent(this, LanguageScreen.class);
             startActivity(intent);
+            new PrefManager(this).savelaunchCount(1);
             finish();
         } else {
             Intent intent = new Intent(this, Login.class);

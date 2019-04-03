@@ -44,7 +44,6 @@ public class LanguageScreen extends AppCompatActivity {
                     finish();
                 }
             } else {
-                new PrefManager(this).savelaunchCount(1);
                 startActivity(new Intent(LanguageScreen.this, Login.class));
                 finish();
             }

@@ -50,7 +50,7 @@ public class LandFragment extends Fragment {
     private ArrayList<String> solutionArrayList;
     private ArrayList<String> problemId;
     private ArrayAdapter<String> adapter1;
-    private boolean isverified;
+    private String mapImg;
     private ImageView solImage;
     private boolean isFirst;
 
@@ -76,10 +76,12 @@ public class LandFragment extends Fragment {
 
         mapEdit.setOnClickListener(v -> {
             if (isVerified) {
+                new PrefManager(getContext()).saveFarmImage(mapImg);
                 Intent intent = new Intent(getActivity(), ViewEditMap.class);
                 intent.putExtra("verification", "true");
                 startActivity(intent);
             } else {
+                new PrefManager(getContext()).saveFarmImage(mapImg);
                 Intent intent = new Intent(getActivity(), ViewEditMap.class);
                 intent.putExtra("verification", "false");
                 startActivity(intent);
@@ -163,8 +165,10 @@ public class LandFragment extends Fragment {
                                 mapEdit.setText("View Map & Edit Farm");
                             }
                         }
-                        // new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, farmerId);
-                        new PrefManager(getContext()).saveFarmImage(farm.getData().getMap_image());
+                        if (getContext() != null)
+                            new PrefManager(getContext()).saveTempFarm(farm.getData().getFarm_name(), farm.getData().getLocation(), farm.getData().getFarm_area(), farm.getData().getMap_image(), farm.getData().getCrop().getCrop_name(), farmId, farmerId);
+
+                        mapImg = farm.getData().getMap_image();
                         problemId = new ArrayList<>();
                         problemId.clear();
                         problemId.addAll(farm.getData().getProblemId());
