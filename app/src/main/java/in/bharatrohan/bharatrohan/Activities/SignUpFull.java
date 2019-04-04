@@ -141,8 +141,14 @@ public class SignUpFull extends AppCompatActivity {
                     intent.putExtra("phone", phone);
                     intent.putExtra("password", pass1);
                     startActivity(intent);
-                } else {
-                    Toast.makeText(SignUpFull.this, "User Already Exists!!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 400) {
+                    Toast.makeText(SignUpFull.this, "Bad Request", Toast.LENGTH_SHORT).show();
+                    //Vaifation failed
+                } else if (response.code() == 401) {
+                    Toast.makeText(SignUpFull.this, "User not registered.Please register Yourself", Toast.LENGTH_SHORT).show();
+
+                } else if (response.code() == 500) {
+                    Toast.makeText(SignUpFull.this, "Something went wrong.Please try Again!!", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -277,7 +283,7 @@ public class SignUpFull extends AppCompatActivity {
                     startActivity(new Intent(SignUpFull.this, Login.class));
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpFull.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {
@@ -338,7 +344,7 @@ public class SignUpFull extends AppCompatActivity {
                     startActivity(new Intent(SignUpFull.this, Login.class));
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpFull.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {
@@ -402,7 +408,7 @@ public class SignUpFull extends AppCompatActivity {
                     startActivity(new Intent(SignUpFull.this, Login.class));
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpFull.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {
@@ -463,7 +469,7 @@ public class SignUpFull extends AppCompatActivity {
                     startActivity(new Intent(SignUpFull.this, Login.class));
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpFull.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {
@@ -524,7 +530,7 @@ public class SignUpFull extends AppCompatActivity {
                     startActivity(new Intent(SignUpFull.this, Login.class));
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(SignUpFull.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpFull.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(SignUpFull.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {

@@ -283,7 +283,7 @@ public class UserProfile extends AppCompatActivity {
                     startActivity(new Intent(UserProfile.this, Login.class));
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(UserProfile.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserProfile.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(UserProfile.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {
@@ -365,7 +365,7 @@ public class UserProfile extends AppCompatActivity {
                     startActivity(new Intent(UserProfile.this, Login.class));
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(UserProfile.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserProfile.this, "Error: Bad Request", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(UserProfile.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {

@@ -241,7 +241,7 @@ public class LandFragment extends Fragment {
                     startActivity(new Intent(getActivity(), Login.class));
                     getActivity().finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(getContext(), "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Bad Request", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(getContext(), "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {
@@ -328,8 +328,12 @@ public class LandFragment extends Fragment {
                         //Toast.makeText(getContext(), solutionList.getData().getSolution().getSolutionDataList().toString(), Toast.LENGTH_SHORT).show();
                         Picasso.get().load("http://br.bharatrohan.in/" + solutionList.getData().getSolution().getSolutionImage()).into(solImage);
                     }
-                } else {
-                    Toast.makeText(getContext(), "Some error occurred", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 400) {
+                    Toast.makeText(getContext(), "Error: Bad Request!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(getContext(), "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(getContext(), "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 

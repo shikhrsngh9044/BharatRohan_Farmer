@@ -219,9 +219,10 @@ public class RegisterFarm extends AppCompatActivity {
                         startActivity(new Intent(RegisterFarm.this, Login.class));
                         finish();
                     } else if (response.code() == 400) {
-                        Toast.makeText(RegisterFarm.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterFarm.this, "Bad Request", Toast.LENGTH_SHORT).show();
+                        //Vaifation failed
                     } else if (response.code() == 500) {
-                        Toast.makeText(RegisterFarm.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterFarm.this, "Something went wrong.Please try Again!!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -262,7 +263,7 @@ public class RegisterFarm extends AppCompatActivity {
                         startActivity(new Intent(RegisterFarm.this, Login.class));
                         finish();
                     } else if (response.code() == 400) {
-                        Toast.makeText(RegisterFarm.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterFarm.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
                     } else if (response.code() == 409) {
                         Toast.makeText(RegisterFarm.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                     } else if (response.code() == 500) {
@@ -422,7 +423,7 @@ public class RegisterFarm extends AppCompatActivity {
                     startActivity(new Intent(RegisterFarm.this, Login.class));
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(RegisterFarm.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterFarm.this, "Error: Bad Request", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(RegisterFarm.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {

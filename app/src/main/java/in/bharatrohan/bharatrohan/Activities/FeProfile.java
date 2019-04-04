@@ -108,7 +108,7 @@ public class FeProfile extends AppCompatActivity {
                     startActivity(new Intent(FeProfile.this, Login.class));
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(FeProfile.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FeProfile.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(FeProfile.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {

@@ -94,6 +94,21 @@ public class ChangePassword extends AppCompatActivity {
                     new PrefManager(ChangePassword.this).saveFarmerId("");
                     startActivity(new Intent(ChangePassword.this, Login.class));
                     finish();
+                } else if (response.code() == 401) {
+                    Toast.makeText(ChangePassword.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    new PrefManager(ChangePassword.this).saveLoginDetails("", "");
+                    new PrefManager(ChangePassword.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                    new PrefManager(ChangePassword.this).saveAvatar("");
+                    new PrefManager(ChangePassword.this).saveToken("");
+                    new PrefManager(ChangePassword.this).saveFarmerId("");
+                    startActivity(new Intent(ChangePassword.this, Login.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(ChangePassword.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(ChangePassword.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(ChangePassword.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -213,6 +228,12 @@ public class ChangePassword extends AppCompatActivity {
                     new PrefManager(ChangePassword.this).saveFarmerId("");
                     startActivity(new Intent(ChangePassword.this, Login.class));
                     finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(ChangePassword.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(ChangePassword.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(ChangePassword.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
                 }
             }
 

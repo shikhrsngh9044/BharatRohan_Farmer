@@ -202,7 +202,7 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
                     }
                 } else if (response.code() == 400) {
-                    Toast.makeText(Login.this, "Error: Required values are missing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Bad Request!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
                     Toast.makeText(Login.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {
