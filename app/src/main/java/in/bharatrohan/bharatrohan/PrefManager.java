@@ -384,4 +384,17 @@ public class PrefManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences("KmlCreateStatus", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("Status", false);
     }
+
+    public void saveMapCheck(Boolean status) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MapCheck", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("Check", status);
+        editor.apply();
+    }
+
+
+    public Boolean getMapCheck() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MapCheck", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("Check", false);
+    }
 }

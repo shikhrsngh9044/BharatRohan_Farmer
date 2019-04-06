@@ -57,13 +57,15 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-        myFarm.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MyFarm.class)));
+        myFarm.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, FarmerFarms.class)));
 
         myRepo.setOnClickListener(v -> Toast.makeText(MainActivity.this, "This Feature is COMING SOON!!", Toast.LENGTH_SHORT).show());
 
         registerFarm.setOnClickListener(v -> {
             new PrefManager(this).saveKmlStatus(true);
             new PrefManager(this).saveValueStatus(true);
+
+            new PrefManager(this).saveKmlCreateStatus(false);
             startActivity(new Intent(MainActivity.this, RegisterFarm.class));
         });
 

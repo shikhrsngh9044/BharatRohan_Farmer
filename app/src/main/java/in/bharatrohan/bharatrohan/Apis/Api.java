@@ -51,7 +51,7 @@ public interface Api {
     @Multipart
     @POST("farm/{farmId}")
     Call<ResponseBody> uploadKml(@Header("Authorization") String token,
-                                 @Path("farmId") String farmid,
+                                 @Path("farmId") String farmId,
                                  @Part MultipartBody.Part kml_map,
                                  @Part MultipartBody.Part kml_image);
 

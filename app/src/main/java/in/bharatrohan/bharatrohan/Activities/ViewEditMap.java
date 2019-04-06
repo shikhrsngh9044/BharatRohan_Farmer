@@ -82,6 +82,7 @@ public class ViewEditMap extends AppCompatActivity {
         btnOk.setOnClickListener(view1 -> {
             new PrefManager(ViewEditMap.this).saveKmlStatus(true);
             new PrefManager(ViewEditMap.this).saveValueStatus(true);
+            new PrefManager(ViewEditMap.this).saveKmlCreateStatus(false);
             Intent intent = new Intent(this, RegisterFarm.class);
             intent.putExtra("activity", "edit");
             startActivity(intent);

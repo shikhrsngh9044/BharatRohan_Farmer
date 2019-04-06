@@ -25,6 +25,7 @@ public class RegisterFarmDialog extends AppCompatActivity {
         register_farm.setOnClickListener(v -> {
             new PrefManager(RegisterFarmDialog.this).saveKmlStatus(true);
             new PrefManager(RegisterFarmDialog.this).saveValueStatus(true);
+            new PrefManager(this).saveKmlCreateStatus(false);
             Intent intent = new Intent(RegisterFarmDialog.this, RegisterFarm.class);
             intent.putExtra("phone", getIntent().getStringExtra("phone"));
             startActivity(intent);

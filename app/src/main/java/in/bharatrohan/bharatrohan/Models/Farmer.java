@@ -3,6 +3,7 @@ package in.bharatrohan.bharatrohan.Models;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Farmer {
     @SerializedName("farmer_name")
@@ -18,7 +19,7 @@ public class Farmer {
     @SerializedName("dob")
     private String dob;
     @SerializedName("farms")
-    private ArrayList<String> farms;
+    private ArrayList<FarmerFarm> farms;
     @SerializedName("address")
     private Address address;
     @SerializedName("avatar")
@@ -34,7 +35,7 @@ public class Farmer {
 
     private Response response;
 
-    public Farmer(String name, String email, String contact, String full_address, Boolean acc_status, String dob, ArrayList<String> farms, Address address, String avatar, String alt_contact, Boolean isVerified, Fe fe, Response response) {
+    public Farmer(String name, String email, String contact, String full_address, Boolean acc_status, String dob, ArrayList<FarmerFarm> farms, Address address, String avatar, String alt_contact, Boolean isVerified, Fe fe, Response response) {
         this.name = name;
         this.email = email;
         this.contact = contact;
@@ -90,7 +91,7 @@ public class Farmer {
         return dob;
     }
 
-    public ArrayList<String> getFarms() {
+    public ArrayList<FarmerFarm> getFarms() {
         return farms;
     }
 
@@ -257,6 +258,77 @@ public class Farmer {
 
         public String getFarmerID() {
             return farmerID;
+        }
+    }
+
+
+    public class FarmerFarm {
+        @SerializedName("_id")
+        private String farmid;
+        @SerializedName("isVerified")
+        private Boolean isVerified;
+        @SerializedName("problems_id")
+        private List<String> problemId;
+        @SerializedName("farm_name")
+        private String farm_name;
+        @SerializedName("map_image")
+        private String map_image;
+        @SerializedName("crop_id")
+        private Crop crop;
+
+        public FarmerFarm(String farmid, Boolean isVerified, List<String> problemId, String farm_name, String map_image, Crop crop) {
+            this.farmid = farmid;
+            this.isVerified = isVerified;
+            this.problemId = problemId;
+            this.farm_name = farm_name;
+            this.map_image = map_image;
+            this.crop = crop;
+        }
+
+
+        public String getFarmid() {
+            return farmid;
+        }
+
+        public List<String> getProblemId() {
+            return problemId;
+        }
+
+        public String getMap_image() {
+            return map_image;
+        }
+
+        public Boolean getVerified() {
+            return isVerified;
+        }
+
+        public String getFarm_name() {
+            return farm_name;
+        }
+
+        public Crop getCrop() {
+            return crop;
+        }
+
+        public class Crop {
+            @SerializedName("crop_name")
+            private String crop_name;
+
+            @SerializedName("_id")
+            private String crop_id;
+
+            public Crop(String crop_name, String crop_id) {
+                this.crop_name = crop_name;
+                this.crop_id = crop_id;
+            }
+
+            public String getCrop_name() {
+                return crop_name;
+            }
+
+            public String getCrop_id() {
+                return crop_id;
+            }
         }
     }
 }

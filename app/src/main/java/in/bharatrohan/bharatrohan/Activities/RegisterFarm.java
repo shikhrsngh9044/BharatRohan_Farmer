@@ -174,11 +174,7 @@ public class RegisterFarm extends AppCompatActivity {
                 }
             } else {
                 if (new PrefManager(RegisterFarm.this).getKmlStatus() && new PrefManager(RegisterFarm.this).getValueStatus()) {
-                    if (new PrefManager(RegisterFarm.this).getKmlCreateStatus()) {
-                        createFarm();
-                    } else {
-                        Toast.makeText(RegisterFarm.this, "First mark your land on map!!", Toast.LENGTH_SHORT).show();
-                    }
+                    createFarm();
                 }
             }
 
@@ -189,93 +185,52 @@ public class RegisterFarm extends AppCompatActivity {
     private void createFarm() {
         if (!validateValues()) {
 
-            showProgress();
+            if (new PrefManager(RegisterFarm.this).getKmlCreateStatus()) {
+                showProgress();
 
-            Call<FarmResponse> call = RetrofitClient
-                    .getInstance()
-                    .getApi()
-                    .createFarm(new PrefManager(this).getToken(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim() + " acres", cropId, new PrefManager(this).getFarmerId());
+                Call<FarmResponse> call = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .createFarm(new PrefManager(this).getToken(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim() + " acres", cropId, new PrefManager(this).getFarmerId());
 
-            call.enqueue(new Callback<FarmResponse>() {
-                @Override
-                public void onResponse(Call<FarmResponse> call, Response<FarmResponse> response) {
-                    hideProgress();
-                    farmResponse = response.body();
+                call.enqueue(new Callback<FarmResponse>() {
+                    @Override
+                    public void onResponse(Call<FarmResponse> call, Response<FarmResponse> response) {
+                        hideProgress();
+                        farmResponse = response.body();
 
-                    if (response.code() == 201) {
+                        if (response.code() == 201) {
 
-                        if (farmResponse != null) {
-                            new PrefManager(RegisterFarm.this).saveFarm(1, farmResponse.getCreatedFarm().getFarm_id(), farmResponse.getCreatedFarm().getFarm_name(), farmResponse.getCreatedFarm().getLocation(), farmResponse.getCreatedFarm().getFarm_area(), farmResponse.getCreatedFarm().getCrop_id(), farmResponse.getCreatedFarm().getFarmer_id());
-                            uploadKml();
+                            if (farmResponse != null) {
+                                new PrefManager(RegisterFarm.this).saveFarm(1, farmResponse.getCreatedFarm().getFarm_id(), farmResponse.getCreatedFarm().getFarm_name(), farmResponse.getCreatedFarm().getLocation(), farmResponse.getCreatedFarm().getFarm_area(), farmResponse.getCreatedFarm().getCrop_id(), farmResponse.getCreatedFarm().getFarmer_id());
+                                uploadKml();
+                            }
+
+                        } else if (response.code() == 401) {
+                            Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                            new PrefManager(RegisterFarm.this).saveLoginDetails("", "");
+                            new PrefManager(RegisterFarm.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                            new PrefManager(RegisterFarm.this).saveAvatar("");
+                            new PrefManager(RegisterFarm.this).saveToken("");
+                            new PrefManager(RegisterFarm.this).saveFarmerId("");
+                            startActivity(new Intent(RegisterFarm.this, Login.class));
+                            finish();
+                        } else if (response.code() == 400) {
+                            Toast.makeText(RegisterFarm.this, "Bad Request", Toast.LENGTH_SHORT).show();
+                            //Vaifation failed
+                        } else if (response.code() == 500) {
+                            Toast.makeText(RegisterFarm.this, "Something went wrong.Please try Again!!", Toast.LENGTH_SHORT).show();
                         }
-
-                    } else if (response.code() == 401) {
-                        Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
-                        new PrefManager(RegisterFarm.this).saveLoginDetails("", "");
-                        new PrefManager(RegisterFarm.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
-                        new PrefManager(RegisterFarm.this).saveAvatar("");
-                        new PrefManager(RegisterFarm.this).saveToken("");
-                        new PrefManager(RegisterFarm.this).saveFarmerId("");
-                        startActivity(new Intent(RegisterFarm.this, Login.class));
-                        finish();
-                    } else if (response.code() == 400) {
-                        Toast.makeText(RegisterFarm.this, "Bad Request", Toast.LENGTH_SHORT).show();
-                        //Vaifation failed
-                    } else if (response.code() == 500) {
-                        Toast.makeText(RegisterFarm.this, "Something went wrong.Please try Again!!", Toast.LENGTH_SHORT).show();
                     }
-                }
 
-                @Override
-                public void onFailure(Call<FarmResponse> call, Throwable t) {
-                    hideProgress();
-                }
-            });
-        } else {
-            validateValues();
-        }
-    }
-
-    private void updateFarm() {
-        if (!validateValues()) {
-
-            showProgress();
-
-            Call<ResponseBody> call = RetrofitClient
-                    .getInstance()
-                    .getApi()
-                    .updateFarm(new PrefManager(this).getToken(), new PrefManager(this).getTFarmId(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim(), cropId);
-
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    hideProgress();
-
-                    if (response.code() == 200) {
-                        Toast.makeText(RegisterFarm.this, "Farm Updated", Toast.LENGTH_SHORT).show();
-                    } else if (response.code() == 401) {
-                        Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
-                        new PrefManager(RegisterFarm.this).saveLoginDetails("", "");
-                        new PrefManager(RegisterFarm.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
-                        new PrefManager(RegisterFarm.this).saveAvatar("");
-                        new PrefManager(RegisterFarm.this).saveToken("");
-                        new PrefManager(RegisterFarm.this).saveFarmerId("");
-                        startActivity(new Intent(RegisterFarm.this, Login.class));
-                        finish();
-                    } else if (response.code() == 400) {
-                        Toast.makeText(RegisterFarm.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
-                    } else if (response.code() == 409) {
-                        Toast.makeText(RegisterFarm.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
-                    } else if (response.code() == 500) {
-                        Toast.makeText(RegisterFarm.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFailure(Call<FarmResponse> call, Throwable t) {
+                        hideProgress();
                     }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    hideProgress();
-                }
-            });
+                });
+            } else {
+                Toast.makeText(RegisterFarm.this, "Please mark your land first!!", Toast.LENGTH_SHORT).show();
+            }
         } else {
             validateValues();
         }
@@ -333,6 +288,51 @@ public class RegisterFarm extends AppCompatActivity {
         });
 
 
+    }
+
+    private void updateFarm() {
+        if (!validateValues()) {
+
+            showProgress();
+
+            Call<ResponseBody> call = RetrofitClient
+                    .getInstance()
+                    .getApi()
+                    .updateFarm(new PrefManager(this).getToken(), new PrefManager(this).getTFarmId(), landName.getText().toString().trim(), landLocation.getText().toString().trim(), landArea.getText().toString().trim(), cropId);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    hideProgress();
+
+                    if (response.code() == 200) {
+                        Toast.makeText(RegisterFarm.this, "Farm Updated", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 401) {
+                        Toast.makeText(RegisterFarm.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                        new PrefManager(RegisterFarm.this).saveLoginDetails("", "");
+                        new PrefManager(RegisterFarm.this).saveUserDetails("", "", "", "", "", "", "", "", "", "", "", "", "");
+                        new PrefManager(RegisterFarm.this).saveAvatar("");
+                        new PrefManager(RegisterFarm.this).saveToken("");
+                        new PrefManager(RegisterFarm.this).saveFarmerId("");
+                        startActivity(new Intent(RegisterFarm.this, Login.class));
+                        finish();
+                    } else if (response.code() == 400) {
+                        Toast.makeText(RegisterFarm.this, "Error: Bad Request!", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 409) {
+                        Toast.makeText(RegisterFarm.this, "Conflict Occurred!", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 500) {
+                        Toast.makeText(RegisterFarm.this, "Server Error: Please try after some time", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    hideProgress();
+                }
+            });
+        } else {
+            validateValues();
+        }
     }
 
     private void updateKml() {
@@ -481,6 +481,12 @@ public class RegisterFarm extends AppCompatActivity {
         if (landlocation.isEmpty()) {
             landLocation.setError("Land Location is required!");
             landLocation.requestFocus();
+            return true;
+        }
+
+        if (cropId.equals("-SELECT CROP-") || cropId.isEmpty()){
+            cropsSpinner.setError("Crop is required!!");
+            cropsSpinner.requestFocus();
             return true;
         }
 

@@ -118,10 +118,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         save.setOnClickListener(v -> {
+
             createKml();
             takeScreenshot(MapsActivity.this);
             new PrefManager(MapsActivity.this).saveKmlCreateStatus(true);
             finish();
+
+
         });
 
         if (googleServicesAvailable()) {

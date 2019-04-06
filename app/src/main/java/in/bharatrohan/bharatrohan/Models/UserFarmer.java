@@ -55,6 +55,11 @@ public class UserFarmer {
         this.full_address = full_address;
     }
 
+    public UserFarmer(String error, String message) {
+        this.error = error;
+        this.message = message;
+    }
+
     public String getFeId() {
         return feId;
     }
@@ -138,12 +143,6 @@ public class UserFarmer {
         public Data(String id) {
             this.id = id;
         }
-    }
-
-    public UserFarmer(String message, Data data, String token) {
-        this.message = message;
-        this.data = data;
-        this.token = token;
     }
 
     public String getError() {

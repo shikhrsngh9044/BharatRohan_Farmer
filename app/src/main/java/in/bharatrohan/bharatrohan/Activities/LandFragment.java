@@ -221,13 +221,13 @@ public class LandFragment extends Fragment {
                 Farmer farmer = response.body();
                 if (response.code() == 200) {
                     if (farmer != null) {
-                        farmList = farmer.getFarms();
+                        /*farmList = farmer.getFarms();
                         if (farmList.size() != 0) {
                             showFarmInfo(farmList.get(farmNo));
                         } else {
                             new PrefManager(getContext()).saveFarmNo(0);
                             Toast.makeText(getContext(), "No Farm is Registered yet!!", Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
                     } else {
                         Toast.makeText(getContext(), "Some error occurred.Please try again!!", Toast.LENGTH_SHORT).show();
                     }

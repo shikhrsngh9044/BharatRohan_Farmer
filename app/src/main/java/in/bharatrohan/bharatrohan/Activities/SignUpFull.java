@@ -148,7 +148,7 @@ public class SignUpFull extends AppCompatActivity {
                     Toast.makeText(SignUpFull.this, "User not registered.Please register Yourself", Toast.LENGTH_SHORT).show();
 
                 } else if (response.code() == 500) {
-                    Toast.makeText(SignUpFull.this, "Something went wrong.Please try Again!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpFull.this, "Server Error!!", Toast.LENGTH_SHORT).show();
                 }
 
             }
